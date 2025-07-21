@@ -2,7 +2,7 @@ const mysql = require('mysql2');
 const util = require('util');
 
 // إعداد الاتصال بقاعدة البيانات
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: '89.163.214.37',             // عنوان السيرفر (MaznHost)
   user: 'amlhabra_brak',             // اسم المستخدم
   password: 'hSgMaUAGjPdGa7ZfRM6T',  // كلمة المرور
