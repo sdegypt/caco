@@ -1,0 +1,106 @@
+<div class="post">
+  <div class="post-header">
+    <div class="post-actions">
+      <% if (currentUserId && post.showEditDeleteButtons) { %>
+        <form action="/forum/post/<%= post.id %>/delete" method="POST">
+          <button type="submit" class="action-btn" aria-label="حذف المنشور"><i class="fas fa-trash-alt"></i></button>
+        </form>
+        <form action="/forum/post/<%= post.id %>/edit" method="GET">
+          <button type="submit" class="action-btn" aria-label="تعديل المنشور"><i class="fas fa-edit"></i></button>
+        </form>
+      <% } %>
+      <form action="/forum/post/<%= post.id %>/hide" method="POST">
+        <button type="submit" class="action-btn" aria-label="إخفاء المنشور"><i class="fas fa-eye-slash"></i></button>
+      </form>
+    </div>
+    <div class="person">
+      <div class="post-avatar">
+        <a href="/profile?userId=<%= post.user_id %>">
+          <% if (post.user_avatar && post.user_avatar !== '/uploads/images/pngwing.com.png') { %>
+            <img
+              src="<%= getCloudinaryImageUrl(post.user_avatar, '/uploads/images/pngwing.com.png') %>"
+              class="avatar"
+              alt="<%= post.user_name || 'User' %>"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+              loading="lazy"
+            />
+            <span class="fa fa-user-circle fa-2x" style="color: #aaa; font-size: 40px; display:none;"></span>
+          <% } else { %>
+            <span class="fa fa-user-circle fa-2x" style="color: #aaa; font-size: 40px;"></span>
+          <% } %>
+        </a>
+      </div>
+      <div class="post-user-info">
+        <p class="post-user-name">
+          <a href="/profile?userId=<%= post.user_id %>" style="text-decoration: none; color: inherit;">
+            <%= post.user_name %>
+          </a>
+        </p>
+        <span class="post-time">
+          <%= new Date(post.created_at).toLocaleString('ar-EG', { hour12: true }) %>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="post-content">
+    <% 
+      const content = post.content || '';
+      const words = content.split(' ');
+      const wordCount = words.length;
+      const maxWords = 50;
+      let displayContent = content;
+      if (wordCount > maxWords) {
+        displayContent = words.slice(0, maxWords).join(' ') + '...';
+      }
+    %>
+    <p class="post-text" data-full-content="<%= content %>" data-short-content="<%= displayContent %>">
+      <%= displayContent %>
+    </p>
+    <% if (wordCount > maxWords) { %>
+      <button class="read-more-btn" type="button">اقرأ المزيد</button>
+    <% } %>
+    <div class="post-meta">
+      <span class="word-count"><%= wordCount %> كلمة</span>
+    </div>
+  </div>
+  <div class="post-images">
+    <% if (post.image1 || post.image2 || post.image3 || post.image4) { %>
+      <% [post.image1, post.image2, post.image3, post.image4].forEach((image) => { %>
+        <% if (image) { %>
+          <img src="<%= getCloudinaryImageUrl(image, '/uploads/images/pngwing.com.png') %>" alt="صورة المنشور" class="post-image" loading="lazy" width="350" height="350" />
+        <% } %>
+      <% }); %>
+    <% } %>
+  </div>
+  <div class="post-footer">
+    <button class="like-button" data-post-id="<%= post.id %>" data-liked="<%= post.liked ? 'true' : 'false' %>">
+      <i class="fas fa-thumbs-up"></i><span class="like-count"><%= post.like_count || 0 %></span>
+    </button>
+    <button type="button" class="show-comments-btn" data-post-id="<%= post.id %>">
+      <i class="fas fa-comment"></i> تعليق
+      <span id="comment-count-<%= post.id %>" class="count">
+        <%= post.comment_count > 0 ? post.comment_count : 'لا تعليقات' %>
+      </span>
+    </button>
+    <button type="button" class="share-whatsapp-btn" data-post-id="<%= post.id %>" data-post-content="<%= post.content.substring(0, 100) %>">
+      <i class="fas fa-share"></i> مشاركة
+    </button>
+  </div>
+  <div class="comments-section" id="comments-<%= post.id %>">
+    <form class="comment-form" data-post-id="<%= post.id %>" style="display: none;">
+      <div class="rowcomment">
+        <div class="comment-avatar-box" style="display: flex; align-items: center;">
+          <% if (currentUser && currentUser.avatar) { %>
+            <img src="<%= getCloudinaryImageUrl(currentUser.avatar, '/uploads/images/pngwing.com.png') %>" alt="avatar" class="comment-avatar" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-left: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';" />
+            <span class="fa fa-user-circle fa-2x" style="color: #aaa; font-size: 40px; display:none;"></span>
+          <% } else { %>
+            <span class="fa fa-user-circle fa-2x" style="color: #aaa; font-size: 40px; margin-left: 8px;"></span>
+          <% } %>
+        </div>
+        <input type="text" name="content" placeholder="اكتب تعليقاً..." required style="flex:1;" />
+        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </form>
+    <div class="comments-list" id="comments-list-<%= post.id %>"></div>
+  </div>
+</div> 

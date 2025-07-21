@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الرسائل - اعملها براك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin-messages.css">
+</head>
+<body>
+      <!-- القائمة العلوية -->
+      <nav class="top-nav">
+        <a href="/forum" class="back-button"><i class="fas fa-arrow-right"></i> العودة إلى المنصة</a>
+        <span class="logo-text">اعملها براك</span>
+    </nav>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>لوحة الرسائل</h1>
+            <p>إدارة الرسائل المستلمة من المستخدمين بكل سهولة وأناقة</p>
+        </header>
+
+        <section class="messages-section">
+            <% if (messages.length === 0) { %>
+                <div class="no-messages">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <p>لا توجد رسائل حاليًا</p>
+                </div>
+            <% } else { %>
+                <div class="messages-grid">
+                    <% messages.forEach(message => { %>
+                        <div class="message-card <%= message.is_read ? 'read' : 'unread' %>">
+                            <div class="message-header">
+                                <span class="status-icon">
+                                    <i class="fas <%= message.is_read ? 'fa-envelope-open' : 'fa-envelope' %>"></i>
+                                </span>
+                                <h3><%= message.subject %></h3>
+                            </div>
+                            <div class="message-body">
+                                <p><strong>الاسم:</strong> <%= message.name %></p>
+                                <p><strong>البريد:</strong> <%= message.email %></p>
+                                <p><strong>الرسالة:</strong> <%= message.message %></p>
+                                <p><strong>التاريخ:</strong> <%= new Date(message.created_at).toLocaleString('ar-EG') %></p>
+                            </div>
+                            <div class="message-actions">
+                                <% if (!message.is_read) { %>
+                                    <form action="/admin/messages/<%= message.id %>/read" method="POST">
+                                        <button type="submit" class="mark-read-btn">وضع علامة كمقروء</button>
+                                    </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </section>
+    </div>
+    
+    <!-- الفوتر -->
+    <footer class="dashboard-footer">
+        <p>© 2025 اعملها براك - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <!-- CSS للقائمة والفوتر -->
+    <style>
+        /* تنسيق القائمة العلوية */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6c5ce7, #8e7bff);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .logo-text {
+            font-family: "Tajawal", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c5ce7;
+        }
+
+        /* تنسيق الفوتر */
+        .dashboard-footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 5%;
+        }
+
+        .dashboard-footer p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #2d3748;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>طلبات التوظيف</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #6c5ce7; /* بنفسجي غامق */
+      --secondary-color: #8e7bff; /* بنفسجي فاتح */
+      --background-color: #f7f9fc; /* خلفية فاتحة متناسقة */
+      --text-color: #2d3748; /* لون النص الأساسي */
+      --muted-text: #718096; /* لون النصوص الثانوية */
+      --border-color: #e2e8f0; /* حدود خفيفة */
+      --shadow-color: rgba(108, 92, 231, 0.2); /* ظلال بنفسجية */
+      --accent-color: #ff7675; /* لون الإغلاق */
+      --card-bg: #ffffff; /* خلفية البطاقات */
+      --transition: 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Roboto", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 50px auto;
+      padding: 0 20px;
+      direction: rtl;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    h1::after {
+      content: "";
+      width: 60px;
+      height: 4px;
+      background: var(--secondary-color);
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .application-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    .application-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 16px var(--shadow-color);
+      padding: 25px;
+      transition: transform var(--transition), box-shadow var(--transition);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .application-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    .application-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: var(--secondary-color);
+      transition: width var(--transition);
+    }
+
+    .application-card:hover::before {
+      width: 10px;
+    }
+
+    .applicant-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform var(--transition);
+      background-color: #fff;
+      flex-shrink: 0;
+    }
+
+    .application-card:hover .applicant-avatar {
+      transform: scale(1.05);
+    }
+
+    .application-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .application-details {
+      flex: 1;
+    }
+
+    .application-details h3 {
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--primary-color);
+      margin-bottom: 8px;
+    }
+
+    .application-details h3 a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .application-details h3 a:hover {
+      color: var(--accent-color);
+    }
+
+    .application-details p {
+      font-size: 1rem;
+      color: var(--muted-text);
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    .application-details p strong {
+      color: var(--text-color);
+      font-weight: 500;
+    }
+
+    .no-applications {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--muted-text);
+      padding: 40px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 16px var(--shadow-color);
+    }
+
+    @media (max-width: 768px) {
+      .application-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .application-card {
+        padding: 20px;
+      }
+
+      .applicant-avatar {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .applicant-avatar {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/headerhome') %>
+  <%- include('partials/headeraction') %>
+
+  <div class="container">
+    <h1>طلبات التوظيف</h1>
+    <div class="application-grid">
+      <% if (applications && applications.length > 0) { %>
+        <% applications.forEach(function(application) { %>
+          <% function getCloudinaryImageUrl(image, fallback) { return image && image.startsWith('http') ? image : (fallback || '/uploads/images/pngwing.com.png'); } %>
+          <div class="application-card">
+            <div class="application-header">
+              <a href="/profile?userId=<%= application.applicant_id %>">
+                <img 
+                  src="<%= getCloudinaryImageUrl(application.applicant_avatar, '/uploads/images/pngwing.com.png') %>"
+                  alt="<%= application.applicant_name %>" 
+                  class="applicant-avatar"
+                  loading="lazy"
+                  onerror="this.src='/uploads/images/pngwing.com.png'"
+                />
+              </a>
+              <div class="application-details">
+                <h3>
+                  <a href="/profile?userId=<%= application.applicant_id %>"><%= application.applicant_name %></a>
+                </h3>
+                <p><strong>الوظيفة:</strong> <%= application.job_title %></p>
+              </div>
+            </div>
+            <p><strong>البريد الإلكتروني:</strong> <%= application.applicant_email %></p>
+            <p><strong>رسالة الطلب:</strong> <%= application.cover_letter %></p>
+            <p><strong>تاريخ التقديم:</strong> <%= new Date(application.created_at).toLocaleString('ar-EG') %></p>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="no-applications">لا توجد طلبات توظيف متاحة حاليًا.</div>
+      <% } %>
+    </div>
+  </div>
+
+ 
+</body>
+<footer style="margin-top: 40vh !important;">
+  <%- include("partials/footer") %>
+</footer>
+</html>

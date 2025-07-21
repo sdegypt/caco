@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تحدي "ابدأها براك!"</title>
+  
+  <!-- CDN للخطوط والتأثيرات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ripplejs@2.0.0/ripple.min.css">
+
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --secondary: #FFA630;
+      --accent: #FFE045;
+      --dark: #2A2D34;
+      --light: #F8F7FF;
+      --fire-1: #FF4500;
+      --fire-2: #FF8C00;
+      --fire-3: #FFD700;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', sans-serif;
+    }
+    
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      padding: 2rem;
+      background-image: radial-gradient(circle at 10% 20%, rgba(255,214,171,0.2) 0%, transparent 20%);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 1.5rem;
+      color: white;
+      position: relative;
+    }
+    
+    .card-header::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      right: 0;
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(to bottom right, transparent 49%, white 50%);
+    }
+
+    .card-body {
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+      margin: 1.5rem 0 1rem;
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+    }
+    
+    h2::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      right: 0;
+      width: 60%;
+      height: 3px;
+      background: linear-gradient(to right, var(--secondary), transparent);
+    }
+
+    p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-right: 1.5rem;
+    }
+    
+    li {
+      position: relative;
+      padding: 0.5rem 0 0.5rem 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* أيقونات نارية ثابتة */
+    .fire-icon {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--fire-2);
+      font-size: 1.2rem;
+      filter: drop-shadow(0 0 2px var(--fire-1));
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 1.8rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255,107,53,0.4);
+    }
+    
+    .btn i {
+      margin-left: 0.5rem;
+    }
+    
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+    
+    .btn:hover::after {
+      transform: translateX(100%);
+    }
+
+    .highlight {
+      background: linear-gradient(to right, rgba(255,166,48,0.2), rgba(255,224,69,0.2));
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* شارة نارية */
+    .fire-badge {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, var(--fire-1), var(--fire-2));
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 0.5rem;
+      box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+    }
+    
+    .fire-badge i {
+      margin-left: 0.3rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .card-body {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      h2 {
+        font-size: 1.3rem;
+      }
+      
+      li {
+        padding-right: 2rem;
+      }
+      
+      .fire-icon {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" data-aos="fade-up" data-aos-duration="800">
+      <div class="card-header">
+        <h1>
+          <span class="fire-badge">
+            <i class="fas fa-fire"></i> جديد!
+          </span> 
+          تحدي "ابدأها براك!"
+        </h1>
+        <p>انطلق في رحلتك الإبداعية من اليوم</p>
+      </div>
+      
+      <div class="card-body">
+        <p data-aos="fade-left">دخلت المنصة؟ ممتاز! الآن هو الوقت المثالي لكسر الحواجز والبدء الفعلي.</p>
+        
+        <h2 data-aos="fade-left"><i class="fas fa-question-circle"></i> ما هو التحدي؟</h2>
+        <ul>
+          <li data-aos="fade-left" data-aos-delay="100">
+            <i class="fas fa-fire fire-icon"></i>
+            أنشئ مشروع جديد (حتى لو مسودة أولية)
+          </li>
+          <li data-aos="fade-left" data-aos-delay="200">
+            <i class="fas fa-fire fire-icon"></i>
+            أضف أول صورة، فكرة، رسم أو وصف بسيط
+          </li>
+          <li data-aos="fade-left" data-aos-delay="300">
+            <i class="fas fa-fire fire-icon"></i>
+            شاركنا الدافع وراء بدايتك وأهدافك
+          </li>
+        </ul>
+        
+        <h2 data-aos="fade-left"><i class="fas fa-lightbulb"></i> لا تملك فكرة؟ جرب البدء بـ:</h2>
+        <ul>
+          <li data-aos="fade-left" data-aos-delay="100">
+            <i class="fas fa-fire fire-icon"></i>
+            مشروع كنت تؤجله منذ فترة
+          </li>
+          <li data-aos="fade-left" data-aos-delay="200">
+            <i class="fas fa-fire fire-icon"></i>
+            تصميم بسيط أو بوستر إبداعي
+          </li>
+          <li data-aos="fade-left" data-aos-delay="300">
+            <i class="fas fa-fire fire-icon"></i>
+            مقال عن رحلتك الإبداعية
+          </li>
+          <li data-aos="fade-left" data-aos-delay="400">
+            <i class="fas fa-fire fire-icon"></i>
+            صفحة تعريفية تبرز إبداعاتك
+          </li>
+        </ul>
+        
+        <p data-aos="fade-left"><span class="highlight">لماذا هذه الخطوة مهمة؟</span><br>
+        لأن البدايات الحقيقية لا تحتاج إلى الكمال، بل تحتاج إلى <strong>الشجاعة</strong> و<strong>الاستمرارية</strong>.<br>
+        منصتنا مجتمع إبداعي يدعم بعضه، وليس فقط مكانًا للعرض.</p>
+        
+        <div data-aos="fade-up" data-aos-delay="500">
+          <button class="btn ripple" onclick="startChallenge()">
+            ابدأ التحدي الآن <i class="fas fa-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- مكتبات JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ripplejs@2.0.0/ripple.min.js"></script>
+  
+  <script>
+    // تهيئة مكتبات التأثيرات
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+    
+    // تأثير عند النقر
+    function startChallenge() {
+      const btn = document.querySelector('.btn');
+      
+      // تأثير GSAP للزر
+      gsap.to(btn, {
+        scale: 0.95,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut",
+        onComplete: showSuccessMessage
+      });
+    }
+    
+    function showSuccessMessage() {
+      const cardBody = document.querySelector('.card-body');
+      const message = document.createElement('div');
+      message.innerHTML = `
+        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-right: 4px solid #4CAF50; border-radius: 8px;">
+          <i class="fas fa-check-circle" style="color: #4CAF50; margin-left: 0.5rem;"></i>
+          <strong>تم بدء التحدي بنجاح!</strong>
+          <p style="margin-top: 0.5rem;">نحن متحمسون لرؤية إبداعاتك الأولى!</p>
+        </div>
+      `;
+      
+      cardBody.appendChild(message);
+      
+      // تأثير ظهور الرسالة
+      gsap.from(message, {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        ease: "back.out"
+      });
+    }
+  </script>
+</body>
+</html>

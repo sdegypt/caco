@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات الوظائف والمشاريع - اعملها براك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin-forum-settings.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+      <!-- القائمة العلوية -->
+      <nav class="top-nav">
+        <a href="/forum" class="back-button"><i class="fas fa-arrow-right"></i> العودة إلى المنصة</a>
+        <span class="logo-text">اعملها براك</span>
+    </nav>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>إعدادات الوظائف والمشاريع</h1>
+            <p>تخصيص حدود إضافة الوظائف والمشاريع</p>
+        </header>
+
+        <section class="settings-section">
+            <form action="/admin/job-project-settings" method="POST" class="settings-form" id="settingsForm">
+                <% if (successMessage) { %>
+                    <div class="success-message"><%= successMessage %></div>
+                <% } %>
+                <% if (errorMessage) { %>
+                    <div class="error-message"><%= errorMessage %></div>
+                <% } %>
+
+                <div class="form-group">
+                    <label for="daily_job_limit">حد إضافة الوظائف في اليوم لكل مستخدم</label>
+                    <input type="number" id="daily_job_limit" name="daily_job_limit" value="<%= settings.daily_job_limit %>" min="0" class="form-input">
+                    <small>باستثناء المشرفين والمستخدمين المستثنين</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="daily_project_limit">حد إضافة المشاريع في اليوم لكل مستخدم</label>
+                    <input type="number" id="daily_project_limit" name="daily_project_limit" value="<%= settings.daily_project_limit %>" min="0" class="form-input">
+                    <small>باستثناء المشرفين والمستخدمين المستثنين</small>
+                </div>
+
+                <!-- قسم الاستثناءات -->
+                <div class="exceptions-section">
+                    <h2>إدارة الاستثناءات</h2>
+                    <div class="exception-form">
+                        <input type="email" id="exceptionEmail" placeholder="أدخل البريد الإلكتروني للمستخدم" class="form-input">
+                        <button type="button" id="addExceptionBtn" class="add-exception-btn">إضافة استثناء</button>
+                    </div>
+
+                    <div class="exceptions-list" id="exceptionsList">
+                        <% if (exceptions && exceptions.length > 0) { %>
+                            <table class="exceptions-table">
+                                <thead>
+                                    <tr>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>حد الوظائف</th>
+                                        <th>حد المشاريع</th>
+                                        <th>إجراء</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% exceptions.forEach(exception => { %>
+                                        <tr class="exception-item" data-user-id="<%= exception.user_id %>">
+                                            <td class="exception-email"><%= exception.email %></td>
+                                            <td><input type="number" class="exception-limit job-limit" value="<%= exception.daily_job_limit || '' %>" min="0" placeholder="غير محدد"></td>
+                                            <td><input type="number" class="exception-limit project-limit" value="<%= exception.daily_project_limit || '' %>" min="0" placeholder="غير محدد"></td>
+                                            <td><button class="remove-exception-btn">إزالة</button></td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        <% } else { %>
+                            <p class="no-exceptions">لا توجد استثناءات حاليًا</p>
+                        <% } %>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">حفظ التغييرات</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addExceptionBtn = document.getElementById('addExceptionBtn');
+            const exceptionEmailInput = document.getElementById('exceptionEmail');
+            const exceptionsList = document.getElementById('exceptionsList');
+
+            // إضافة استثناء جديد
+            addExceptionBtn.addEventListener('click', async () => {
+                const email = exceptionEmailInput.value.trim();
+                if (!email) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'تنبيه',
+                        text: 'يرجى إدخال بريد إلكتروني!',
+                        confirmButtonText: 'موافق',
+                        confirmButtonColor: '#6B48FF'
+                    });
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/admin/job-project-settings/add-exception', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        const tbody = exceptionsList.querySelector('tbody') || document.createElement('tbody');
+                        if (!exceptionsList.querySelector('table')) {
+                            const table = document.createElement('table');
+                            table.classList.add('exceptions-table');
+                            table.innerHTML = `
+                                <thead>
+                                    <tr>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>حد الوظائف</th>
+                                        <th>حد المشاريع</th>
+                                        <th>إجراء</th>
+                                    </tr>
+                                </thead>
+                            `;
+                            table.appendChild(tbody);
+                            exceptionsList.innerHTML = '';
+                            exceptionsList.appendChild(table);
+                        }
+
+                        const exceptionRow = document.createElement('tr');
+                        exceptionRow.classList.add('exception-item');
+                        exceptionRow.dataset.userId = result.userId;
+                        exceptionRow.innerHTML = `
+                            <td class="exception-email">${email}</td>
+                            <td><input type="number" class="exception-limit job-limit" placeholder="غير محدد" min="0"></td>
+                            <td><input type="number" class="exception-limit project-limit" placeholder="غير محدد" min="0"></td>
+                            <td><button class="remove-exception-btn">إزالة</button></td>
+                        `;
+                        tbody.appendChild(exceptionRow);
+                        exceptionEmailInput.value = '';
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم!',
+                            text: 'تم إضافة الاستثناء بنجاح',
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#6B48FF'
+                        });
+
+                        exceptionRow.querySelector('.remove-exception-btn').addEventListener('click', removeException);
+                        exceptionRow.querySelectorAll('.exception-limit').forEach(input => {
+                            input.addEventListener('change', updateExceptionLimits);
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ',
+                            text: result.message,
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#FF5C5C'
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'حدث خطأ غير متوقع!',
+                        confirmButtonText: 'موافق',
+                        confirmButtonColor: '#FF5C5C'
+                    });
+                }
+            });
+
+            // إزالة استثناء
+            document.querySelectorAll('.remove-exception-btn').forEach(btn => {
+                btn.addEventListener('click', removeException);
+            });
+
+            async function removeException(e) {
+                const exceptionItem = e.target.closest('.exception-item');
+                const userId = exceptionItem.dataset.userId;
+
+                try {
+                    const response = await fetch('/admin/job-project-settings/remove-exception', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        exceptionItem.remove();
+                        if (!exceptionsList.querySelector('.exception-item')) {
+                            exceptionsList.innerHTML = '<p class="no-exceptions">لا توجد استثناءات حاليًا</p>';
+                        }
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم!',
+                            text: 'تم إزالة الاستثناء بنجاح',
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#6B48FF'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ',
+                            text: result.message,
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#FF5C5C'
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'حدث خطأ غير متوقع!',
+                        confirmButtonText: 'موافق',
+                        confirmButtonColor: '#FF5C5C'
+                    });
+                }
+            }
+
+            // تحديث حدود الاستثناء
+            document.querySelectorAll('.exception-limit').forEach(input => {
+                input.addEventListener('change', updateExceptionLimits);
+            });
+
+            async function updateExceptionLimits(e) {
+                const exceptionItem = e.target.closest('.exception-item');
+                const userId = exceptionItem.dataset.userId;
+                const jobLimit = exceptionItem.querySelector('.job-limit').value || null;
+                const projectLimit = exceptionItem.querySelector('.project-limit').value || null;
+
+                try {
+                    const response = await fetch('/admin/job-project-settings/update-exception', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId, daily_job_limit: jobLimit, daily_project_limit: projectLimit })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم!',
+                            text: 'تم تحديث الحدود بنجاح',
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#6B48FF'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ',
+                            text: result.message,
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#FF5C5C'
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'حدث خطأ غير متوقع!',
+                        confirmButtonText: 'موافق',
+                        confirmButtonColor: '#FF5C5C'
+                    });
+                }
+            }
+        });
+    </script>
+    
+    <!-- الفوتر -->
+    <footer class="dashboard-footer">
+        <p>© 2025 اعملها براك - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <!-- CSS للقائمة والفوتر -->
+    <style>
+        /* تنسيق القائمة العلوية */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6c5ce7, #8e7bff);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .logo-text {
+            font-family: "Tajawal", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c5ce7;
+        }
+
+        /* تنسيق الفوتر */
+        .dashboard-footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .dashboard-footer p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #2d3748;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,631 @@
+/* 
+ * تصميم معرض أعمال البروفايل بشكل احترافي ومتجاوب
+ * تحسين تناسب أحجام الصور وتطبيق تدرجات برتقالية عصرية
+ * تحسينات شاملة للتجاوب مع جميع أحجام الشاشات
+ */
+
+/* تحسينات عامة لصفحة البروفايل */
+.main {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+/* تحسين معرض أعمال التصميم */
+.design-gallery-section {
+  margin: 40px 0;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 6px 25px rgba(255, 159, 67, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.design-gallery-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 159, 67, 0.12);
+}
+
+.section-title {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+  position: relative;
+  padding-right: 15px;
+  display: inline-block;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 25px;
+  background: linear-gradient(to bottom, #ff9f43, #ff7f50);
+  border-radius: 3px;
+}
+
+/* تحسين معرض الأعمال - تجاوب محسن */
+.general-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  position: relative;
+  min-height: 200px;
+  padding: 10px 0;
+}
+
+/* تحسين بطاقات المعرض - تجاوب محسن */
+.content {
+  position: relative;
+  height: 280px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 2px solid transparent;
+  aspect-ratio: 4/3; /* نسبة ثابتة للصور */
+}
+
+.content::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  z-index: 1;
+  transition: height 0.3s ease;
+}
+
+.content:hover::before {
+  height: 70%;
+}
+
+.content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255, 159, 67, 0.2);
+  border-color: rgba(255, 159, 67, 0.3);
+}
+
+/* تحسين عناوين الأعمال */
+.title-card {
+  position: relative;
+  z-index: 2;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  width: 100%;
+}
+
+.content:hover .title-card {
+  transform: translateY(-10px);
+}
+
+.marg-bott {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.subtitle {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  line-height: 1.2;
+  word-wrap: break-word;
+}
+
+/* تحسين زر الحذف */
+.delete-form {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+}
+
+.design-delete-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.content:hover .design-delete-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.design-delete-btn:hover {
+  background-color: #ff6b6b;
+  transform: scale(1.1);
+}
+
+/* تحسين رسالة عدم وجود أعمال */
+.no-items-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border: 1px dashed rgba(255, 159, 67, 0.3);
+  font-size: 1rem;
+}
+
+/* تحسين نموذج إضافة عمل تصميم */
+.add-design-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.add-design-btn {
+  background: linear-gradient(135deg, #ff9f43, #ff7f50);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(255, 159, 67, 0.2);
+}
+
+.add-design-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(255, 159, 67, 0.3);
+}
+
+#add-design-form {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 159, 67, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#add-design-form input[type="file"] {
+  padding: 10px;
+  border: 1px dashed rgba(255, 159, 67, 0.3);
+  border-radius: 8px;
+  background-color: white;
+}
+
+#add-design-form input[type="text"] {
+  padding: 12px;
+  border: 1px solid rgba(255, 159, 67, 0.2);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+#add-design-form input[type="text"]:focus {
+  border-color: #ff9f43;
+  box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.1);
+  outline: none;
+}
+
+.share-btn {
+  background: linear-gradient(135deg, #ff9f43, #ff7f50);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+  background: linear-gradient(135deg, #e67e22, #ff7f50);
+}
+
+.cancel-btn:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+/* تحسينات للأجهزة اللوحية الكبيرة */
+@media (max-width: 1024px) {
+  .general-container {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+  }
+  
+  .content {
+    height: 260px;
+  }
+  
+  .design-gallery-section {
+    padding: 25px;
+  }
+}
+
+/* تحسينات للأجهزة اللوحية */
+@media (max-width: 768px) {
+  .main {
+    padding: 0 15px;
+    margin: 20px auto;
+  }
+  
+  .design-gallery-section {
+    padding: 20px;
+    margin: 30px 0;
+  }
+  
+  .general-container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+  }
+  
+  .content {
+    height: 240px;
+  }
+  
+  .title-card {
+    padding: 12px;
+  }
+  
+  .marg-bott {
+    font-size: 1rem;
+  }
+  
+  .subtitle {
+    font-size: 0.8rem;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+  
+  #add-design-form {
+    padding: 15px;
+  }
+}
+
+/* تحسينات للهواتف الذكية الكبيرة */
+@media (max-width: 600px) {
+  .general-container {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  
+  .content {
+    height: 200px;
+  }
+  
+  .title-card {
+    padding: 10px;
+  }
+  
+  .marg-bott {
+    font-size: 0.95rem;
+  }
+  
+  .subtitle {
+    font-size: 0.75rem;
+  }
+  
+  .design-delete-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .no-items-message {
+    padding: 30px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* تحسينات للشاشات الصغيرة جداً */
+@media (max-width: 480px) {
+  .main {
+    padding: 0 10px;
+    margin: 15px auto;
+  }
+  
+  .design-gallery-section {
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 12px;
+  }
+  
+  .general-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  
+  .content {
+    height: 180px;
+    border-radius: 10px;
+  }
+  
+  .title-card {
+    padding: 8px;
+  }
+  
+  .marg-bott {
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+  }
+  
+  .subtitle {
+    font-size: 0.7rem;
+  }
+  
+  .design-delete-btn {
+    width: 30px;
+    height: 30px;
+    top: 8px;
+    left: 8px;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .add-design-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  
+  #add-design-form {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  #add-design-form input[type="text"],
+  #add-design-form input[type="file"] {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+  
+  .share-btn,
+  .cancel-btn {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+/* تحسينات للشاشات الصغيرة جداً (أقل من 360px) */
+@media (max-width: 360px) {
+  .general-container {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+  }
+  
+  .content {
+    height: 160px;
+  }
+  
+  .title-card {
+    padding: 6px;
+  }
+  
+  .marg-bott {
+    font-size: 0.8rem;
+  }
+  
+  .subtitle {
+    font-size: 0.65rem;
+  }
+  
+  .design-delete-btn {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .no-items-message {
+    padding: 25px 15px;
+    font-size: 0.85rem;
+  }
+}
+
+/* تأثيرات الحركة */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* تحسين عرض الصور عند النقر عليها */
+.design-preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  padding: 20px;
+}
+
+.design-preview-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.design-preview-container {
+  max-width: 90%;
+  max-height: 90%;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.design-preview-overlay.active .design-preview-container {
+  transform: scale(1);
+}
+
+.design-preview-container img {
+  max-width: 100%;
+  max-height: 90vh;
+  display: block;
+  object-fit: contain;
+}
+
+.design-preview-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.design-preview-close:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: rotate(90deg);
+}
+
+/* تحسين معاينة الصور للأجهزة المحمولة */
+@media (max-width: 768px) {
+  .design-preview-overlay {
+    padding: 10px;
+  }
+  
+  .design-preview-container {
+    max-width: 95%;
+    max-height: 95%;
+  }
+  
+  .design-preview-close {
+    width: 35px;
+    height: 35px;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+/* تحسين معاينة الصور */
+.design-preview-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.design-preview-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.design-preview-subtitle {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 480px) {
+  .design-preview-info {
+    padding: 15px;
+  }
+  
+  .design-preview-title {
+    font-size: 1rem;
+  }
+  
+  .design-preview-subtitle {
+    font-size: 0.8rem;
+  }
+}
+
+/* تحسينات إضافية للتجاوب */
+.general-container .radio {
+  display: none;
+}
+
+/* ضمان عدم تجاوز النصوص للحدود */
+.title-card * {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* تحسين الأداء للصور */
+.content {
+  background-attachment: scroll;
+  will-change: transform;
+}
+
+/* تحسين التباعد للشاشات الكبيرة */
+@media (min-width: 1200px) {
+  .general-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+  }
+  
+  .content {
+    height: 300px;
+  }
+}
+

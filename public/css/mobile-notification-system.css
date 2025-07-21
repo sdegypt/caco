@@ -1,0 +1,318 @@
+/* نظام الإشعارات المحسن للجوال */
+
+/* إزالة الهوامش والحشو على الجوال */
+@media (max-width: 767px) {
+  /* إزالة جميع الهوامش والحشو من العناصر */
+  body, html, * {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* استثناءات للعناصر المهمة */
+  .container,
+  .main-content,
+  .card-body,
+  .form-control,
+  .btn {
+    padding: 8px !important;
+  }
+  
+  /* إخفاء الإعلانات الثابتة */
+  .fixed-ad,
+  .sticky-ad,
+  .banner-ad,
+  .header-ad,
+  .footer-ad,
+  .sidebar-ad,
+  [class*="ad-"],
+  [id*="ad-"],
+  .advertisement,
+  .ads-container {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+/* نظام الإشعارات المنبثقة */
+.notification-toast {
+  position: fixed;
+  bottom: 20px;
+  z-index: 9999;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 16px 20px;
+  max-width: 350px;
+  min-width: 280px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+/* موضع الإشعار حسب اتجاه النص */
+[dir="rtl"] .notification-toast {
+  right: 20px;
+}
+
+[dir="ltr"] .notification-toast {
+  left: 20px;
+  direction: ltr;
+  text-align: left;
+}
+
+/* حالة الظهور */
+.notification-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* حالة الاختفاء */
+.notification-toast.hide {
+  transform: translateY(100px);
+  opacity: 0;
+}
+
+/* محتوى الإشعار */
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* أيقونة الإشعار */
+.notification-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #6B48FF, #A78BFA);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* نص الإشعار */
+.notification-text {
+  flex: 1;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* زر الإغلاق */
+.notification-close {
+  position: absolute;
+  top: 8px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+[dir="rtl"] .notification-close {
+  left: 8px;
+}
+
+[dir="ltr"] .notification-close {
+  right: 8px;
+}
+
+.notification-close:hover {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.notification-close:active {
+  transform: scale(0.95);
+}
+
+/* تأثيرات الحركة */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+}
+
+/* تحسينات للجوال */
+@media (max-width: 480px) {
+  .notification-toast {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    max-width: none;
+    min-width: auto;
+    margin: 0;
+  }
+  
+  [dir="rtl"] .notification-toast {
+    right: 10px;
+    left: 10px;
+  }
+  
+  .notification-text {
+    font-size: 13px;
+  }
+}
+
+/* تحسينات للتابلت */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .notification-toast {
+    max-width: 400px;
+  }
+}
+
+/* تأثيرات إضافية للإشعار */
+.notification-toast::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6B48FF, #A78BFA, #FF9F43);
+  border-radius: 12px 12px 0 0;
+}
+
+/* حالات مختلفة للإشعار */
+.notification-toast.success .notification-icon {
+  background: linear-gradient(135deg, #10B981, #34D399);
+}
+
+.notification-toast.warning .notification-icon {
+  background: linear-gradient(135deg, #F59E0B, #FBBF24);
+}
+
+.notification-toast.error .notification-icon {
+  background: linear-gradient(135deg, #EF4444, #F87171);
+}
+
+.notification-toast.info .notification-icon {
+  background: linear-gradient(135deg, #3B82F6, #60A5FA);
+}
+
+/* تأثير الظل المتحرك */
+.notification-toast:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* تحسينات الوصول */
+.notification-toast:focus-within {
+  outline: 2px solid #6B48FF;
+  outline-offset: 2px;
+}
+
+/* تحسينات الأداء */
+.notification-toast {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* إخفاء شريط التمرير إذا ظهر */
+.notification-toast {
+  overflow: hidden;
+}
+
+/* تأثير النبضة للإشعارات المهمة */
+.notification-toast.pulse .notification-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* تحسينات للطباعة */
+@media print {
+  .notification-toast {
+    display: none !important;
+  }
+}
+
+/* تحسينات للوضع المظلم */
+@media (prefers-color-scheme: dark) {
+  .notification-toast {
+    background: #1F2937;
+    border-color: #374151;
+    color: #F9FAFB;
+  }
+  
+  .notification-text {
+    color: #F9FAFB;
+  }
+  
+  .notification-close {
+    color: #9CA3AF;
+  }
+  
+  .notification-close:hover {
+    background-color: #374151;
+    color: #F9FAFB;
+  }
+}
+
+/* تحسينات للحركة المخفضة */
+@media (prefers-reduced-motion: reduce) {
+  .notification-toast {
+    transition: opacity 0.2s ease;
+  }
+  
+  .notification-toast.show {
+    transform: none;
+  }
+  
+  .notification-toast.hide {
+    transform: none;
+  }
+  
+  .notification-toast:hover {
+    transform: none;
+  }
+}
+

@@ -1,0 +1,150 @@
+<!-- views/partials/footer.ejs -->
+<footer class="sticky-footer">
+  <div class="footer-container">
+    <div class="footer-content">
+    <p class="copyright-text">
+      Copyright © 2020 All Rights Reserved by
+      <a href="https://www.amlhabrak.online" rel="noopener noreferrer">DIY</a>
+    </p>
+      <ul class="footer-links">
+        <li><a href="/about" rel="nofollow">حولنا</a></li>
+        <li><a href="/privacy" rel="nofollow">سياسة الخصوصية</a></li>
+        <li><a href="/contact" rel="nofollow">اتصل بنا</a></li>
+    </ul>
+    </div>
+    <div class="social-icons">
+      <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  html {
+    height: 100%;
+  }
+
+  body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .sticky-footer {
+    background: linear-gradient(135deg, #FF6B00, #FFA500);
+    padding: 1rem 0;
+    margin-top: auto;
+    width: 100%;
+    box-sizing: border-box;
+    color: #fff;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    background: transparent;
+    text-align: center;
+  }
+
+  .footer-content {
+    background: transparent;
+  }
+
+  .copyright-text {
+    color: #fff;
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .copyright-text a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    background: transparent;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    background: transparent;
+  }
+
+  .footer-links li {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    background: transparent;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links a:hover {
+    opacity: 0.8;
+  }
+
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    background: transparent;
+  }
+
+  .social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    color: #fff;
+    transition: 0.3s;
+    background: transparent;
+  }
+
+  .social-icons a:hover {
+    transform: translateY(-3px);
+    opacity: 0.8;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 768px) {
+    .footer-links {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2350758257463070"
+     crossorigin="anonymous"></script>
+
+
+<!-- تضمين النافذة المنبثقة للإعلانات -->
+<%- include('adsense-popup-notification') %>
+
+<!-- تضمين الإعلانات العامة -->
+<%- include('google-ads') %>
+

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات المنتدى - اعملها براك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin-forum-settings.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+      <!-- القائمة العلوية -->
+      <nav class="top-nav">
+        <a href="/forum" class="back-button"><i class="fas fa-arrow-right"></i> العودة إلى المنصة</a>
+        <span class="logo-text">اعملها براك</span>
+    </nav>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>إعدادات المنتدى</h1>
+            <p>تخصيص قواعد المنتدى والإعلانات</p>
+        </header>
+
+        <section class="settings-section">
+            <form action="/admin/forum-settings" method="POST" class="settings-form" id="settingsForm">
+                <% if (successMessage) { %>
+                    <div class="success-message"><%= successMessage %></div>
+                <% } %>
+                <% if (errorMessage) { %>
+                    <div class="error-message"><%= errorMessage %></div>
+                <% } %>
+
+                <div class="form-group">
+                    <label for="daily_post_limit">حد نشر المنشورات في اليوم لكل مستخدم</label>
+                    <input type="number" id="daily_post_limit" name="daily_post_limit" value="<%= settings.daily_post_limit %>" min="0" class="form-input">
+                    <small>باستثناء المشرفين والمستخدمين المستثنين</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="daily_comment_limit">عدد التعليقات المسموح بها في اليوم لكل مستخدم</label>
+                    <input type="number" id="daily_comment_limit" name="daily_comment_limit" value="<%= settings.daily_comment_limit %>" min="0" class="form-input">
+                    <small>باستثناء المشرفين والمستخدمين المستثنين</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="daily_ad_limit">عدد الإعلانات المسموح بها في اليوم لكل مستخدم</label>
+                    <input type="number" id="daily_ad_limit" name="daily_ad_limit" value="<%= settings.daily_ad_limit %>" min="0" class="form-input">
+                    <small>باستثناء المشرفين والمستخدمين المستثنين</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="max_images_per_post">الحد الأقصى للصور في المنشور الواحد</label>
+                    <input type="number" id="max_images_per_post" name="max_images_per_post" value="<%= settings.max_images_per_post %>" min="0" class="form-input">
+                </div>
+
+                <!-- قسم الاستثناءات داخل جدول -->
+                <div class="exceptions-section">
+                    <h2>إدارة الاستثناءات</h2>
+                    <div class="exception-form">
+                        <input type="email" id="exceptionEmail" placeholder="أدخل البريد الإلكتروني للمستخدم" class="form-input">
+                        <button type="button" id="addExceptionBtn" class="add-exception-btn">إضافة استثناء</button>
+                    </div>
+
+                    <div class="exceptions-list" id="exceptionsList">
+                        <% if (exceptions && exceptions.length > 0) { %>
+                            <table class="exceptions-table">
+                                <thead>
+                                    <tr>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>حد المنشورات</th>
+                                        <th>حد الإعلانات</th>
+                                        <th>حد التعليقات</th>
+                                        <th>حد الإعجابات</th>
+                                        <th>إجراء</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% exceptions.forEach(exception => { %>
+                                        <tr class="exception-item" data-user-id="<%= exception.user_id %>">
+                                            <td class="exception-email"><%= exception.email %></td>
+                                            <td><input type="number" class="exception-limit post-limit" value="<%= exception.daily_post_limit || '' %>" min="0" placeholder="غير محدد"></td>
+                                            <td><input type="number" class="exception-limit ad-limit" value="<%= exception.daily_ad_limit || '' %>" min="0" placeholder="غير محدد"></td>
+                                            <td><input type="number" class="exception-limit comment-limit" value="<%= exception.daily_comment_limit || '' %>" min="0" placeholder="غير محدد"></td>
+                                            <td><input type="number" class="exception-limit like-limit" value="<%= exception.daily_like_limit || '' %>" min="0" placeholder="غير محدد"></td>
+                                            <td><button class="remove-exception-btn">إزالة</button></td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        <% } else { %>
+                            <p class="no-exceptions">لا توجد استثناءات حاليًا</p>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>تفعيل الإعجابات في المنتدى</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" name="enable_likes" <%= settings.enable_likes === '1' ? 'checked' : '' %>>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="ad_expiry_days">مدة صلاحية الإعلانات (بالأيام)</label>
+                    <input type="number" id="ad_expiry_days" name="ad_expiry_days" value="<%= settings.ad_expiry_days %>" min="1" class="form-input">
+                </div>
+
+                <button type="submit" class="submit-btn">حفظ التغييرات</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addExceptionBtn = document.getElementById('addExceptionBtn');
+            const exceptionEmailInput = document.getElementById('exceptionEmail');
+            const exceptionsList = document.getElementById('exceptionsList');
+
+            // إضافة استثناء جديد
+            addExceptionBtn.addEventListener('click', async () => {
+                const email = exceptionEmailInput.value.trim();
+                if (!email) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'تنبيه',
+                        text: 'يرجى إدخال بريد إلكتروني!',
+                        confirmButtonText: 'موافق',
+                        confirmButtonColor: '#6B48FF'
+                    });
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/admin/forum-settings/add-exception', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        const tbody = exceptionsList.querySelector('tbody') || document.createElement('tbody');
+                        if (!exceptionsList.querySelector('table')) {
+                            const table = document.createElement('table');
+                            table.classList.add('exceptions-table');
+                            table.innerHTML = `
+                                <thead>
+                                    <tr>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>حد المنشورات</th>
+                                        <th>حد الإعلانات</th>
+                                        <th>حد التعليقات</th>
+                                        <th>حد الإعجابات</th>
+                                        <th>إجراء</th>
+                                    </tr>
+                                </thead>
+                            `;
+                            table.appendChild(tbody);
+                            exceptionsList.innerHTML = '';
+                            exceptionsList.appendChild(table);
+                        }
+
+                        const exceptionRow = document.createElement('tr');
+                        exceptionRow.classList.add('exception-item');
+                        exceptionRow.dataset.userId = result.userId;
+                        exceptionRow.innerHTML = `
+                            <td class="exception-email">${email}</td>
+                            <td><input type="number" class="exception-limit post-limit" placeholder="غير محدد" min="0"></td>
+                            <td><input type="number" class="exception-limit ad-limit" placeholder="غير محدد" min="0"></td>
+                            <td><input type="number" class="exception-limit comment-limit" placeholder="غير محدد" min="0"></td>
+                            <td><input type="number" class="exception-limit like-limit" placeholder="غير محدد" min="0"></td>
+                            <td><button class="remove-exception-btn">إزالة</button></td>
+                        `;
+                        tbody.appendChild(exceptionRow);
+                        exceptionEmailInput.value = '';
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم!',
+                            text: 'تم إضافة الاستثناء بنجاح',
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#6B48FF'
+                        });
+
+                        // إضافة أحداث للعنصر الجديد
+                        exceptionRow.querySelector('.remove-exception-btn').addEventListener('click', removeException);
+                        exceptionRow.querySelectorAll('.exception-limit').forEach(input => {
+                            input.addEventListener('change', updateExceptionLimits);
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ',
+                            text: result.message,
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#FF5C5C'
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'حدث خطأ غير متوقع!',
+                        confirmButtonText: 'موافق',
+                        confirmButtonColor: '#FF5C5C'
+                    });
+                }
+            });
+
+            // إزالة استثناء
+            document.querySelectorAll('.remove-exception-btn').forEach(btn => {
+                btn.addEventListener('click', removeException);
+            });
+
+            async function removeException(e) {
+                const exceptionItem = e.target.closest('.exception-item');
+                const userId = exceptionItem.dataset.userId;
+
+                try {
+                    const response = await fetch('/admin/forum-settings/remove-exception', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        exceptionItem.remove();
+                        if (!exceptionsList.querySelector('.exception-item')) {
+                            exceptionsList.innerHTML = '<p class="no-exceptions">لا توجد استثناءات حاليًا</p>';
+                        }
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم!',
+                            text: 'تم إزالة الاستثناء بنجاح',
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#6B48FF'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ',
+                            text: result.message,
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#FF5C5C'
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'حدث خطأ غير متوقع!',
+                        confirmButtonText: 'موافق',
+                        confirmButtonColor: '#FF5C5C'
+                    });
+                }
+            }
+
+            // تحديث حدود الاستثناء
+            document.querySelectorAll('.exception-limit').forEach(input => {
+                input.addEventListener('change', updateExceptionLimits);
+            });
+
+            async function updateExceptionLimits(e) {
+                const exceptionItem = e.target.closest('.exception-item');
+                const userId = exceptionItem.dataset.userId;
+                const postLimit = exceptionItem.querySelector('.post-limit').value || null;
+                const commentLimit = exceptionItem.querySelector('.comment-limit').value || null;
+                const adLimit = exceptionItem.querySelector('.ad-limit').value || null;
+                const likeLimit = exceptionItem.querySelector('.like-limit').value || null;
+
+                try {
+                    const response = await fetch('/admin/forum-settings/update-exception', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            userId, 
+                            daily_post_limit: postLimit, 
+                            daily_comment_limit: commentLimit, 
+                            daily_ad_limit: adLimit,
+                            daily_like_limit: likeLimit 
+                        })
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم!',
+                            text: 'تم تحديث الحدود بنجاح',
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#6B48FF'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ',
+                            text: result.message,
+                            confirmButtonText: 'موافق',
+                            confirmButtonColor: '#FF5C5C'
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'حدث خطأ غير متوقع!',
+                        confirmButtonText: 'موافق',
+                        confirmButtonColor: '#FF5C5C'
+                    });
+                }
+            }
+        });
+    </script>
+    
+    <!-- الفوتر -->
+    <footer class="dashboard-footer">
+        <p>© 2025 اعملها براك - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <!-- CSS للقائمة والفوتر -->
+    <style>
+        /* تنسيق القائمة العلوية */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6c5ce7, #8e7bff);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .logo-text {
+            font-family: "Tajawal", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c5ce7;
+        }
+
+        /* تنسيق الفوتر */
+        .dashboard-footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .dashboard-footer p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #2d3748;
+        }
+    </style>
+</body>
+</html>

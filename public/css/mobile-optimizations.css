@@ -1,0 +1,15 @@
+/* Mobile Optimizations */
+@media (max-width: 767px) {
+  body * {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Disable fixed ads */
+  .fixed-ad-top,
+  .fixed-ad-bottom {
+    display: none !important;
+  }
+}
+
+

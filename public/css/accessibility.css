@@ -1,0 +1,234 @@
+/**
+ * ملف CSS لتحسين إمكانية الوصول
+ * 
+ * هذا الملف يحتوي على تحسينات CSS لدعم إمكانية الوصول وفقاً لمعايير WCAG 2.1 AA
+ */
+
+/* تحسين التركيز المرئي */
+:focus {
+  outline: 3px solid #6B48FF !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(107, 72, 255, 0.4) !important;
+  border-radius: 3px !important;
+  transition: outline 0.2s ease-in-out !important;
+}
+
+/* تحسين التباين للنصوص */
+body {
+  color: #333333;
+}
+
+p, li, td, th, input, textarea, select, button {
+  color: #333333;
+}
+
+/* تصحيح لون النص الرمادي المتوسط */
+.text-muted, .text-secondary, .text-subtle, 
+.feature-card p, .dashboard-card p, .section p,
+.card-text, .form-text, .text-secondary {
+  color: #545454 !important;
+}
+
+/* تحسين تباين الروابط */
+a {
+  color: #5034CC;
+  text-decoration: underline;
+}
+
+a:hover, a:focus {
+  color: #3A2599;
+  text-decoration: underline;
+}
+
+/* تحسين تباين الأزرار */
+.btn-light, .btn-outline-light {
+  color: #333333;
+}
+
+/* تحسين قابلية القراءة */
+body {
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* تحسين حجم النقر للعناصر التفاعلية على الأجهزة اللمسية */
+button, .btn, a.btn, input[type="button"], input[type="submit"],
+[role="button"], .clickable {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 16px;
+}
+
+/* تحسين تباين الحالات المختلفة للعناصر التفاعلية */
+.btn:hover, .btn:focus, button:hover, button:focus,
+[role="button"]:hover, [role="button"]:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* تحسين وضوح الحقول المعطلة */
+input:disabled, textarea:disabled, select:disabled, button:disabled,
+.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: #f0f0f0;
+  color: #666666;
+}
+
+/* تحسين تباين رسائل الخطأ */
+.error, .invalid-feedback, .text-danger {
+  color: #D32F2F !important;
+}
+
+/* تحسين تباين رسائل النجاح */
+.success, .valid-feedback, .text-success {
+  color: #2E7D32 !important;
+}
+
+/* تحسين تباين رسائل التحذير */
+.warning, .text-warning {
+  color: #AF6C00 !important;
+}
+
+/* تحسين تباين رسائل المعلومات */
+.info, .text-info {
+  color: #0277BD !important;
+}
+
+/* دعم وضع التباين العالي */
+@media (prefers-contrast: high) {
+  body {
+    color: #000000;
+    background-color: #FFFFFF;
+  }
+  
+  a {
+    color: #0000EE;
+    text-decoration: underline;
+  }
+  
+  a:visited {
+    color: #551A8B;
+  }
+  
+  input, textarea, select {
+    border: 2px solid #000000;
+  }
+  
+  button, .btn {
+    border: 2px solid #000000;
+    background-color: #FFFFFF;
+    color: #000000;
+  }
+}
+
+/* تحسين قابلية القراءة عند تكبير النص */
+@media (max-width: 768px), (max-height: 600px) {
+  body {
+    font-size: 16px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+  }
+}
+
+/* دعم التنقل باستخدام لوحة المفاتيح */
+.keyboard-focus {
+  outline: 3px solid #6B48FF !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(107, 72, 255, 0.4) !important;
+}
+
+/* تنسيق لوحة اختصارات لوحة المفاتيح */
+.keyboard-shortcuts-info {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.keyboard-shortcuts-toggle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #6B48FF;
+  color: white;
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.keyboard-shortcuts-panel {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 300px;
+  max-width: 90vw;
+}
+
+.keyboard-shortcuts-panel h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.keyboard-shortcuts-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.keyboard-shortcuts-panel li {
+  margin-bottom: 10px;
+  color: #545454;
+}
+
+.keyboard-shortcuts-panel kbd {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* تحسين تباين الرسائل المنبثقة */
+.toast, .alert, .notification {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-left: 4px solid #6B48FF;
+}
+
+.toast-success, .alert-success {
+  border-left-color: #2E7D32;
+}
+
+.toast-error, .alert-error, .toast-danger, .alert-danger {
+  border-left-color: #D32F2F;
+}
+
+.toast-warning, .alert-warning {
+  border-left-color: #AF6C00;
+}
+
+.toast-info, .alert-info {
+  border-left-color: #0277BD;
+}

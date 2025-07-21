@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الرسائل الواردة | DIY</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #FF6B00;
+      --primary-light: #FF8A3D;
+      --secondary: #6B48FF;
+      --dark: #1A1A2E;
+      --light: #F8F9FA;
+      --gray: #6C757D;
+      --light-gray: #E9ECEF;
+      --success: #28A745;
+      --error: #DC3545;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      flex: 1;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .page-title {
+      font-size: 2rem;
+      color: var(--primary);
+      position: relative;
+    }
+
+    .page-title::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      right: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    /* Messages List */
+    .messages-list {
+      list-style: none;
+      background: white;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .message-item {
+      display: flex;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--light-gray);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .message-item:last-child {
+      border-bottom: none;
+    }
+
+    .message-item:hover {
+      background: rgba(255, 107, 0, 0.05);
+    }
+
+    .message-item.unread {
+      background: rgba(107, 72, 255, 0.05);
+    }
+
+    .message-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-left: 1rem;
+      border: 2px solid var(--light-gray);
+      transition: var(--transition);
+    }
+
+    .message-item:hover .message-avatar {
+      border-color: var(--primary-light);
+    }
+
+    .message-content {
+      flex: 1;
+    }
+
+    .message-sender {
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .message-text {
+      color: var(--gray);
+      font-size: 0.95rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .message-time {
+      font-size: 0.8rem;
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+    }
+
+    .message-time i {
+      margin-left: 0.3rem;
+      font-size: 0.7rem;
+    }
+
+    .message-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.5rem;
+      transition: var(--transition);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .delete-btn:hover {
+      background: rgba(220, 53, 69, 0.1);
+      color: var(--error);
+    }
+
+    .delete-all-btn {
+      background: none;
+      border: 1px solid var(--error);
+      color: var(--error);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .delete-all-btn i {
+      margin-left: 0.5rem;
+    }
+
+    .delete-all-btn:hover {
+      background: var(--error);
+      color: white;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray);
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      color: var(--primary-light);
+      margin-bottom: 1rem;
+    }
+
+    .empty-text {
+      font-size: 1.1rem;
+    }
+
+    /* Feedback Messages */
+    .feedback-message {
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .message-success {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(40, 167, 69, 0.3);
+    }
+
+    .message-error {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: var(--error);
+      border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .page-title {
+        font-size: 1.5rem;
+      }
+      
+      .message-item {
+        padding: 1rem;
+      }
+      
+      .message-avatar {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .delete-all-btn {
+        margin-top: 1rem;
+      }
+      
+      .message-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .message-avatar {
+        margin-left: 0;
+        margin-bottom: 1rem;
+      }
+      
+      .message-actions {
+        margin-top: 1rem;
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+<% function getCloudinaryImageUrl(image, fallback) { return image && image.startsWith('http') ? image : (fallback || '/uploads/images/pngwing.com.png'); } %>
+  <header>
+    <%- include('partials/headerhome') %>
+    <%- include('partials/headeraction') %>
+  </header>
+
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">الرسائل الواردة</h1>
+      <form action="/messages/delete-all" method="POST" class="delete-all-form" id="delete-all-messages-form">
+        <button type="submit" class="delete-all-btn">
+          <i class="fas fa-trash"></i> حذف الكل
+        </button>
+      </form>
+    </div>
+
+    <!-- Feedback message area -->
+    <div id="feedback-message-area"></div>
+
+    <ul class="messages-list" id="message-list">
+      <% if (messages.length === 0) { %>
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-envelope-open-text"></i>
+          </div>
+          <p class="empty-text">لا توجد رسائل جديدة</p>
+        </div>
+      <% } else { %>
+        <% messages.forEach((message) => { %>
+          <li data-sender-id="<%= message.sender_id %>" data-message-id="<%= message.id %>" class="message-item <%= message.is_read ? '' : 'unread' %>">
+            <img
+              src="<%= getCloudinaryImageUrl(message.sender_avatar, '/uploads/images/pngwing.com.png') %>"
+              class="message-avatar"
+              alt="<%= message.sender_name || 'User' %>"
+            />
+            <div class="message-content" onclick="window.location.href='/chat/<%= message.sender_id %>'">
+              <div class="message-sender">
+                <%= message.sender_name %>
+              </div>
+              <p class="message-text"><%= message.content %></p>
+              <div class="message-time">
+                <i class="fas fa-clock"></i>
+                <%= new Date(message.created_at).toLocaleString('ar-EG', { hour12: true }) %>
+              </div>
+            </div>
+            <div class="message-actions">
+              <button type="button" class="delete-btn" data-message-id="<%= message.id %>" title="حذف الرسالة">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </li>
+        <% }) %>
+      <% } %>
+    </ul>
+  </div>
+
+  <footer style="margin-top: auto;">
+    <%- include('partials/footer') %>
+  </footer>
+
+  <script>
+    const userId = "<%= userId %>";
+    const messageList = document.getElementById('message-list');
+    const feedbackArea = document.getElementById('feedback-message-area');
+
+    // Function to display feedback messages
+    function displayFeedback(message, type = 'success') {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `feedback-message message-${type}`;
+        messageDiv.textContent = message;
+        feedbackArea.innerHTML = '';
+        feedbackArea.appendChild(messageDiv);
+        messageDiv.style.display = 'block';
+
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 4000);
+    }
+
+    // Handle message deletion
+    if (messageList) {
+        messageList.addEventListener('click', async (event) => {
+            const deleteButton = event.target.closest('button.delete-btn');
+            const messageItem = event.target.closest('li.message-item');
+
+            if (deleteButton) {
+                event.stopPropagation();
+                const messageId = deleteButton.dataset.messageId;
+
+                if (!confirm('هل أنت متأكد من حذف هذه الرسالة؟')) return;
+
+                try {
+                    const response = await fetch(`/messages/delete/${messageId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        if (messageItem) {
+                            messageItem.classList.add('fade-out');
+                            setTimeout(() => messageItem.remove(), 300);
+                        }
+                        displayFeedback('تم حذف الرسالة بنجاح.', 'success');
+                        
+                        // Check if list is empty now
+                        if (messageList.querySelectorAll('li.message-item').length === 1) { // 1 because we haven't removed yet
+                            messageList.innerHTML = `
+                              <div class="empty-state">
+                                <div class="empty-icon">
+                                  <i class="fas fa-envelope-open-text"></i>
+                                </div>
+                                <p class="empty-text">لا توجد رسائل جديدة</p>
+                              </div>
+                            `;
+                        }
+                    } else {
+                        throw new Error(result.error || 'فشل حذف الرسالة.');
+                    }
+                } catch (error) {
+                    console.error('Error deleting message:', error);
+                    displayFeedback(error.message || 'حدث خطأ أثناء محاولة الحذف.', 'error');
+                }
+            } else if (messageItem && event.target.closest('.message-content')) {
+                // Handle navigation if the click was on message content
+                const senderId = messageItem.dataset.senderId;
+                if (senderId) {
+                    window.location.href = `/chat/${senderId}`;
+                }
+            }
+        });
+    }
+
+    // Handle delete all messages
+    const deleteAllForm = document.getElementById('delete-all-messages-form');
+    if (deleteAllForm) {
+        deleteAllForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!confirm('هل أنت متأكد من حذف جميع الرسائل؟ هذا الإجراء لا يمكن التراجع عنه.')) return;
+
+            const button = deleteAllForm.querySelector('button');
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحذف...';
+
+            try {
+                const response = await fetch('/messages/delete-all', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    messageList.innerHTML = `
+                      <div class="empty-state">
+                        <div class="empty-icon">
+                          <i class="fas fa-envelope-open-text"></i>
+                        </div>
+                        <p class="empty-text">لا توجد رسائل جديدة</p>
+                      </div>
+                    `;
+                    displayFeedback('تم حذف جميع الرسائل بنجاح.', 'success');
+                } else {
+                    throw new Error(result.error || 'فشل حذف جميع الرسائل.');
+                }
+            } catch (error) {
+                console.error('Error deleting all messages:', error);
+                displayFeedback(error.message || 'حدث خطأ أثناء محاولة حذف الكل.', 'error');
+            } finally {
+                 button.disabled = false;
+                 button.innerHTML = '<i class="fas fa-trash"></i> حذف الكل';
+            }
+        });
+    }
+
+    // Mark messages as read when page loads
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const unreadMessages = document.querySelectorAll('.message-item.unread');
+        if (unreadMessages.length > 0) {
+          await fetch('/messages/mark-as-read', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          // Update UI
+          unreadMessages.forEach(msg => msg.classList.remove('unread'));
+        }
+      } catch (error) {
+        console.error('Error marking messages as read:', error);
+      }
+    });
+  </script>
+</body>
+</html>

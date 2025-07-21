@@ -1,0 +1,110 @@
+:root {
+  /* ===== الألوان الأساسية ===== */
+  --color-primary: #FF6B00;
+  --color-primary-light: #FF8A3D;
+  --color-primary-dark: #E05A00;
+  
+  --color-secondary: #404249;
+  --color-secondary-light: #676A77;
+  --color-secondary-dark: #18181B;
+  
+  /* ===== ألوان الخلفية ===== */
+  --color-bg-main: #303136;
+  --color-bg-light: #A9ABB0;
+  --color-bg-dark: #18181B;
+  --color-bg-menu: #404249;
+  
+  /* ===== ألوان النص ===== */
+  --color-text-light: #FEFFFF;
+  --color-text-dark: #303136;
+  --color-text-muted: #A9ABB0;
+  
+  /* ===== ألوان الحالة ===== */
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-danger: #a00;
+  --color-info: #17a2b8;
+  
+  /* ===== ألوان التفاعل ===== */
+  --color-hover: #ffffff55;
+  --color-active: #875E88;
+  
+  /* ===== الخطوط ===== */
+  --font-family-primary: 'Cairo', sans-serif;
+  --font-family-secondary: sans-serif;
+  
+  /* ===== أحجام الخطوط ===== */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-md: 1.125rem;   /* 18px */
+  --font-size-lg: 1.25rem;    /* 20px */
+  --font-size-xl: 1.5rem;     /* 24px */
+  --font-size-2xl: 1.75rem;   /* 28px */
+  --font-size-3xl: 2rem;      /* 32px */
+  
+  /* ===== أوزان الخطوط ===== */
+  --font-weight-normal: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 700;
+  
+  /* ===== التباعد ===== */
+  --spacing-xs: 0.25rem;      /* 4px */
+  --spacing-sm: 0.5rem;       /* 8px */
+  --spacing-md: 0.75rem;      /* 12px */
+  --spacing-base: 1rem;       /* 16px */
+  --spacing-lg: 1.25rem;      /* 20px */
+  --spacing-xl: 1.5rem;       /* 24px */
+  --spacing-2xl: 2rem;        /* 32px */
+  --spacing-3xl: 2.5rem;      /* 40px */
+  
+  /* ===== الحدود ===== */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-full: 50%;
+  
+  /* ===== الظلال ===== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-highlight: 0 0 10px var(--color-hover);
+  
+  /* ===== الانتقالات ===== */
+  --transition-fast: 0.3s;
+  --transition-normal: 0.5s;
+  --transition-slow: 0.9s;
+  
+  /* ===== نقاط الكسر للتصميم المتجاوب ===== */
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  
+  /* ===== أبعاد العناصر ===== */
+  --header-height: 70px;
+  --sidebar-width: 70px;
+  --sidebar-width-expanded: 260px;
+  --avatar-size-sm: 30px;
+  --avatar-size-md: 50px;
+  --avatar-size-lg: 80px;
+  
+  /* ===== الحاويات ===== */
+  --container-padding: var(--spacing-base);
+  --card-padding: var(--spacing-lg);
+}
+
+/* ===== قواعد الطباعة ===== */
+@media print {
+  :root {
+    --color-bg-main: #ffffff;
+    --color-text-light: #000000;
+  }
+}
+
+/* ===== الوضع المظلم (للتوسع المستقبلي) ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* يمكن تعديل المتغيرات هنا للوضع المظلم إذا كان مطلوباً */
+  }
+}

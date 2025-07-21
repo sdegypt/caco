@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إحصائيات المستخدمين - اعملها براك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin-statistics.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+      <!-- القائمة العلوية -->
+      <nav class="top-nav">
+        <a href="/forum" class="back-button"><i class="fas fa-arrow-right"></i> العودة إلى المنصة</a>
+        <span class="logo-text">اعملها براك</span>
+    </nav>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>إحصائيات المستخدمين</h1>
+            <p>عرض بيانات وتحليلات المستخدمين بشكل مرئي</p>
+        </header>
+
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>إجمالي المستخدمين</h3>
+                    <p><%= totalUsers %></p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-check"></i>
+                    <h3>المستخدمون النشطون الآن</h3>
+                    <p><%= activeUsersNow %></p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-plus"></i>
+                    <h3>المستخدمون الجدد اليوم</h3>
+                    <p><%= newUsersToday %></p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-plus"></i>
+                    <h3>المستخدمون الجدد هذا الشهر</h3>
+                    <p><%= newUsersThisMonth %></p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-slash"></i>
+                    <h3>المستخدمون المحظورون</h3>
+                    <p><%= blockedUsers %></p>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h2>عدد المستخدمين حسب الشهر</h2>
+                    <canvas id="usersByMonthChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>توزيع المستخدمين حسب الجنس</h2>
+                    <canvas id="usersByGenderChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>توزيع المستخدمين حسب البلد</h2>
+                    <canvas id="usersByCountryChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>توزيع المستخدمين حسب العمر</h2>
+                    <canvas id="usersByAgeChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // تعيين البيانات من EJS إلى JavaScript مع التأكد من التنسيق الصحيح
+        let months, usersPerMonth, genderData, countryData, ageData;
+        try { months = JSON.parse('<%- JSON.stringify(months) %>'); } catch(e) { months = []; }
+        try { usersPerMonth = JSON.parse('<%- JSON.stringify(usersPerMonth) %>'); } catch(e) { usersPerMonth = []; }
+        try { genderData = JSON.parse('<%- JSON.stringify(genderData) %>'); } catch(e) { genderData = []; }
+        try { countryData = JSON.parse('<%- JSON.stringify(countryData) %>'); } catch(e) { countryData = []; }
+        try { ageData = JSON.parse('<%- JSON.stringify(ageData) %>'); } catch(e) { ageData = []; }
+
+        // التحقق من البيانات وتعيين قيم افتراضية إذا كانت فارغة
+        const monthLabels = months && months.length > 0 ? months : ['لا توجد بيانات'];
+        const monthData = usersPerMonth && usersPerMonth.length > 0 ? usersPerMonth : [0];
+        const genderLabels = ['ذكور', 'إناث'];
+        const genderCounts = genderData && genderData.length > 0 ? [genderData[0].male || 0, genderData[0].female || 0] : [0, 0];
+        const countryLabels = countryData && countryData.length > 0 ? countryData.map(d => d.country) : ['لا توجد بيانات'];
+        const countryCounts = countryData && countryData.length > 0 ? countryData.map(d => d.count) : [0];
+        const ageLabels = ageData && ageData.length > 0 ? ageData.map(d => d.age_range) : ['لا توجد بيانات'];
+        const ageCounts = ageData && ageData.length > 0 ? ageData.map(d => d.count) : [0];
+
+        // رسم بياني لعدد المستخدمين حسب الشهر
+        const ctxMonth = document.getElementById('usersByMonthChart').getContext('2d');
+        const usersByMonthChart = new Chart(ctxMonth, {
+            type: 'bar',
+            data: {
+                labels: monthLabels,
+                datasets: [{
+                    label: 'عدد المستخدمين',
+                    data: monthData,
+                    backgroundColor: 'rgba(107, 72, 255, 0.6)',
+                    borderColor: 'rgba(107, 72, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'عدد المستخدمين' } },
+                    x: { title: { display: true, text: 'الشهر' } }
+                },
+                plugins: { legend: { display: true, position: 'top' } }
+            }
+        });
+
+        // رسم بياني لتوزيع المستخدمين حسب الجنس
+        const ctxGender = document.getElementById('usersByGenderChart').getContext('2d');
+        const usersByGenderChart = new Chart(ctxGender, {
+            type: 'pie',
+            data: {
+                labels: genderLabels,
+                datasets: [{
+                    label: 'توزيع الجنس',
+                    data: genderCounts,
+                    backgroundColor: ['rgba(107, 72, 255, 0.6)', 'rgba(255, 105, 180, 0.6)'],
+                    borderColor: ['rgba(107, 72, 255, 1)', 'rgba(255, 105, 180, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: { legend: { display: true, position: 'top' } }
+            }
+        });
+
+        // رسم بياني لتوزيع المستخدمين حسب البلد
+        const ctxCountry = document.getElementById('usersByCountryChart').getContext('2d');
+        const usersByCountryChart = new Chart(ctxCountry, {
+            type: 'bar',
+            data: {
+                labels: countryLabels,
+                datasets: [{
+                    label: 'عدد المستخدمين',
+                    data: countryCounts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'عدد المستخدمين' } },
+                    x: { title: { display: true, text: 'البلد' } }
+                },
+                plugins: { legend: { display: true, position: 'top' } }
+            }
+        });
+
+        // رسم بياني لتوزيع المستخدمين حسب العمر
+        const ctxAge = document.getElementById('usersByAgeChart').getContext('2d');
+        const usersByAgeChart = new Chart(ctxAge, {
+            type: 'bar',
+            data: {
+                labels: ageLabels,
+                datasets: [{
+                    label: 'عدد المستخدمين',
+                    data: ageCounts,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'عدد المستخدمين' } },
+                    x: { title: { display: true, text: 'الفئة العمرية' } }
+                },
+                plugins: { legend: { display: true, position: 'top' } }
+            }
+        });
+    </script>
+    
+    <!-- الفوتر -->
+    <footer class="dashboard-footer">
+        <p>© 2025 اعملها براك - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <!-- CSS للقائمة والفوتر -->
+    <style>
+        /* تنسيق القائمة العلوية */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6c5ce7, #8e7bff);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .logo-text {
+            font-family: "Tajawal", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c5ce7;
+        }
+
+        /* تنسيق الفوتر */
+        .dashboard-footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .dashboard-footer p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #2d3748;
+        }
+    </style>
+</body>
+
+</html>

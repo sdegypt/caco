@@ -1,0 +1,219 @@
+/* ===== تحسين الأداء وتحميل الصور ===== */
+@import url('/css/variables.css');
+
+/* ===== تحسين تحميل الصور ===== */
+/* تطبيق تقنيات التحميل المتأخر للصور */
+.lazy-image {
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.lazy-image.loaded {
+  opacity: 1;
+}
+
+/* ===== تحسين تحميل الخلفيات ===== */
+.lazy-background {
+  background-image: none !important;
+  background-color: var(--color-bg-light);
+  transition: background-image var(--transition-normal);
+}
+
+/* ===== مؤشرات التحميل ===== */
+.image-placeholder {
+  background-color: var(--color-bg-light);
+  position: relative;
+  overflow: hidden;
+}
+
+.image-placeholder::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ===== تحسين تحميل الخطوط ===== */
+/* منع تغير تخطيط النص أثناء تحميل الخطوط */
+.font-loaded {
+  font-family: var(--font-family-primary);
+}
+
+.font-loading {
+  font-family: sans-serif;
+}
+
+/* ===== تحسين تحميل الصور الخلفية ===== */
+.progressive-background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: filter var(--transition-normal);
+}
+
+.progressive-background.loading {
+  filter: blur(10px) brightness(0.8);
+  background-size: cover;
+}
+
+/* ===== تحسين تحميل المحتوى ===== */
+.content-loading {
+  min-height: 100px;
+  position: relative;
+}
+
+.content-loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-light);
+  opacity: 0.7;
+}
+
+/* ===== تحسين تحميل الصور في المعرض ===== */
+.gallery-image {
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+}
+
+.gallery-image.loading {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* ===== تحسين تحميل الأيقونات ===== */
+.icon-placeholder {
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-bg-light);
+  border-radius: var(--border-radius-sm);
+}
+
+/* ===== تحسين تحميل الصور في البطاقات ===== */
+.card-image-container {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg-light);
+}
+
+/* ===== تحسين تحميل الصور في الملف الشخصي ===== */
+.profile-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--border-radius-full);
+  background-color: var(--color-bg-light);
+}
+
+/* ===== تحسين تحميل الصور في المقالات ===== */
+.article-image {
+  max-width: 100%;
+  height: auto;
+  transition: opacity var(--transition-normal);
+}
+
+.article-image.loading {
+  opacity: 0;
+}
+
+/* ===== تحسين تحميل الفيديو ===== */
+.video-placeholder {
+  position: relative;
+  background-color: var(--color-bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-placeholder::before {
+  content: "\f144";
+  font-family: "Font Awesome 6 Free";
+  font-size: 48px;
+  color: var(--color-text-light);
+  opacity: 0.7;
+}
+
+/* ===== تحسين تحميل المحتوى الديناميكي ===== */
+.dynamic-content.loading {
+  min-height: 200px;
+  position: relative;
+}
+
+.dynamic-content.loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-light);
+  opacity: 0.7;
+}
+
+/* ===== تحسين تحميل الصور في القوائم ===== */
+.list-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-bg-light);
+}
+
+/* ===== تحسين تحميل الصور في الشبكة ===== */
+.grid-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  transition: opacity var(--transition-normal);
+}
+
+.grid-image.loading {
+  opacity: 0;
+}
+
+/* ===== تحسين تحميل الصور في المنتجات ===== */
+.product-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  background-color: white;
+  transition: opacity var(--transition-normal);
+}
+
+.product-image.loading {
+  opacity: 0;
+}
+
+/* ===== تحسين تحميل الصور في الخلفيات ===== */
+.hero-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  background-color: var(--color-bg-light);
+}
+
+/* ===== تحسين تحميل الصور في الشرائح ===== */
+.slider-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity var(--transition-normal);
+}
+
+.slider-image.loading {
+  opacity: 0;
+}

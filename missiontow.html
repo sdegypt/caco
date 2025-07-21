@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حدث DIY الأول</title>
+  
+  <!-- CDN مخفف للتحميل السريع -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --secondary: #FFA630;
+      --accent: #FFE045;
+      --dark: #2A2D34;
+      --light: #F8F7FF;
+      --fire-1: #FF4500;
+      --fire-2: #FF8C00;
+      --fire-3: #FFD700;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', sans-serif;
+    }
+    
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: radial-gradient(circle at 10% 20%, rgba(255,214,171,0.2) 0%, transparent 20%);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 1.5rem;
+      color: white;
+      position: relative;
+      text-align: center;
+    }
+    
+    .card-header::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      right: 0;
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(to bottom right, transparent 49%, white 50%);
+    }
+
+    .card-body {
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.2rem);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      right: 0;
+      width: 60%;
+      height: 3px;
+      background: linear-gradient(to right, var(--accent), transparent);
+    }
+
+    .intro-text {
+      font-size: clamp(1rem, 3vw, 1.1rem);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .chest-container {
+      position: relative;
+      width: clamp(120px, 30vw, 180px);
+      height: clamp(120px, 30vw, 180px);
+      margin: 1.5rem auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .chest {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .chest:hover {
+      transform: scale(1.1) rotate(-5deg);
+    }
+    
+    .sparkle {
+      position: absolute;
+      font-size: clamp(18px, 4vw, 24px);
+      color: var(--fire-3);
+      opacity: 0;
+      animation: sparkleAnim 2s infinite;
+      filter: drop-shadow(0 0 5px var(--fire-1));
+      will-change: transform, opacity;
+    }
+    
+    .questions {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .questions.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    
+    .form-group.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    label {
+      font-weight: 700;
+      color: var(--dark);
+      font-size: clamp(0.95rem, 3vw, 1.05rem);
+      display: block;
+      margin-bottom: 0.8rem;
+      position: relative;
+      padding-right: 1.5rem;
+    }
+    
+    label::before {
+      content: "•";
+      position: absolute;
+      right: 0;
+      color: var(--primary);
+      font-size: 1.5rem;
+      line-height: 0;
+    }
+    
+    textarea, select {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid rgba(0,0,0,0.1);
+      border-radius: 12px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    textarea:focus, select:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+    }
+    
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 1.8rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: clamp(1rem, 3vw, 1.1rem);
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      margin: 1.5rem auto;
+      width: 100%;
+      max-width: 300px;
+      will-change: transform;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255,107,53,0.4);
+    }
+    
+    .btn i {
+      margin-left: 0.5rem;
+    }
+    
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+    
+    .btn:hover::after {
+      transform: translateX(100%);
+    }
+
+    .success {
+      background: rgba(76, 175, 80, 0.1);
+      color: #2E7D32;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 700;
+      display: none;
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      border-right: 4px solid #4CAF50;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .success.show {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    .success i {
+      margin-left: 0.5rem;
+    }
+    
+    /* شارة نارية */
+    .fire-badge {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, var(--fire-1), var(--fire-2));
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-left: 0.5rem;
+      box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+    }
+    
+    .fire-badge i {
+      margin-left: 0.3rem;
+    }
+
+    /* Animations */
+    @keyframes sparkleAnim {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(0.5); }
+    }
+
+    /* تحسينات للشاشات الصغيرة */
+    @media (max-width: 768px) {
+      .card-body {
+        padding: 1.5rem;
+      }
+      
+      .chest-container {
+        margin: 1rem auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 0.5rem;
+      }
+      
+      .card-header {
+        padding: 1rem;
+      }
+      
+      textarea {
+        min-height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1>
+        <span class="fire-badge">
+          <i class="fas fa-fire"></i> جديد!
+        </span> 
+        حدث DIY الأول
+      </h1>
+      <p class="intro-text">شاركنا رأيك بأربع أسئلة بسيطة وساعدنا في بناء منصة تليق بالمبدعين العرب 👇</p>
+    </div>
+    
+    <div class="card-body">
+      <div class="chest-container" id="chestContainer">
+        <img src="https://cdn-icons-png.flaticon.com/512/679/679821.png" alt="صندوق الكنز" class="chest" id="openChest">
+        <i class="fas fa-star sparkle" style="top: 20%; right: 30%;"></i>
+        <i class="fas fa-star sparkle" style="top: 60%; right: 70%; animation-delay: 0.3s;"></i>
+        <i class="fas fa-star sparkle" style="top: 40%; right: 10%; animation-delay: 0.6s;"></i>
+      </div>
+
+      <div class="questions" id="questionsBox">
+        <form id="feedbackForm">
+          <div class="form-group" id="q1Group">
+            <label for="q1">لو معاك عصا سحرية، شنو الميزة أو الشي اللي تتمنى تلقاه في منصة DIY؟</label>
+            <textarea id="q1" name="q1" placeholder="أتمنى وجود..." required></textarea>
+          </div>
+
+          <div class="form-group" id="q2Group">
+            <label for="q2">كنت بتدور على شي معيّن؟ أو دخلت من باب الفضول؟</label>
+            <textarea id="q2" name="q2" placeholder="دخلت لأن..." required></textarea>
+          </div>
+
+          <div class="form-group" id="q3Group">
+            <label for="q3">في رأيك، شنو أكبر عيب في المنصات اللي جربتها قبل؟</label>
+            <textarea id="q3" name="q3" placeholder="واجهت مشكلة مع..." required></textarea>
+          </div>
+
+          <div class="form-group" id="q4Group">
+            <label for="q4">تتوقع كيف ممكن DIY تساعدك فعلاً؟</label>
+            <select id="q4" name="q4" required>
+              <option value="">اختر إجابة</option>
+              <option value="ألاقي شغل أو فرص">ألاقي شغل أو فرص</option>
+              <option value="أبيع شغلي بدون مشاكل">أبيع شغلي بدون مشاكل</option>
+              <option value="أتعلم من ناس فاهمة">أتعلم من ناس فاهمة</option>
+              <option value="أتعرف على مبدعين زَيّي">أتعرف على مبدعين زَيّي</option>
+              <option value="أخرى">أخرى (حدد في التعليقات)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn" id="submitBtn">
+            <i class="fas fa-paper-plane"></i> إرسال الردود
+          </button>
+        </form>
+        <div class="success" id="successMsg">
+          <i class="fas fa-check-circle"></i> شكرًا لك! رأيك قيم وسيساعدنا في تحسين المنصة.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- مكتبات JavaScript مخففة -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const chest = document.getElementById('openChest');
+    const chestContainer = document.getElementById('chestContainer');
+    const questionsBox = document.getElementById('questionsBox');
+    const formGroups = document.querySelectorAll('.form-group');
+    const feedbackForm = document.getElementById('feedbackForm');
+    const successMsg = document.getElementById('successMsg');
+    const sparkles = document.querySelectorAll('.sparkle');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // افتتاح الصندوق
+    chestContainer.addEventListener('click', function() {
+      // تأثير اهتزاز الصندوق
+      chest.style.transform = 'translateY(-10px) rotate(-5deg)';
+      chest.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+      
+      setTimeout(() => {
+        chest.style.transform = 'translateY(0) rotate(0) scale(0)';
+        chest.style.opacity = '0';
+        
+        // إظهار النجوم المتلألئة
+        sparkles.forEach((sparkle, index) => {
+          setTimeout(() => {
+            sparkle.style.opacity = '1';
+            sparkle.style.transform = 'scale(1.5)';
+            
+            setTimeout(() => {
+              sparkle.style.opacity = '0';
+              sparkle.style.transform = 'scale(0.5)';
+            }, 700);
+          }, index * 200);
+        });
+        
+        // إظهار الأسئلة
+        setTimeout(() => {
+          questionsBox.classList.add('show');
+          
+          // إظهار الأسئلة واحدًا تلو الآخر
+          formGroups.forEach((group, index) => {
+            setTimeout(() => {
+              group.classList.add('show');
+            }, index * 100);
+          });
+        }, 500);
+      }, 500);
+    });
+    
+    // إرسال النموذج
+    feedbackForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // تأثير اهتزاز الزر
+      submitBtn.style.transform = 'translateX(-3px)';
+      let count = 0;
+      const shakeInterval = setInterval(() => {
+        submitBtn.style.transform = submitBtn.style.transform === 'translateX(-3px)' ? 
+          'translateX(3px)' : 'translateX(-3px)';
+        count++;
+        
+        if(count === 6) {
+          clearInterval(shakeInterval);
+          submitBtn.style.transform = 'translateX(0)';
+          
+          // إخفاء النموذج وإظهار رسالة النجاح
+          feedbackForm.style.opacity = '0';
+          feedbackForm.style.transform = 'translateY(-10px)';
+          
+          setTimeout(() => {
+            feedbackForm.style.display = 'none';
+            successMsg.classList.add('show');
+            
+            // إنشاء تأثير الكونفيتي
+            createConfetti();
+          }, 400);
+        }
+      }, 50);
+    });
+    
+    // دالة إنشاء الكونفيتي
+    function createConfetti() {
+      const colors = ['#FF6B35', '#FFA630', '#FFE045', '#4CAF50', '#2196F3'];
+      
+      for(let i = 0; i < 20; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = (Math.random() * 8 + 4) + 'px';
+        confetti.style.height = (Math.random() * 8 + 4) + 'px';
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        
+        document.body.appendChild(confetti);
+        
+        // تحريك الكونفيتي
+        const duration = Math.random() * 2 + 1;
+        const delay = Math.random() * 0.5;
+        
+        setTimeout(() => {
+          confetti.style.opacity = '1';
+          confetti.style.transform = 'translateY(100vh) rotate(' + (Math.random() * 360) + 'deg)';
+          confetti.style.transition = 'all ' + duration + 's linear';
+          
+          // إزالة الكونفيتي بعد الانتهاء
+          setTimeout(() => {
+            confetti.remove();
+          }, duration * 1000);
+        }, delay * 1000);
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

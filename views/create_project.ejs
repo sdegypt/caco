@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إضافة مشروع</title>
+  <!-- استيراد خط "Cairo" -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+  :root {
+      --primary-color: #6c5ce7;
+      --secondary-color: #a29bfe;
+      --accent-color: #ff7675;
+      --background-color: #f8f8f8;
+      --card-bg: #fff;
+      --text-color: #2d3436;
+      --border-radius: 16px;
+      --transition: 0.4s ease;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Cairo", sans-serif;
+   
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.8;
+     
+    }
+
+   
+    .container {
+    
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2.2rem;
+      transition: box-shadow var(--transition);
+      direction: rtl;
+    }
+
+    .container:hover {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .intro p {
+      font-size: 1.2rem;
+      color: var(--text-color);
+      text-align: center;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section h2 {
+      font-size: 1.6rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .tips {
+      background-color: #f0f2ff;
+      border-right: 4px solid var(--primary-color);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .tips ul {
+      list-style: disc;
+      margin-right: 1.5rem;
+    }
+
+    .tips li {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-color);
+    }
+
+    .error-message {
+      background-color: #fee2e2;
+      color: #c62828;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .success-message {
+      background-color: #d4f4e2;
+      color: #2e7d32;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      font-size: 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 8px rgba(108, 92, 231, 0.2);
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    input[type="number"] {
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color var(--transition), transform var(--transition);
+      align-self: center;
+    }
+
+    button:hover {
+      background-color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .intro p {
+        font-size: 1rem;
+      }
+
+      .section h2 {
+        font-size: 1.4rem;
+      }
+
+      .tips li {
+        font-size: 1rem;
+      }
+
+      label {
+        font-size: 1.1rem;
+      }
+
+      button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<%- include('partials/headerhome') %>
+<%- include('partials/headeraction') %>
+
+<body>
+<br>
+  <div class="container">
+    <div class="intro">
+      <h1>إضافة مشروع</h1>
+      <p>ابدأ بإنجاز مشروعك</p>
+    </div>
+
+    <section class="section">
+      <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+        <div class="error-message"><%= errorMessage %></div>
+      <% } %>
+      <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+        <div class="success-message"><%= successMessage %></div>
+      <% } %>
+
+      <div class="tips">
+        <h2>نصائح للحصول على عمل ناجح</h2>
+        <ul>
+          <li>وضح جميع التفاصيل والمهام المطلوب إنجازها</li>
+          <li>املأ جميع الحقول ووفّر أمثلة لما تريد تنفيذه</li>
+          <li>جزّء المشروع والمهام الكبيرة على عدة مراحل صغيرة</li>
+        </ul>
+      </div>
+
+      <form action="/projects/create" method="POST">
+        <div class="form-group">
+          <label for="projectTitle">عنوان المشروع *</label>
+          <input 
+            type="text" 
+            id="projectTitle" 
+            name="projectTitle" 
+            value="<%= typeof projectData !== 'undefined' && projectData.projectTitle ? projectData.projectTitle : '' %>" 
+            required 
+          />
+        </div>
+        <div class="form-group">
+          <label for="manualDescription">وصف المشروع *</label>
+          <textarea 
+            id="manualDescription" 
+            name="manualDescription" 
+            required
+          ><%= typeof projectData !== 'undefined' && projectData.manualDescription ? projectData.manualDescription : '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label for="budget">الميزانية ($) *</label>
+          <input 
+            type="number" 
+            id="budget" 
+            name="budget" 
+            min="1" 
+            step="0.01" 
+            value="<%= typeof projectData !== 'undefined' && projectData.budget ? projectData.budget : '' %>" 
+            required 
+          />
+        </div>
+        <div class="form-group">
+          <label for="duration">مدة التنفيذ (بالأيام) *</label>
+          <input 
+            type="number" 
+            id="duration" 
+            name="duration" 
+            min="1" 
+            value="<%= typeof projectData !== 'undefined' && projectData.duration ? projectData.duration : '' %>" 
+            required 
+          />
+        </div>
+        <button type="submit">نشر المشروع</button>
+      </form>
+    </section>
+  </div>
+
+  <footer style="margin-top: 20vh">
+    <%- include('partials/footer') %>
+  </footer>
+</body>
+</html>

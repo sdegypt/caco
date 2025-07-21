@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة الوظائف والإشعارات - تجريبي</title>
+    
+    <!-- الخطوط العربية -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- ملفات CSS -->
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="public/css/mobile-notification-system.css">
+    <link rel="stylesheet" href="public/css/ad-blocker.css">
+    
+    <!-- تعطيل الكونسول أولاً -->
+    <script src="public/js/global-console-cleaner.js"></script>
+    <script src="public/js/console-disabler.js"></script>
+</head>
+<body>
+    <!-- إعلان ثابت وهمي (سيتم إخفاؤه) -->
+    <div class="fixed-ad" style="position: fixed; top: 0; left: 0; right: 0; background: red; height: 50px; z-index: 1000;">
+        إعلان ثابت - يجب أن يختفي
+    </div>
+    
+    <!-- إعلان آخر وهمي -->
+    <div class="banner-ad" style="width: 728px; height: 90px; background: blue; margin: 20px auto;">
+        إعلان بانر - يجب أن يختفي
+    </div>
+
+    <!-- الهيدر -->
+    <header class="site-header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="navbar-brand">
+                    اعملها براك
+                </div>
+                <ul class="navbar-nav">
+                    <li><a href="#" class="nav-link active">الرئيسية</a></li>
+                    <li><a href="#" class="nav-link">الوظائف</a></li>
+                    <li><a href="#" class="nav-link">المشاريع</a></li>
+                    <li><a href="#" class="nav-link">المتجر</a></li>
+                    <li><a href="#" class="nav-link">تواصل معنا</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <div class="container">
+            <section class="hero-section" style="text-align: center; padding: 60px 0; background: linear-gradient(135deg, #6B48FF, #A78BFA); color: white; border-radius: 12px; margin-bottom: 40px;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 20px; font-family: 'Tajawal', sans-serif;">مرحباً بك في منصة اعملها براك</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 30px;">منصة المبدعين العرب للتصنيع الذاتي والإبداع</p>
+                <button class="btn btn-secondary btn-lg">ابدأ رحلتك الآن</button>
+            </section>
+
+            <!-- إعلان مدمج (سيتم إخفاؤه) -->
+            <div class="content-ad" style="background: yellow; padding: 20px; margin: 20px 0; text-align: center;">
+                إعلان مدمج في المحتوى - يجب أن يختفي
+            </div>
+
+            <!-- قسم الوظائف -->
+            <section class="jobs-section">
+                <h2 style="text-align: center; margin-bottom: 40px; color: #6B48FF; font-family: 'Tajawal', sans-serif;">أحدث الوظائف المتاحة</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <!-- بطاقة وظيفة 1 -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">مطور ويب متقدم</h3>
+                            <p class="card-text">نبحث عن مطور ويب متقدم للانضمام إلى فريقنا المتميز. خبرة في React و Node.js مطلوبة.</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                                <span class="badge badge-primary">دوام كامل</span>
+                                <span style="color: #28a745; font-weight: bold;">$3000 - $5000</span>
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%; margin-top: 15px;">تقدم للوظيفة</button>
+                        </div>
+                    </div>
+
+                    <!-- بطاقة وظيفة 2 -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">مصمم جرافيك إبداعي</h3>
+                            <p class="card-text">فرصة رائعة للمصممين المبدعين. نحتاج لمصمم جرافيك محترف للعمل على مشاريع متنوعة.</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                                <span class="badge badge-secondary">عمل حر</span>
+                                <span style="color: #28a745; font-weight: bold;">$2000 - $4000</span>
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%; margin-top: 15px;">تقدم للوظيفة</button>
+                        </div>
+                    </div>
+
+                    <!-- بطاقة وظيفة 3 -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">كاتب محتوى متخصص</h3>
+                            <p class="card-text">نبحث عن كاتب محتوى متخصص في التقنية والإبداع. قدرة على الكتابة باللغة العربية والإنجليزية.</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                                <span class="badge badge-success">عن بُعد</span>
+                                <span style="color: #28a745; font-weight: bold;">$1500 - $3000</span>
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%; margin-top: 15px;">تقدم للوظيفة</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- إعلان جانبي (سيتم إخفاؤه) -->
+            <div class="sidebar-ad" style="width: 300px; height: 250px; background: green; margin: 20px auto; text-align: center; line-height: 250px;">
+                إعلان جانبي - يجب أن يختفي
+            </div>
+
+            <!-- قسم الإشعارات -->
+            <section class="notifications-section" style="margin-top: 60px;">
+                <h2 style="text-align: center; margin-bottom: 40px; color: #6B48FF; font-family: 'Tajawal', sans-serif;">مركز الإشعارات</h2>
+                
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <!-- إشعار 1 -->
+                    <div class="alert alert-success">
+                        <strong>تهانينا!</strong> تم قبول طلبك للوظيفة بنجاح. سيتم التواصل معك قريباً.
+                    </div>
+
+                    <!-- إشعار 2 -->
+                    <div class="alert alert-info">
+                        <strong>تحديث جديد:</strong> تم إضافة 15 وظيفة جديدة في مجال التقنية. تصفح الآن!
+                    </div>
+
+                    <!-- إشعار 3 -->
+                    <div class="alert alert-warning">
+                        <strong>تذكير:</strong> لديك 3 رسائل غير مقروءة في صندوق الوارد.
+                    </div>
+                </div>
+
+                <!-- أزرار تجريبية للإشعارات -->
+                <div style="text-align: center; margin-top: 30px;">
+                    <button onclick="showCustomNotification('success')" class="btn btn-outline-primary" style="margin: 5px;">إشعار نجاح</button>
+                    <button onclick="showCustomNotification('warning')" class="btn btn-outline-primary" style="margin: 5px;">إشعار تحذير</button>
+                    <button onclick="showCustomNotification('error')" class="btn btn-outline-primary" style="margin: 5px;">إشعار خطأ</button>
+                    <button onclick="showCustomNotification('info')" class="btn btn-outline-primary" style="margin: 5px;">إشعار معلومات</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- إعلان ثابت في الأسفل (سيتم إخفاؤه) -->
+    <div class="fixed-bottom-ad" style="position: fixed; bottom: 0; left: 0; right: 0; background: orange; height: 60px; z-index: 1000; text-align: center; line-height: 60px;">
+        إعلان ثابت في الأسفل - يجب أن يختفي
+    </div>
+
+    <!-- الفوتر -->
+    <footer class="site-footer" style="margin-top: 80px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>اعملها براك</h3>
+                    <p>منصة المبدعين العرب للتصنيع الذاتي والإبداع. نساعدك في تحويل أفكارك إلى واقع.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">الوظائف</a></li>
+                        <li><a href="#">المشاريع</a></li>
+                        <li><a href="#">المتجر</a></li>
+                        <li><a href="#">من نحن</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>تواصل معنا</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">البريد الإلكتروني</a></li>
+                        <li><a href="#">الهاتف</a></li>
+                        <li><a href="#">العنوان</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 اعملها براك. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ملفات JavaScript -->
+    <script src="public/js/notification-system.js"></script>
+    
+    <script>
+        // دوال تجريبية للإشعارات المخصصة
+        function showCustomNotification(type) {
+            const messages = {
+                success: 'تم حفظ البيانات بنجاح!',
+                warning: 'تحذير: يرجى مراجعة البيانات المدخلة.',
+                error: 'حدث خطأ أثناء العملية. يرجى المحاولة مرة أخرى.',
+                info: 'معلومة: تم تحديث النظام إلى الإصدار الجديد.'
+            };
+            
+            NotificationSystem.createCustomNotification({
+                message: messages[type] || 'رسالة افتراضية',
+                type: type,
+                duration: 5000
+            });
+        }
+
+        // اختبار إزالة الكونسول
+        console.log('هذه الرسالة يجب ألا تظهر في الكونسول');
+        console.warn('هذا التحذير يجب ألا يظهر');
+        console.error('هذا الخطأ يجب ألا يظهر');
+
+        // اختبار الأداء على الجوال
+        function checkMobileOptimizations() {
+            const isMobile = window.innerWidth <= 767;
+            if (isMobile) {
+                document.body.style.margin = '0';
+                document.body.style.padding = '0';
+            }
+        }
+
+        // تشغيل الفحص عند تحميل الصفحة وتغيير حجم النافذة
+        window.addEventListener('load', checkMobileOptimizations);
+        window.addEventListener('resize', checkMobileOptimizations);
+    </script>
+</body>
+</html>
+

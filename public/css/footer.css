@@ -1,0 +1,133 @@
+/* 
+ * تصميم الفوتر الجديد باستخدام تدرجات برتقالية عصرية
+ * تم تحديث الألوان والتأثيرات البصرية لتعكس هوية بصرية عصرية
+ */
+
+:root {
+  /* تعريف متغيرات الألوان الجديدة بتدرجات برتقالية عصرية */
+  --primary-orange: #ff9f43;
+  --secondary-orange: #ff7f50;
+  --dark-orange: #e67e22;
+  --light-orange: #ffc078;
+  --accent-orange: #ff6b6b;
+  --background-color: #f7f9fc;
+  --card-bg: #ffffff;
+  --text-color: #2d3748;
+  --muted-text: #718096;
+  --border-radius: 14px;
+  --transition: 0.3s ease;
+  --shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  --border-color: #e2e8f0;
+}
+
+
+  footer {
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .copyright-text {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1rem; /* حجم النص متناسق مع التصاميم الأخرى */
+    font-weight: 500;
+  }
+
+  .copyright-text a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .copyright-text a:hover {
+    color: var(--accent-color);
+  }
+
+  .footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0; /* تحسين التباعد */
+    display: flex;
+    justify-content: center;
+    gap: 25px; /* تباعد متناسق */
+  }
+
+  .footer ul li {
+    display: inline;
+  }
+
+  .footer ul li a {
+    color: var(--muted-text);
+    text-decoration: none;
+    font-size: 1rem; /* حجم النص متناسق */
+    font-weight: 500;
+    transition: color var(--transition);
+  }
+
+  .footer ul li a:hover {
+    color: var(--primary-color);
+  }
+
+  .social-icons {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0; /* تباعد متناسق مع الأعلى */
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* تباعد متناسق بين الأيقونات */
+  }
+
+  .social-icons li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+    transition: background-color var(--transition), transform var(--transition);
+  }
+
+  .social-icons li a i {
+    font-size: 1.2rem; /* حجم الأيقونات متناسق */
+  }
+
+  .social-icons li a:hover {
+    background-color: #4682b4; /* اللون الأصلي عند التحويم كما كان في النص */
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    footer {
+      padding: 15px 0;
+    }
+
+    .footer ul {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .social-icons {
+      gap: 15px;
+    }
+
+    .social-icons li a {
+      width: 35px;
+      height: 35px;
+    }
+
+    .social-icons li a i {
+      font-size: 1rem;
+    }
+  }

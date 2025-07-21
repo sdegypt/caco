@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إحصائيات الموقع - اعملها براك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin-site-stats.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+      <!-- القائمة العلوية -->
+      <nav class="top-nav">
+        <a href="/forum" class="back-button"><i class="fas fa-arrow-right"></i> العودة إلى المنصة</a>
+        <span class="logo-text">اعملها براك</span>
+    </nav>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>إحصائيات الموقع</h1>
+            <p>عرض بيانات وتحليلات تقدم الموقع بشكل مرئي</p>
+        </header>
+
+        <section class="charts-section">
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h2>إحصائيات الإعلانات</h2>
+                    <canvas id="adsChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h2>إحصائيات المنتديات</h2>
+                    <canvas id="forumChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h2>إحصائيات المشاريع</h2>
+                    <canvas id="projectsChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h2>إحصائيات الوظائف</h2>
+                    <canvas id="jobsChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // بيانات الرسوم البيانية
+        const adsData = {
+            labels: ['إجمالي الإعلانات', 'أحدث 5 إعلانات'],
+            values: ["<%= totalAds %>", "<%= recentAds %>"]
+        };
+        const forumData = {
+            labels: ['المنشورات', 'التعليقات', 'الإعجابات'],
+            values: ["<%= totalPosts %>", "<%= totalComments %>", "<%= totalLikes %>"]
+        };
+        const projectsData = {
+            labels: ['المشاريع', 'الطلبات', 'النشطة'],
+            values: ["<%= totalProjects %>", "<%= totalProjectRequests %>", "<%= activeProjects %>"]
+        };
+        const jobsData = {
+            labels: ['الوظائف', 'الطلبات', 'الجديدة'],
+            values: ["<%= totalJobs %>", "<%= totalJobApplications %>", "<%= recentJobs %>"]
+        };
+
+        // رسم بياني للإعلانات
+        const adsCtx = document.getElementById('adsChart').getContext('2d');
+        new Chart(adsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: adsData.labels,
+                datasets: [{
+                    data: adsData.values,
+                    backgroundColor: ['rgba(107, 72, 255, 0.8)', 'rgba(255, 159, 64, 0.8)'],
+                    borderColor: ['rgba(107, 72, 255, 1)', 'rgba(255, 159, 64, 1)'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 14, family: 'Cairo' } } },
+                    title: { display: false }
+                }
+            }
+        });
+
+        // رسم بياني للمنتديات
+        const forumCtx = document.getElementById('forumChart').getContext('2d');
+        new Chart(forumCtx, {
+            type: 'bar',
+            data: {
+                labels: forumData.labels,
+                datasets: [{
+                    label: 'المنتديات',
+                    data: forumData.values,
+                    backgroundColor: ['rgba(75, 192, 192, 0.8)', 'rgba(255, 105, 180, 0.8)', 'rgba(54, 162, 235, 0.8)'],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 105, 180, 1)', 'rgba(54, 162, 235, 1)'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'العدد', font: { size: 14, family: 'Cairo' } } },
+                    x: { title: { display: true, text: 'الفئة', font: { size: 14, family: 'Cairo' } } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                }
+            }
+        });
+
+        // رسم بياني للمشاريع
+        const projectsCtx = document.getElementById('projectsChart').getContext('2d');
+        new Chart(projectsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: projectsData.labels,
+                datasets: [{
+                    data: projectsData.values,
+                    backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(75, 192, 192, 0.8)'],
+                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 14, family: 'Cairo' } } },
+                    title: { display: false }
+                }
+            }
+        });
+
+        // رسم بياني للوظائف
+        const jobsCtx = document.getElementById('jobsChart').getContext('2d');
+        new Chart(jobsCtx, {
+            type: 'bar',
+            data: {
+                labels: jobsData.labels,
+                datasets: [{
+                    label: 'الوظائف',
+                    data: jobsData.values,
+                    backgroundColor: ['rgba(255, 159, 64, 0.8)', 'rgba(107, 72, 255, 0.8)', 'rgba(75, 192, 192, 0.8)'],
+                    borderColor: ['rgba(255, 159, 64, 1)', 'rgba(107, 72, 255, 1)', 'rgba(75, 192, 192, 1)'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'العدد', font: { size: 14, family: 'Cairo' } } },
+                    x: { title: { display: true, text: 'الفئة', font: { size: 14, family: 'Cairo' } } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                }
+            }
+        });
+    </script>
+    
+    <!-- الفوتر -->
+    <footer class="dashboard-footer">
+        <p>© 2025 اعملها براك - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <!-- CSS للقائمة والفوتر -->
+    <style>
+        /* تنسيق القائمة العلوية */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6c5ce7, #8e7bff);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .logo-text {
+            font-family: "Tajawal", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c5ce7;
+        }
+
+        /* تنسيق الفوتر */
+        .dashboard-footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .dashboard-footer p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #2d3748;
+        }
+    </style>
+</body>
+</html>

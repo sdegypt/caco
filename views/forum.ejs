@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- تحسين SEO: إضافة وصف وعنوان ديناميكي -->
+  <meta name="description" content="المنتدى الإبداعي على DIY - شارك منشوراتك، اعرض إعلاناتك، وتواصل مع المبدعين." />
+  <meta name="keywords" content="منتدى, DIY, تصميم, إبداع, مشاركات" />
+  <meta name="robots" content="index, follow" />
+  <meta name="googlebot" content="index, follow" />
+  <title>المنتدى | DIY</title>
+
+  <%- include('partials/headerhome') %>
+
+  <!-- تحسين الأداء: إضافة SweetAlert2 مضغوط مع defer -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" media="print" onload="this.media='all'" />
+
+  <!-- تحسين الأداء: تحميل مسبق لصورة المستخدم -->
+  <link rel="preload" href="<%= currentUserAvatar ? (currentUserAvatar.includes('/uploads/avatars/') ? currentUserAvatar : '/uploads/avatars/' + currentUserAvatar) : '/uploads/images/pngwing.com.png' %>" as="image" />
+
+  <!-- Open Graph لتحسين المشاركة على الشبكات الاجتماعية -->
+  <meta property="og:title" content="المنتدى | DIY" />
+  <meta property="og:description" content="المنتدى الإبداعي على DIY - شارك منشوراتك، اعرض إعلاناتك، وتواصل مع المبدعين." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.colorizer.com/forum" />
+  <meta property="og:image" content="<%= currentUserAvatar ? (currentUserAvatar.includes('/uploads/avatars/') ? currentUserAvatar : '/uploads/avatars/' + currentUserAvatar) : '/uploads/images/pngwing.com.png' %>" />
+  <meta property="og:image:alt" content="صورة المستخدم في المنتدى" />
+  <meta property="og:site_name" content="DIY" />
+  <meta property="og:locale" content="ar_AR" />
+
+  <!-- Twitter Card لتحسين المشاركة على تويتر -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="المنتدى | DIY" />
+  <meta name="twitter:description" content="المنتدى الإبداعي على DIY - شارك منشوراتك، اعرض إعلاناتك، وتواصل مع المبدعين." />
+  <meta name="twitter:image" content="<%= currentUserAvatar ? (currentUserAvatar.includes('/uploads/avatars/') ? currentUserAvatar : '/uploads/avatars/' + currentUserAvatar) : '/uploads/images/pngwing.com.png' %>" />
+
+  <!-- تحسين الأداء: إضافة DNS Prefetch و Preconnect -->
+  <link rel="dns-prefetch" href="//www.colorizer.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <!-- تحسين الأمان -->
+  <!-- تحسين الأمان: Content Security Policy موحد -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com 'unsafe-inline'; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://*; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;" />
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload" />
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin" />
+
+  <style>
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      direction: rtl;
+      scroll-behavior: smooth;
+    }
+    body {
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: 'Cairo', 'Tajawal', Arial, sans-serif;
+      background: #f6f8fa;
+      color: #222;
+    }
+    .all {
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 2.5vw;
+      padding: 1vw 1vw 0 1vw;
+      box-sizing: border-box;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .left, .right {
+      width: 10%;
+      border-radius: 18px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      padding: 22px 10px 0 10px;
+      max-height: 82vh;
+      overflow-y: auto;
+      transition: box-shadow 0.2s, transform 0.2s;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    .left:hover, .right:hover {
+      box-shadow: 0 6px 32px rgba(255,107,53,0.10);
+      transform: translateY(-3px) scale(1.01);
+    }
+    .center {
+      width: 80%;
+      background: none !important;
+      border-radius: 18px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      padding: 24px 22px 0 22px;
+      max-height: 88vh;
+      overflow-y: auto;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    @media (max-width: 1100px) {
+      .all { flex-direction: column; gap: 0; padding: 0 0 0 0; }
+      .left, .right, .center { width: 100%; max-width: 100%; border-radius: 0; box-shadow: none; padding: 18px 8px 0 8px; }
+      .center { padding-top: 18px; }
+    }
+    @media (max-width: 768px) {
+      .left, .right { display: none; }
+      .center { width: 100%; border-radius: 0; padding: 10px 2vw 0 2vw; }
+      .all { padding: 0; }
+      .footer-links {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .sticky-footer {
+        border-radius: 0;
+        display: none !important;
+      }
+      .all { padding-bottom: 0; }
+    }
+    /* تحديثات micro-interactions */
+    .post, .share, .story-item, .job-item, .project-item {
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .post:hover, .share:hover, .story-item:hover, .job-item:hover, .project-item:hover {
+      box-shadow: 0 8px 32px rgba(255,107,53,0.13);
+      transform: translateY(-4px) scale(1.01);
+    }
+    /* تحديث ألوان الأزرار */
+    .share-btn, .cancel-btn, .modal-content button[type="submit"] {
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-family: 'Tajawal', sans-serif;
+      cursor: pointer;
+      padding: 12px 32px;
+      margin: 0 4px;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(255,107,53,0.08);
+    }
+    .share-btn {
+      background: linear-gradient(90deg, #ff6b35 0%, #ffa500 100%);
+      color: #fff;
+    }
+    .share-btn:hover {
+      background: linear-gradient(90deg, #ffa500 0%, #ff6b35 100%);
+      color: #fff;
+    }
+    .cancel-btn {
+      background: #f4f4f4;
+      color: #ff6b35;
+    }
+    .cancel-btn:hover {
+      background: #ffe0cc;
+      color: #ff6b35;
+    }
+    /* تحديث الفوتر */
+    .sticky-footer {
+      background: linear-gradient(90deg, #FF6B00 0%, #FFA500 100%);
+      padding: 1.2rem 0 0.7rem 0;
+      width: 100%;
+      box-sizing: border-box;
+      color: #fff;
+      margin-top: auto;
+      position: relative;
+      left: 0;
+      bottom: 0;
+      z-index: 10;
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
+      box-shadow: 0 -2px 16px rgba(255,107,53,0.08);
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      background: transparent;
+      text-align: center;
+    }
+    .footer-content {
+      background: transparent;
+    }
+    .copyright-text {
+      color: #fff;
+      font-size: 1rem;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      line-height: 1.7;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .copyright-text a {
+      color: #fff;
+      text-decoration: underline;
+      font-weight: bold;
+      background: transparent;
+    }
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0.5rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      background: transparent;
+    }
+    .footer-links li {
+      background: transparent;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: 0.2s;
+      background: transparent;
+      display: inline-block;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-links a:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 1rem;
+      background: transparent;
+    }
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      color: #fff;
+      transition: 0.2s;
+      background: rgba(255,255,255,0.08);
+      font-size: 1.2rem;
+    }
+    .social-icons a:hover {
+      transform: translateY(-3px) scale(1.08);
+      opacity: 0.85;
+      background: #fff2e0;
+      color: #ff6b35;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    @media (max-width: 768px) {
+      .footer-links {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .sticky-footer { border-radius: 0; }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    /* إخفاء شريط التمرير */
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+    * {
+      scrollbar-width: none;
+    }
+    body {
+      -ms-overflow-style: none;
+      background-color: #f9fbfc;
+      color: #333;
+      line-height: 1.6;
+      font-size: 0.875rem;
+    }
+
+    .all {
+      display: flex;
+      justify-content: space-between;
+      padding: 2%;
+      gap: 2%;
+    }
+
+    .left,
+    .right {
+      width: 25%;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding-bottom: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .left:hover,
+    .right:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .center {
+      width: 50%;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding-bottom: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .text {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #ff6b35;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+      text-transform: capitalize;
+      font-weight: bold;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    /* تحسين تصميم فورم النشر */
+    .share {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      padding: 15px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .share:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .row {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .row img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      border: 2px solid #ff6b35;
+    }
+
+    .row img:hover {
+      transform: scale(1.1);
+    }
+
+    .share textarea {
+      flex: 1;
+      width: 100%;
+      min-width: 300px;
+      height: 60px;
+      padding: 15px 20px;
+      border-radius: 20px;
+      border: 2px solid #ffe0cc;
+      background: #F9F9F9;
+      font-size: 1rem;
+      font-family: 'Cairo', sans-serif;
+      color: #333;
+      resize: vertical;
+      outline: none;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.03);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, height 0.3s ease;
+    }
+
+    .share textarea:focus {
+      border-color: #ff6b35;
+      box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+      height: 160px; /* زيادة الارتفاع عند التركيز */
+    }
+
+    .share textarea::placeholder {
+      color: #999;
+      font-style: italic;
+    }
+
+    .hidden-form {
+      display: none;
+      opacity: 0;
+      background: #f9fbfc;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateY(10px);
+      border: 1px solid #DDD6FE;
+    }
+
+    .hidden-form.active {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 15px;
+      opacity: 1;
+      transform: translateY(0);
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    #image-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0;
+    }
+
+    #image-preview img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    #image-preview img:hover {
+      transform: scale(1.05);
+    }
+
+    #image-preview .remove-image {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #FF5C5C;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.3s ease;
+    }
+
+    #image-preview .remove-image:hover {
+      background: #FF8A8A;
+    }
+
+    .share .file-input-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .share .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      color: #FFFFFF;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-family: 'Tajawal', sans-serif;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 5px rgba(255, 107, 53, 0.2);
+    }
+
+    .share .file-input-label:hover {
+      background: linear-gradient(135deg, #f7931e, #ff6b35);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+    }
+
+    .share input[type="file"] {
+      display: none;
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .share-btn,
+    .cancel-btn {
+      padding: 10px 25px;
+      border: none;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-family: 'Tajawal', sans-serif;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .share-btn {
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      color: #FFFFFF;
+    }
+
+    .share-btn:hover {
+      background: linear-gradient(135deg, #f7931e, #ff6b35);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+    }
+
+    .cancel-btn {
+      background: linear-gradient(135deg, #FF5C5C, #FF8A8A);
+      color: #FFFFFF;
+    }
+
+    .cancel-btn:hover {
+      background: linear-gradient(135deg, #FF8A8A, #FF5C5C);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255, 92, 92, 0.3);
+    }
+
+    /* قسم الإعلانات */
+    .story-slider {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
+      margin-bottom: 20px;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .story-item {
+      position: relative;
+      width: 120px;
+      height: 180px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .story-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(107, 72, 255, 0.3);
+    }
+
+    .story-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+      transition: opacity 0.3s ease;
+    }
+
+    .story-item:hover img {
+      opacity: 1;
+    }
+
+    .story-item .avatar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      object-fit: cover;
+    }
+
+    .story-item .username {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: #FFFFFF;
+      font-size: 0.9rem;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .story-item.add-story {
+      background: #F9F9F9;
+      border: 2px dashed #ff6b35;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: #ff6b35;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .story-item.add-story:hover {
+      background: #ff6b35;
+      color: #FFFFFF;
+      border-color: #FFFFFF;
+    }
+
+    .story-item.add-story i {
+      font-size: 1.5rem;
+    }
+
+    .story-item.add-story span {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .story-view {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+
+    .story-view.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .story-view .progress-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .story-view .progress-bar {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .story-view .progress-bar .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #ff6b35, #f7931e);
+      width: 0%;
+      border-radius: 4px;
+      transition: width 0.1s linear;
+    }
+
+    .story-view .story-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .story-view .story-content img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+    }
+
+    .story-view .story-content .text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #FFFFFF;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .story-view .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: #FFFFFF;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.5);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.3s ease;
+    }
+
+    .story-view .close-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .story-view .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #FFFFFF;
+      font-size: 2rem;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+    }
+
+    .story-view .nav-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .story-view .nav-btn.prev {
+      left: 20px;
+    }
+
+    .story-view .nav-btn.next {
+      right: 20px;
+    }
+
+    .story-view .ad-text {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      color: #FFFFFF;
+      font-size: 1rem;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 0.75rem;
+      border-radius: 12px;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+
+    .modal.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: #FFFFFF;
+      padding: 2rem;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+
+    .modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-content .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: #ff6b35;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: color 0.3s ease;
+    }
+
+    .modal-content .close-modal:hover {
+      color: #FF5C5C;
+    }
+
+    .modal-content h3 {
+      font-size: 1.5rem;
+      color: #ff6b35;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .modal-content .file-input {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .modal-content .file-input input[type="file"] {
+      display: none;
+    }
+
+    .modal-content .file-input label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-family: 'Tajawal', sans-serif;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      text-align: center;
+    }
+
+    .modal-content .file-input label:hover {
+      background: linear-gradient(135deg, #f7931e, #ff6b35);
+      transform: translateY(-2px);
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0 1rem;
+      border: 2px solid #DDD6FE;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: #F9F9F9;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .modal-content input:focus,
+    .modal-content textarea:focus {
+      border-color: #ff6b35;
+      box-shadow: 0 0 8px rgba(107, 72, 255, 0.3);
+      outline: none;
+    }
+
+    .modal-content textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .modal-content button[type="submit"] {
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .modal-content button[type="submit"]:hover {
+      background: linear-gradient(135deg, #f7931e, #ff6b35);
+      transform: translateY(-2px);
+    }
+
+    /* باقي التصميمات */
+    .post {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      padding: 15px;
+      margin-bottom: 20px;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .post:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      color: #ff6b35;
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .action-btn:hover {
+      color: #f7931e;
+      transform: scale(1.2);
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .post-avatar img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .post-user-info .post-user-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .post-time {
+      font-size: 12px;
+      color: #7f8c8d;
+    }
+
+    .post-content p {
+      font-size: 15px;
+      color: #2c3e50;
+      line-height: 1.5;
+      text-align: right;
+      margin-bottom: 10px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .word-count {
+      font-size: 12px;
+      color: #7f8c8d;
+      font-style: italic;
+    }
+
+    .read-more-btn {
+      background: none;
+      border: none;
+      color: #ff6b35;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+      margin-top: 5px;
+    }
+
+    .read-more-btn:hover {
+      color: #f7931e;
+    }
+
+    /* تصميم تنبيه تجاوز عدد المرات اليومية */
+    .daily-limit-alert {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(255, 107, 53, 0.3);
+      text-align: center;
+      z-index: 10000;
+      max-width: 400px;
+      width: 90%;
+      animation: bounceIn 0.6s ease;
+    }
+
+    .daily-limit-alert .alert-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      animation: pulse 2s infinite;
+    }
+
+    .daily-limit-alert h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .daily-limit-alert p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    .daily-limit-alert .alert-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid white;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .daily-limit-alert .alert-btn:hover {
+      background: white;
+      color: #ff6b35;
+      transform: translateY(-2px);
+    }
+
+    .alert-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      backdrop-filter: blur(5px);
+    }
+
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.3);
+      }
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+      70% {
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .post-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 15px 0;
+      justify-content: center;
+    }
+
+    .post-image {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .post-image:hover {
+      transform: scale(1.03);
+    }
+
+    .post-footer {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid #eef2f6;
+    }
+
+    .post-footer button {
+      background: none;
+      border: none;
+      color: #ff6b35;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .post-footer button:hover {
+      color: #f7931e;
+      transform: translateY(-2px);
+    }
+
+    .like-count, .count {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .comments-section {
+      margin-top: 15px;
+    }
+
+    .comment-form .rowcomment {
+      display: flex;
+      align-items: center;
+      background: #F9F9F9;
+      border-radius: 25px;
+      overflow: hidden;
+    }
+
+    .comment-form input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .comment-form button {
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      color: #FFFFFF;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 0 25px 25px 0;
+      transition: background 0.3s ease;
+    }
+
+    .comment-form button:hover {
+      background: linear-gradient(135deg, #f7931e, #ff6b35);
+    }
+
+    .comments-list {
+      max-height: 250px;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+
+    .comment {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: #F9F9F9;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .comment-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .comment p {
+      font-size: 14px;
+      color: #2c3e50;
+    }
+
+    @media screen and (max-width: 768px) {
+      .left, .right {
+        display: none;
+      }
+      .center {
+        width: 100%;
+      }
+      .share textarea {
+        min-width: 100%;
+      }
+      .hidden-form.active {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    /* تخصيص SweetAlert2 */
+    .custom-success-popup {
+      border-radius: 16px !important;
+      box-shadow: 0 8px 30px rgba(255, 107, 53, 0.15) !important;
+    }
+
+    .custom-success-title {
+      color: #ff6b35 !important;
+      font-family: 'Tajawal', sans-serif !important;
+      font-weight: 700 !important;
+    }
+
+    .custom-success-content {
+      color: #333 !important;
+      font-family: 'Cairo', sans-serif !important;
+    }
+
+    .swal2-success .swal2-success-ring {
+      border-color: #ff6b35 !important;
+    }
+
+    .swal2-success .swal2-success-fix {
+      background-color: #ff6b35 !important;
+    }
+
+    .swal2-success [class^=swal2-success-line] {
+      background-color: #ff6b35 !important;
+    }
+  </style>
+</head>
+<body>
+<% function getCloudinaryImageUrl(image, fallback) { return image && image.startsWith('http') ? image : (fallback || '/uploads/images/pngwing.com.png'); } %>
+  <%- include('partials/headeraction') %>
+ 
+  
+  <div class="all">
+    <div class="right">
+      <div class="right-header">
+        <a href="/ProjectSpace" style="text-decoration:none; color:inherit;" aria-label="عرض المشاريع">
+          <h2 style="cursor:pointer; text-align:center;">المشاريع</h2>
+        </a>
+      </div>
+      <ul class="project-list">
+        <% if (projects && projects.length > 0) { %>
+          <% projects.forEach(function(project) { %>
+            <li class="project-item" onclick="window.location.href='/projects/project/<%= project.id %>'">
+              <div class="project-icon"><img src="/icons/project-plan.png" alt="أيقونة المشروع" style="width: 40px;height: 40px;" loading="lazy"></div>
+              <div class="project-info">
+                <span class="project-title"><%= project.title %></span>
+                <span class="project-duration"><i class="fas fa-clock"></i> المدة: <%= project.duration %> يوم</span>
+                <p class="project-description"><%= project.description %></p>
+              </div>
+            </li>
+          <% }); %>
+        <% } else { %>
+          <li class="no-projects">لا توجد مشاريع متاحة.</li>
+        <% } %>
+      </ul>
+      <style>
+        .right-header h2 { font-size: 18px; margin-bottom: 15px; color: #333; }
+        .project-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 15px; }
+        .project-item { display: flex; align-items: center; padding: 15px; background: #e8f0fe; border-radius: 8px; transition: 0.3s; cursor: pointer; }
+        .project-item:hover { background: #d0e2fd; transform: translateY(-2px); }
+        .project-icon { font-size: 28px; color: #ff6b35; margin-right: 15px; }
+        .project-info { text-align: right; flex: 1; }
+        .project-title { font-size: 16px; font-weight: bold; color: #333; }
+        .project-duration, .project-description { font-size: 14px; color: #555; margin-bottom: 5px; }
+        .no-projects { text-align: center; font-size: 18px; color: #555; padding: 15px; background: #f4f4f9; border-radius: 8px; }
+      </style>
+    </div>
+  
+    <div class="center">
+      <section>
+        <div class="share" style="width: 80%; margin: 0 auto;">
+          <form id="postForm" enctype="multipart/form-data">
+            <div class="row">
+              <textarea name="content" placeholder="اكتب محتوى المنشور هنا..." required></textarea>
+              <a href="/profile?userId=<%= currentUserId %>">
+                <% if (currentUserAvatar && currentUserAvatar !== '/uploads/images/pngwing.com.png') { %>
+                  <img
+                    src="<%= getCloudinaryImageUrl(currentUserAvatar, '/uploads/images/pngwing.com.png') %>"
+                    alt="صورة المستخدم"
+                    style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+                    loading="lazy"
+                  />
+                  <span class="fa fa-user-circle fa-2x" style="color: #aaa; font-size: 48px; display:none;"></span>
+                <% } else { %>
+                  <span class="fa fa-user-circle fa-2x" style="color: #aaa; font-size: 48px;"></span>
+                <% } %>
+              </a>
+            </div>
+            <div class="hidden-form" id="hidden-form">
+              <div id="image-preview"></div>
+              <div class="file-input-container">
+                <label for="postImages" class="file-input-label">
+                  <i class="fas fa-cloud-upload-alt"></i> رفع صورة
+                </label>
+                <input type="file" id="postImages" name="postImages" accept="image/*" multiple />
+              </div>
+              <div class="share-buttons">
+                <button type="button" class="cancel-btn" id="cancelPost" aria-label="إلغاء النشر">إلغاء</button>
+                <button type="submit" class="share-btn" aria-label="نشر المنشور">نشر</button>
+              </div>
+            </div>
+          </form>
+        </div>
+  
+        <!-- قسم الإعلانات -->
+        <div class="story-slider" id="storySlider">
+          <div class="story-item add-story" id="addStory">
+            <i class="fas fa-plus"></i>
+            <span>اعلن عن نفسك</span>
+          </div>
+          <% if (ads && ads.length > 0) { %>
+            <% ads.forEach(ad => { %>
+              <div class="story-item" data-id="<%= ad.id %>" data-title="<%= ad.title %>" data-description="<%= ad.description %>" data-image="<%= getCloudinaryImageUrl(ad.image, '/uploads/images/pngwing.com.png') %>">
+                <% if (ad.image) { %>
+                  <img src="<%= getCloudinaryImageUrl(ad.image, '/uploads/images/pngwing.com.png') %>" alt="<%= ad.title %>" loading="lazy">
+                <% } %>
+                <img
+                  src="<%= getCloudinaryImageUrl(ad.user_avatar, '/uploads/images/pngwing.com.png') %>"
+                  class="avatar"
+                  alt="<%= ad.user_name || 'User' %>"
+                  onerror="this.src='/uploads/images/pngwing.com.png'"
+                  loading="lazy"
+                >
+                <span class="username"><%= ad.user_name %></span>
+              </div>
+            <% }); %>
+          <% } %>
+        </div>
+  
+        <div class="story-view" id="storyView">
+          <div class="progress-container" id="progressContainer"></div>
+          <div class="story-content">
+            <img id="storyImage" src="" alt="الإعلان" loading="lazy">
+            <div id="storyText" class="text"></div>
+            <div id="adText" class="ad-text"></div>
+          </div>
+          <div class="close-btn" id="closeBtn">✕</div>
+          <div class="nav-btn prev" id="prevBtn">‹</div>
+          <div class="nav-btn next" id="nextBtn">›</div>
+        </div>
+  
+        <div class="modal" id="addStoryModal">
+          <div class="modal-content">
+            <button class="close-modal" id="closeModalBtn">✕</button>
+            <h3>إضافة إعلان</h3>
+            <form id="addAdForm" enctype="multipart/form-data">
+              <div class="file-input">
+                <input type="file" id="storyImageInput" name="image" accept="image/*">
+                <label for="storyImageInput"><i class="fas fa-cloud-upload-alt"></i> اختر صورة</label>
+              </div>
+              <input type="text" id="storyTitle" name="title" placeholder="عنوان الإعلان" required>
+              <textarea id="storyDescription" name="description" placeholder="وصف الإعلان"></textarea>
+              <button type="submit" id="submitStory">إضافة</button>
+            </form>
+          </div>
+        </div>
+  
+        <div class="post-section" id="post-section">
+          <% if (posts && posts.length > 0) { %>
+            <% posts.forEach((post) => { %>
+              <div class="post">
+                <div class="post-header">
+                  <div class="post-actions">
+                    <% if (currentUserId && post.showEditDeleteButtons) { %>
+                      <form action="/forum/post/<%= post.id %>/delete" method="POST">
+                        <button type="submit" class="action-btn" aria-label="حذف المنشور"><i class="fas fa-trash-alt"></i></button>
+                      </form>
+                      <form action="/forum/post/<%= post.id %>/edit" method="GET">
+                        <button type="submit" class="action-btn" aria-label="تعديل المنشور"><i class="fas fa-edit"></i></button>
+                      </form>
+                    <% } %>
+                    <form action="/forum/post/<%= post.id %>/hide" method="POST">
+                      <button type="submit" class="action-btn" aria-label="إخفاء المنشور"><i class="fas fa-eye-slash"></i></button>
+                    </form>
+                  </div>
+                  <div class="person">
+                    <div class="post-avatar">
+                      <a href="/profile?userId=<%= post.user_id %>">
+                        <img
+                          src="<%= getCloudinaryImageUrl(post.user_avatar, '/uploads/images/pngwing.com.png') %>"
+                          class="avatar"
+                          alt="<%= post.user_name || 'User' %>"
+                          onerror="this.src='/uploads/images/pngwing.com.png'"
+                          loading="lazy"
+                        />
+                      </a>
+                    </div>
+                    <div class="post-user-info">
+                      <p class="post-user-name">
+                        <a href="/profile?userId=<%= post.user_id %>" style="text-decoration: none; color: inherit;">
+                          <%= post.user_name %>
+                        </a>
+                      </p>
+                      <span class="post-time">
+                        <%= new Date(post.created_at).toLocaleString('ar-EG', { hour12: true }) %>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="post-content">
+                  <% 
+                    var content = post.content || '';
+                    var words = content.split(' ');
+                    var wordCount = words.length;
+                    var maxWords = 50;
+                    var displayContent = content;
+                    if (wordCount > maxWords) {
+                      displayContent = words.slice(0, maxWords).join(' ') + '...';
+                    }
+                  %>
+                  <p class="post-text" data-full-content="<%= content %>" data-short-content="<%= displayContent %>">
+                    <%= displayContent %>
+                  </p>
+                  <% if (wordCount > maxWords) { %>
+                    <button class="read-more-btn" type="button">اقرأ المزيد</button>
+                  <% } %>
+                  <div class="post-meta">
+                    <span class="word-count"><%= wordCount %> كلمة</span>
+                  </div>
+                </div>
+  
+                <div class="post-images">
+                  <% if (post.image1 || post.image2 || post.image3 || post.image4) { %>
+                    <% [post.image1, post.image2, post.image3, post.image4].forEach((image) => { %>
+                      <% if (image) { %>
+                        <img src="<%= getCloudinaryImageUrl(image, '/uploads/images/pngwing.com.png') %>" alt="صورة المنشور" class="post-image" loading="lazy" width="350" height="350" />
+                      <% } %>
+                    <% }); %>
+                  <% } %>
+                </div>
+  
+                <div class="post-footer">
+                  <button class="like-button" data-post-id="<%= post.id %>" data-liked="<%= post.liked ? 'true' : 'false' %>">
+                    <i class="fas fa-thumbs-up"></i><span class="like-count"><%= post.like_count || 0 %></span>
+                  </button>
+                  <button type="button" class="show-comments-btn" data-post-id="<%= post.id %>">
+                    <i class="fas fa-comment"></i> تعليق
+                    <span id="comment-count-<%= post.id %>" class="count">
+                      <%= post.comment_count > 0 ? post.comment_count : 'لا تعليقات' %>
+                    </span>
+                  </button>
+                  <button type="button" class="share-whatsapp-btn" data-post-id="<%= post.id %>" data-post-content="<%= post.content.substring(0, 100) %>">
+                    <i class="fas fa-share"></i> مشاركة
+                  </button>
+                </div>
+  
+                <div class="comments-section" id="comments-<%= post.id %>">
+                  <form class="comment-form" data-post-id="<%= post.id %>" style="display: none;">
+                    <div class="rowcomment">
+                      <input type="text" name="content" placeholder="اكتب تعليقاً..." required />
+                      <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                  </form>
+                  <div class="comments-list" id="comments-list-<%= post.id %>">
+                    <% if (post.comments && post.comments.length > 0) { %>
+                      <% post.comments.forEach(comment => { %>
+                        <div class="comment" data-comment-id="<%= comment.id %>">
+                          <a href="/profile?userId=<%= comment.user_id %>">
+                            <img
+                              src="<%= getCloudinaryImageUrl(comment.user_avatar, '/uploads/images/pngwing.com.png') %>"
+                              alt="<%= comment.user_name || 'User' %>"
+                              onerror="this.src='/uploads/images/pngwing.com.png'"
+                              class="comment-avatar"
+                              loading="lazy"
+                            />
+                          </a>
+                          <p>
+                            <a href="/profile?userId=<%= comment.user_id %>" style="text-decoration: none; color: inherit;">
+                              <strong><%= comment.user_name %></strong>
+                            </a>: <%= comment.content %>
+                          </p>
+                          <div class="comment-actions">
+                            <button class="comment-like-btn" data-comment-id="<%= comment.id %>" data-liked="<%= comment.liked ? 'true' : 'false' %>">
+                              <i class="fas fa-thumbs-up"></i> <span class="comment-like-count"><%= comment.like_count || 0 %></span>
+                            </button>
+                            <button class="comment-share-btn" data-comment-id="<%= comment.id %>" data-comment-content="<%= comment.content.substring(0, 100) %>">
+                              <i class="fas fa-share"></i> مشاركة
+                            </button>
+                          </div>
+                        </div>
+                      <% }); %>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+            <div id="load-more-container"></div>
+          <% } else { %>
+            <p class="text" id="no-posts-msg">لا توجد منشورات متاحة.</p>
+          <% } %>
+        </div>
+      </section>
+    </div>
+  
+    <div class="left">
+      <div class="left-header">
+        <a href="/jobs" style="text-decoration:none; color:inherit;" aria-label="عرض الوظائف">
+          <h2 style="cursor:pointer; text-align: center;">الوظائف</h2>
+        </a>
+      </div>
+      <ul class="job-list">
+        <% if (jobs && jobs.length > 0) { %>
+          <% jobs.forEach(function(job) { %>
+            <li class="job-item" onclick="window.location.href='/job/<%= job.job_id %>'">
+              <div class="job-icon"><img src="/icons/portfolio.png" alt="أيقونة الوظيفة" style="width: 40px;height: 40px;" loading="lazy"></div>
+              <div class="job-info">
+                <span class="job-title"><%= job.title %></span>
+                <span class="job-location"><i class="fas fa-map-marker-alt"></i> <%= job.location %></span>
+                <p class="job-description"><%= job.description %></p>
+              </div>
+            </li>
+          <% }); %>
+        <% } else { %>
+          <li class="no-jobs">لا توجد وظائف متاحة.</li>
+        <% } %>
+      </ul>
+      <style>
+        .left-header h2 { font-size: 18px; margin-bottom: 15px; color: #333; }
+        .job-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 15px; }
+        .job-item { display: flex; align-items: center; padding: 15px; background: #e8f0fe; border-radius: 8px; transition: 0.3s; cursor: pointer; }
+        .job-item:hover { background: #d0e2fd; transform: translateY(-2px); }
+        .job-icon { font-size: 28px; color: #ff6b35; margin-right: 15px; }
+        .job-info { text-align: right; flex: 1; }
+        .job-title { font-size: 16px; font-weight: bold; color: #333; }
+        .job-location, .job-description { font-size: 14px; color: #555; margin-bottom: 5px; }
+        .no-jobs { text-align: center; font-size: 18px; color: #555; padding: 15px; background: #f4f4f9; border-radius: 8px; }
+      </style>
+    </div>
+  </div>
+  
+  <script>
+    const currentUserAvatar = "<%= getCloudinaryImageUrl(currentUserAvatar, '/uploads/images/pngwing.com.png') %>";
+    const currentUserName = "<%= currentUserName || 'User' %>";
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      // فورم نشر منشور
+      const textarea = document.querySelector('.share textarea');
+      const hiddenForm = document.getElementById('hidden-form');
+      const postImagesInput = document.getElementById('postImages');
+      const imagePreview = document.getElementById('image-preview');
+      const postForm = document.getElementById('postForm');
+      const addAdForm = document.getElementById('addAdForm');
+  
+      if (textarea && hiddenForm) {
+        textarea.addEventListener('click', () => {
+          hiddenForm.classList.add('active');
+        });
+      }
+  
+      // إلغاء النشر
+      const cancelPostBtn = document.getElementById('cancelPost');
+      if (cancelPostBtn && hiddenForm && textarea) {
+        cancelPostBtn.addEventListener('click', () => {
+          textarea.value = '';
+          hiddenForm.classList.remove('active');
+          if (imagePreview) imagePreview.innerHTML = '';
+          if (postImagesInput) postImagesInput.value = '';
+        });
+      }
+  
+      // معاينة الصور المرفوعة
+      if (postImagesInput && imagePreview) {
+        postImagesInput.addEventListener('change', () => {
+          imagePreview.innerHTML = '';
+          const files = Array.from(postImagesInput.files);
+          if (files.length > 4) {
+            Swal.fire({ icon: 'warning', title: 'تنبيه', text: 'يمكنك رفع 4 صور فقط لكل منشور.' });
+            postImagesInput.value = '';
+            return;
+          }
+          files.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const imgContainer = document.createElement('div');
+              imgContainer.style.position = 'relative';
+              const img = document.createElement('img');
+              img.src = e.target.result;
+              const removeBtn = document.createElement('button');
+              removeBtn.className = 'remove-image';
+              removeBtn.innerHTML = '×';
+              removeBtn.addEventListener('click', () => {
+                // حذف الصورة من المدخل
+                const newFiles = files.filter((_, i) => i !== index);
+                const dataTransfer = new DataTransfer();
+                newFiles.forEach(f => dataTransfer.items.add(f));
+                postImagesInput.files = dataTransfer.files;
+                // تحديث المعاينة
+                imagePreview.innerHTML = '';
+                newFiles.forEach((file, idx) => {
+                  const reader2 = new FileReader();
+                  reader2.onload = (ev) => {
+                    const img2 = document.createElement('img');
+                    img2.src = ev.target.result;
+                    imagePreview.appendChild(img2);
+                  };
+                  reader2.readAsDataURL(file);
+                });
+              });
+              imgContainer.appendChild(img);
+              imgContainer.appendChild(removeBtn);
+              imagePreview.appendChild(imgContainer);
+            };
+            reader.readAsDataURL(file);
+          });
+        });
+      }
+  
+      // مودال إضافة إعلان
+      const addStoryBtn = document.getElementById('addStory');
+      const addStoryModal = document.getElementById('addStoryModal');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const storySlider = document.getElementById('storySlider');
+      const storyView = document.getElementById('storyView');
+      const storyImage = document.getElementById('storyImage');
+      const storyText = document.getElementById('storyText');
+      const adText = document.getElementById('adText');
+      const closeBtn = document.getElementById('closeBtn');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const progressContainer = document.getElementById('progressContainer');
+  
+      let currentStoryIndex = 0;
+      let stories = Array.from(document.querySelectorAll('.story-item:not(.add-story)'));
+      let intervalId;
+  
+      addStoryBtn.addEventListener('click', () => {
+        addStoryModal.classList.add('show');
+      });
+  
+      closeModalBtn.addEventListener('click', () => {
+        addStoryModal.classList.remove('show');
+        if (addAdForm) addAdForm.reset();
+      });
+  
+      storySlider.addEventListener('click', (e) => {
+        const storyItem = e.target.closest('.story-item:not(.add-story)');
+        if (storyItem) {
+          currentStoryIndex = stories.indexOf(storyItem);
+          showStory();
+        }
+      });
+  
+      closeBtn.addEventListener('click', () => {
+        hideStory();
+      });
+  
+      prevBtn.addEventListener('click', () => {
+        currentStoryIndex = Math.max(0, currentStoryIndex - 1);
+        showStory();
+      });
+  
+      nextBtn.addEventListener('click', () => {
+        currentStoryIndex = Math.min(stories.length - 1, currentStoryIndex + 1);
+        showStory();
+      });
+  
+      function showStory() {
+        if (stories.length === 0) return;
+        const story = stories[currentStoryIndex];
+        storyImage.src = story.dataset.image || '';
+        storyText.textContent = story.dataset.title || '';
+        adText.textContent = story.dataset.description || '';
+        storyView.classList.add('show');
+        updateProgressBars();
+        startProgress();
+      }
+  
+      function hideStory() {
+        storyView.classList.remove('show');
+        clearInterval(intervalId);
+        progressContainer.innerHTML = '';
+      }
+  
+      function updateProgressBars() {
+        progressContainer.innerHTML = '';
+        stories.forEach((_, index) => {
+          const bar = document.createElement('div');
+          bar.classList.add('progress-bar');
+          const progress = document.createElement('div');
+          progress.classList.add('progress');
+          if (index === currentStoryIndex) {
+            progress.style.width = '0%';
+          } else if (index < currentStoryIndex) {
+            progress.style.width = '100%';
+          }
+          bar.appendChild(progress);
+          progressContainer.appendChild(bar);
+        });
+      }
+  
+      function startProgress() {
+        clearInterval(intervalId);
+        const progressBars = document.querySelectorAll('.progress-bar .progress');
+        const currentProgress = progressBars[currentStoryIndex];
+        let width = 0;
+        intervalId = setInterval(() => {
+          width += 1;
+          currentProgress.style.width = `${width}%`;
+          if (width >= 100) {
+            clearInterval(intervalId);
+            currentStoryIndex = Math.min(stories.length - 1, currentStoryIndex + 1);
+            if (currentStoryIndex < stories.length) {
+              showStory();
+            } else {
+              hideStory();
+            }
+          }
+        }, 50);
+      }
+
+      // وظيفة اقرأ المزيد
+      document.querySelectorAll('.read-more-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const postText = this.parentElement.querySelector('.post-text');
+          const fullContent = postText.getAttribute('data-full-content');
+          const shortContent = postText.getAttribute('data-short-content');
+          
+          if (this.textContent === 'اقرأ المزيد') {
+            postText.textContent = fullContent;
+            this.textContent = 'اقرأ أقل';
+          } else {
+            postText.textContent = shortContent;
+            this.textContent = 'اقرأ المزيد';
+          }
+        });
+      });
+
+      // زر إظهار/إخفاء التعليقات
+      document.querySelectorAll('.show-comments-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const postId = btn.getAttribute('data-post-id');
+          const commentsSection = document.getElementById(`comments-${postId}`);
+          if (commentsSection) {
+            // إذا كانت ظاهرة، أخفها
+            if (commentsSection.style.display === 'block' || commentsSection.style.display === '') {
+              commentsSection.style.display = 'none';
+            } else {
+              // إذا كانت مخفية، أظهرها وحمّل التعليقات
+              commentsSection.style.display = 'block';
+              const commentForm = commentsSection.querySelector('.comment-form');
+              if (commentForm) commentForm.style.display = 'block';
+              if (typeof loadComments === 'function') {
+                loadComments(postId);
+              }
+            }
+          }
+        });
+      });
+
+      // نشر منشور
+      if (postForm) {
+        postForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const formData = new FormData(postForm);
+          try {
+            const response = await fetch('/forum/post', {
+              method: 'POST',
+              body: formData,
+              credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+              location.reload();
+            } else {
+              Swal.fire({ icon: 'error', title: 'خطأ', text: result.message });
+            }
+          } catch (error) {
+            Swal.fire({ icon: 'error', title: 'خطأ', text: 'حدث خطأ غير متوقع!' });
+          }
+        });
+      }
+
+      // إضافة إعلان
+      if (addAdForm) {
+        addAdForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const formData = new FormData(addAdForm);
+          try {
+            const response = await fetch('/forum/ad', {
+              method: 'POST',
+              body: formData,
+              credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+              location.reload();
+            } else {
+              Swal.fire({ icon: 'error', title: 'خطأ', text: result.message });
+            }
+          } catch (error) {
+            Swal.fire({ icon: 'error', title: 'خطأ', text: 'حدث خطأ غير متوقع!' });
+          }
+        });
+      }
+
+      // إضافة تعليق
+      document.querySelectorAll('.comment-form').forEach(form => {
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const postId = form.getAttribute('data-post-id');
+          const input = form.querySelector('input[name="content"]');
+          const content = input.value.trim();
+          if (!content) return;
+          try {
+            const res = await fetch(`/forum/comments/${postId}/add`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({ content })
+            });
+            const data = await res.json();
+            if (data.success) {
+              input.value = '';
+              // تحديث التعليقات ديناميكياً دائماً
+              if (typeof loadComments === 'function') {
+                loadComments(postId);
+              }
+            } else {
+              Swal.fire({ icon: 'error', title: 'خطأ', text: data.message || 'حدث خطأ أثناء إضافة التعليق.' });
+            }
+          } catch (err) {
+            console.error('تعذر إضافة التعليق:', err);
+            Swal.fire({ icon: 'error', title: 'خطأ', text: 'تعذر الاتصال بالسيرفر.' });
+          }
+        });
+      });
+
+      // جلب التعليقات
+      async function loadComments(postId) {
+        const commentsSection = document.getElementById(`comments-${postId}`);
+        const commentsList = commentsSection.querySelector('.comments-list');
+        try {
+          const response = await fetch(`/forum/comments/${postId}`);
+          const data = await response.json();
+          if (data.success) {
+            commentsList.innerHTML = '';
+            data.comments.forEach(comment => {
+              const commentElement = document.createElement('div');
+              commentElement.className = 'comment';
+              commentElement.innerHTML = `
+                <a href="/profile?userId=${comment.user_id}">
+                  <img src="${comment.user_avatar || '/uploads/images/pngwing.com.png'}" alt="${comment.user_name || 'User'}" onerror="this.src='/uploads/images/pngwing.com.png'" class="comment-avatar" loading="lazy" />
+                </a>
+                <p><a href="/profile?userId=${comment.user_id}" style="text-decoration: none; color: inherit;"><strong>${comment.user_name}</strong></a>: ${comment.content}</p>
+              `;
+              commentsList.appendChild(commentElement);
+            });
+            // تحديث عداد التعليقات
+            const commentCount = document.getElementById(`comment-count-${postId}`);
+            if (commentCount) {
+              commentCount.textContent = data.comments.length > 0 ? data.comments.length : 'لا تعليقات';
+            }
+          } else {
+            commentsList.innerHTML = '<p>حدث خطأ في تحميل التعليقات</p>';
+          }
+        } catch (error) {
+          commentsList.innerHTML = '<p>حدث خطأ في تحميل التعليقات</p>';
+        }
+      }
+
+      // زر الإعجاب
+      document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', async function() {
+          const postId = this.getAttribute('data-post-id');
+          const liked = this.getAttribute('data-liked') === 'true';
+          try {
+            const response = await fetch(`/forum/toggle-like/${postId}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({ liked: !liked })
+            });
+            const data = await response.json();
+            if (data.success) {
+              this.querySelector('.like-count').textContent = data.likeCount;
+              this.setAttribute('data-liked', data.liked);
+              this.classList.toggle('liked', data.liked);
+            } else {
+              Swal.fire({ icon: 'error', title: 'خطأ', text: data.message });
+            }
+          } catch (err) {
+            Swal.fire({ icon: 'error', title: 'خطأ', text: 'حدث خطأ غير متوقع!' });
+          }
+        });
+      });
+
+      // مشاركة منشور (مثال: مشاركة على واتساب)
+      document.querySelectorAll('.share-whatsapp-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const postId = btn.getAttribute('data-post-id');
+          const postContent = btn.getAttribute('data-post-content');
+          const url = `https://wa.me/?text=${encodeURIComponent('شاهد هذا المنشور: ' + window.location.origin + '/forum/post/' + postId + '\n' + postContent)}`;
+          window.open(url, '_blank');
+        });
+      });
+    });
+
+    // إخفاء الفوتر عند التمرير للأعلى في الجوال (أفضل ممارسة)
+    (function() {
+      let lastScrollY = window.scrollY;
+      let footer = document.querySelector('.sticky-footer');
+      function handleFooterHide() {
+        if (!footer) return;
+        if (window.innerWidth <= 768) {
+          if (window.scrollY < lastScrollY) {
+            // التمرير للأعلى: إخفاء الفوتر
+            footer.classList.add('hide-footer');
+          } else {
+            // التمرير للأسفل: إظهار الفوتر
+            footer.classList.remove('hide-footer');
+          }
+        } else {
+          // في الديسكتوب: أظهر الفوتر دائمًا
+          footer.classList.remove('hide-footer');
+        }
+        lastScrollY = window.scrollY;
+      }
+      window.addEventListener('scroll', handleFooterHide);
+      window.addEventListener('resize', function() {
+        footer = document.querySelector('.sticky-footer');
+        handleFooterHide();
+      });
+      // عند التحميل الأول
+      handleFooterHide();
+    })();
+
+    // منطق infinite scroll للمنشورات في الجوال
+    (function() {
+      let currentPage = 1;
+      let loading = false;
+      let noMorePosts = false;
+      const postSection = document.getElementById('post-section');
+      const noPostsMsg = document.getElementById('no-posts-msg');
+      function isMobile() { return window.innerWidth <= 768; }
+      async function loadMorePosts() {
+        if (loading || noMorePosts) return;
+        loading = true;
+        currentPage++;
+        try {
+          const res = await fetch(`/forum/more-posts?page=${currentPage}`);
+          const data = await res.json();
+          if (data.success && data.posts && data.posts.length > 0) {
+            data.posts.forEach(postHtml => {
+              const div = document.createElement('div');
+              div.className = 'post';
+              div.innerHTML = postHtml;
+              postSection.appendChild(div);
+            });
+          } else {
+            noMorePosts = true;
+            if (noPostsMsg) {
+              noPostsMsg.textContent = 'لا منشورات جديدة مضافة';
+              noPostsMsg.style.display = 'block';
+            } else {
+              const msg = document.createElement('p');
+              msg.className = 'text';
+              msg.textContent = 'لا منشورات جديدة مضافة';
+              postSection.appendChild(msg);
+            }
+          }
+        } catch (err) {
+          // يمكن إضافة رسالة خطأ هنا إذا رغبت
+        }
+        loading = false;
+      }
+      function handleScroll() {
+        if (!isMobile() || noMorePosts) return;
+        const scrollPosition = window.innerHeight + window.scrollY;
+        const threshold = document.body.offsetHeight - 200;
+        if (scrollPosition >= threshold) {
+          loadMorePosts();
+        }
+      }
+      if (isMobile()) {
+        window.addEventListener('scroll', handleScroll);
+      }
+      window.addEventListener('resize', function() {
+        if (isMobile()) {
+          window.addEventListener('scroll', handleScroll);
+        } else {
+          window.removeEventListener('scroll', handleScroll);
+        }
+      });
+    })();
+  </script>
+  
+  <!-- فوتر مخصص -->
+  <footer class="sticky-footer">
+    <div class="footer-container">
+      <div class="footer-content">
+      <p class="copyright-text">
+        Copyright © 2020 All Rights Reserved by
+        <a href="https://www.codebook.com" rel="noopener noreferrer">DIY</a>
+      </p>
+        <ul class="footer-links">
+          <li><a href="/about" rel="nofollow">حولنا</a></li>
+          <li><a href="/privacy" rel="nofollow">سياسة الخصوصية</a></li>
+          <li><a href="/contact" rel="nofollow">اتصل بنا</a></li>
+      </ul>
+      </div>
+      <div class="social-icons">
+        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

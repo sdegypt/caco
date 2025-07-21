@@ -1,0 +1,352 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #f0f2f5 0%, #e8e8f8 100%);
+    color: #333;
+    line-height: 1.6;
+    padding: 0px;
+}
+
+.dashboard-container {
+    width: 100%;
+    margin: 0 auto;
+    direction: rtl;
+}
+
+.dashboard-header {
+    
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #6B48FF, #A78BFA);
+    color: #FFFFFF;
+    border-radius: 0px 0px 20px 20px;
+    box-shadow: 0 10px 20px rgba(107, 72, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+.dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    animation: rotate 15s linear infinite;
+}
+
+.dashboard-header h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.dashboard-header p {
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.settings-section {
+    padding: 20px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.settings-form {
+    background: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.4rem;
+    color: #6B48FF;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #DDD6FE;
+    background: #F9F9F9;
+    font-size: 1rem;
+    font-family: 'Cairo', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #6B48FF;
+    outline: none;
+}
+
+.form-group small {
+    font-size: 0.9rem;
+    color: #777;
+    display: block;
+    margin-top: 5px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input[type="checkbox"]:checked + .slider {
+    background-color: #6B48FF;
+}
+
+input[type="checkbox"]:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #6B48FF, #A78BFA);
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    display: block;
+    margin: 20px auto 0;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #A78BFA, #6B48FF);
+    transform: translateY(-3px);
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* تصميم قسم الاستثناءات */
+.exceptions-section {
+    margin-top: 40px;
+    background: #FFFFFF;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.exceptions-section h2 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.8rem;
+    color: #6B48FF;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.exception-form {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.exception-form input[type="email"] {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #DDD6FE;
+    background: #F9F9F9;
+    font-size: 1rem;
+    font-family: 'Cairo', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+.exception-form input[type="email"]:focus {
+    border-color: #6B48FF;
+    outline: none;
+}
+
+.add-exception-btn {
+    background: linear-gradient(135deg, #6B48FF, #A78BFA);
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.add-exception-btn:hover {
+    background: linear-gradient(135deg, #A78BFA, #6B48FF);
+    transform: translateY(-3px);
+}
+
+.exceptions-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.exceptions-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.exceptions-table th,
+.exceptions-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #DDD6FE;
+}
+
+.exceptions-table th {
+    background: #F9F9F9;
+    color: #6B48FF;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+}
+
+.exception-item:hover {
+    background: #F0F2F5;
+}
+
+.exception-email {
+    font-size: 1rem;
+    color: #333;
+}
+
+.exception-limit {
+    width: 80px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #DDD6FE;
+    background: #F9F9F9;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: border-color 0.3s ease;
+}
+
+.exception-limit:focus {
+    border-color: #6B48FF;
+    outline: none;
+}
+
+.remove-exception-btn {
+    background: linear-gradient(135deg, #FF5C5C, #FF8A8A);
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.remove-exception-btn:hover {
+    background: linear-gradient(135deg, #FF8A8A, #FF5C5C);
+    transform: translateY(-2px);
+}
+
+.no-exceptions {
+    text-align: center;
+    font-size: 1rem;
+    color: #777;
+    padding: 20px;
+}
+
+/* التصميم المتجاوب */
+@media (max-width: 1024px) {
+    .dashboard-header h1 { font-size: 2.2rem; }
+    .dashboard-header p { font-size: 1.1rem; }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header { padding: 30px 15px; }
+    .dashboard-header h1 { font-size: 1.8rem; }
+    .dashboard-header p { font-size: 1rem; }
+    .settings-form { padding: 20px; }
+    .form-group label { font-size: 1.2rem; }
+    .exceptions-table {
+        font-size: 0.8rem;
+    }
+    .exception-limit {
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header { padding: 20px 10px; }
+    .dashboard-header h1 { font-size: 1.5rem; }
+    .dashboard-header p { font-size: 0.9rem; }
+    .form-group label { font-size: 1.1rem; }
+    .submit-btn { padding: 10px 20px; font-size: 1rem; }
+    .exception-form { flex-direction: column; }
+    .exceptions-table { font-size: 0.7rem; }
+    .exception-limit { width: 50px; padding: 6px; }
+    .remove-exception-btn { padding: 6px 10px; font-size: 0.8rem; }
+}

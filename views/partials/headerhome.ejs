@@ -1,0 +1,404 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <!-- Manifest + PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ff6b35" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DIY" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/icons/icon-128x128.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/icons/icon-128x128.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/icons/icon-96x96.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="60x60" href="/icons/icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/icons/icon-72x72.png" />
+  
+  <!-- Microsoft Tiles -->
+  <meta name="msapplication-TileColor" content="#ff6b35" />
+  <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
+  <meta name="msapplication-config" content="/browserconfig.xml" />
+  
+  <!-- PWA Display -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="DIY" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon/logo.png" sizes="32x32" />
+  <link rel="shortcut icon" href="/favicon/logo.png" type="image/png" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="DYJRfaCRv2A7svif6_JoSm2FKoJXmsi5JvRkcrHzt1E" />
+
+  <!-- SEO -->
+  <meta name="description" content="منصة DIY - مجتمع المبدعين العرب للتصنيع الذاتي والإبداع والابتكار" />
+  <meta name="keywords" content="DIY, تصنيع ذاتي, إبداع, مجتمع عربي, مشاريع يدوية, ابتكار, حرف يدوية" />
+  <link rel="canonical" href="https://www.amlhabrak.online/" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="DIY - منصة الإبداع والتصميم" />
+  <meta property="og:description" content="منصة إبداعية للتصميم والمشاريع والوظائف - انضم لمجتمع المبدعين العرب" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.amlhabrak.online/" />
+  <meta property="og:image" content="https://www.amlhabrak.online/icons/icon-512x512.png" />
+  <meta property="og:site_name" content="DIY" />
+  <meta property="og:locale" content="ar_AR" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DIY - منصة الإبداع والتصميم" />
+  <meta name="twitter:description" content="منصة إبداعية للتصميم والمشاريع والوظائف - انضم لمجتمع المبدعين العرب" />
+  <meta name="twitter:image" content="https://www.amlhabrak.online/icons/icon-512x512.png" />
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "DIY - منصة الإبداع والتصميم",
+    "url": "https://www.amlhabrak.online/",
+    "description": "منصة إبداعية للتصميم والمشاريع والوظائف",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.amlhabrak.online/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Performance Optimizations -->
+  <link rel="preload" href="/css/unified_identity.css" as="style" />
+  <link rel="stylesheet" href="/css/unified_identity.css" />
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome Icons -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" /></noscript>
+
+  <!-- Scripts -->
+  <script src="/js/error-handler.js" defer></script>
+  <script src="/js/notification-integration.js" defer></script>
+  <script src="/js/pwa-install.js" defer></script>
+
+  <!-- Google Analytics -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X88DTB0JB8');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X88DTB0JB8"></script>
+
+  <!-- Google Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2350758257463070" crossorigin="anonymous"></script>
+
+  <!-- Critical CSS inlined -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      font-display: swap;
+    }
+
+    .header-container {
+      background-color: #ffffff;
+      width: 100%;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      margin-left: auto;
+    }
+
+    .logo-container img {
+      height: 50px;
+      width: auto;
+      loading: lazy;
+    }
+
+    .mobile-nav {
+      display: none;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .mobile-nav-icon {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .mobile-nav-icon i {
+      font-size: 20px;
+      background: linear-gradient(45deg, #FF6B00);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-nav-icon:hover {
+      background: linear-gradient(45deg, #FF6B00, #FFA500);
+    }
+
+    .mobile-nav-icon:hover i {
+      -webkit-text-fill-color: white;
+    }
+
+    .mobile-notification-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: linear-gradient(45deg, #FF6B00, #FFA500);
+      color: white;
+      border-radius: 50%;
+      min-width: 18px;
+      height: 18px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      z-index: 2;
+    }
+
+    .mobile-settings-dropdown {
+      position: relative;
+    }
+
+    .mobile-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 8px 0;
+      min-width: 200px;
+      display: none;
+      z-index: 1000;
+    }
+
+    .mobile-settings-dropdown:hover .mobile-dropdown-menu {
+      display: block;
+    }
+
+    .mobile-dropdown-menu a, 
+    .mobile-dropdown-menu button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      color: #222 !important;
+      font-weight: 600;
+      background: none;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      width: 100%;
+      text-align: right;
+      direction: rtl;
+      cursor: pointer;
+    }
+
+    .mobile-dropdown-menu a:hover,
+    .mobile-dropdown-menu button:hover {
+      background: linear-gradient(45deg, #FF6B00, #FFA500);
+      color: #fff !important;
+    }
+
+    .mobile-dropdown-menu a i,
+    .mobile-dropdown-menu button i {
+      color: #FF6B00;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .mobile-dropdown-menu a:hover i,
+    .mobile-dropdown-menu button:hover i {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-nav {
+        display: flex;
+      }
+
+      .mobile-dropdown-menu {
+        left: 0;
+        right: auto;
+        background: #fff;
+        border-radius: 18px 18px 22px 22px;
+        box-shadow: 0 8px 32px rgba(255, 107, 0, 0.18), 0 1.5px 8px rgba(0,0,0,0.08);
+        padding: 10px 0;
+        min-width: 220px;
+        animation: mobileMenuFadeIn 0.35s cubic-bezier(.4,2,.6,1) both;
+        border: 1.5px solid #ffe0c2;
+        z-index: 9999;
+      }
+
+      .mobile-dropdown-menu a, .mobile-dropdown-menu button {
+        font-size: 0.93rem;
+        padding: 13px 22px;
+        border-radius: 12px;
+        margin: 0 8px 7px 8px;
+      }
+
+      .mobile-dropdown-menu a:hover, .mobile-dropdown-menu button:hover {
+        background: linear-gradient(90deg, #FF6B00 60%, #FFA500 100%);
+        color: #fff !important;
+        box-shadow: 0 2px 8px rgba(255, 107, 0, 0.08);
+      }
+
+      .mobile-dropdown-menu a i, .mobile-dropdown-menu button i {
+        color: #FF6B00;
+        font-size: 1.2em;
+        margin-left: 8px;
+        transition: color 0.2s;
+      }
+
+      .mobile-dropdown-menu a:hover i, .mobile-dropdown-menu button:hover i {
+        color: #fff;
+      }
+
+      @keyframes mobileMenuFadeIn {
+        from { opacity: 0; transform: translateY(-12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    }
+
+    @media (max-width: 480px) {
+      .mobile-nav {
+        gap: 0.8rem;
+      }
+
+      .mobile-nav-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .mobile-nav-icon i {
+        font-size: 18px;
+      }
+
+      .mobile-notification-count {
+        min-width: 16px;
+        height: 16px;
+        font-size: 11px;
+      }
+    }
+  </style>
+
+  <!-- Load scripts asynchronously -->
+  <script src="/js/error-handler.js" defer></script>
+  <script src="/js/notification-integration.js" defer></script>
+
+  <!-- Google Analytics - Load asynchronously -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X88DTB0JB8');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X88DTB0JB8"></script>
+  
+  <!-- Google Ads - Load asynchronously -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2350758257463070" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="header-container">
+    <div class="mobile-nav">
+      <% if (typeof locals !== 'undefined' && locals.userId) { %>
+        <div class="mobile-settings-dropdown">
+          <a href="#" class="mobile-nav-icon" aria-label="الإعدادات">
+            <i class="fas fa-cog"></i>
+          </a>
+          <div class="mobile-dropdown-menu">
+            <a href="/change-password">
+              <i class="fas fa-key"></i>
+              تغيير كلمة المرور
+            </a>
+            <% if (typeof locals !== 'undefined' && locals.isAdmin) { %>
+              <a href="/admin/dashboard">
+                <i class="fas fa-user-shield"></i>
+                لوحة الإدارة
+              </a>
+            <% } %>
+            <button onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              تسجيل الخروج
+            </button>
+          </div>
+        </div>
+        <a href="/stores" class="mobile-nav-icon" aria-label="المتاجر">
+          <i class="fas fa-store"></i>
+        </a>
+        <a href="/notifications" class="mobile-nav-icon" aria-label="الإشعارات">
+          <i class="fas fa-bell"></i>
+          <% if (typeof locals !== 'undefined' && locals.unreadCount > 0) { %>
+            <span class="mobile-notification-count"><%= locals.unreadCount %></span>
+          <% } %>
+        </a>
+      <% } %>
+    </div>
+
+    <div class="logo-container">
+      <a href="/">
+        <img src="/favicon/logo.png" alt="DIY" loading="lazy" />
+      </a>
+    </div>
+  </header>
+
+  <script>
+    function logout() {
+      if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+        fetch('/logout', {
+          method: 'POST',
+          credentials: 'include'
+        })
+        .then(response => {
+          if (response.ok) {
+            if (window.socket) window.socket.disconnect();
+            window.location.href = '/login';
+          } else {
+            throw new Error('فشل تسجيل الخروج');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert("حدث خطأ أثناء تسجيل الخروج");
+        });
+      }
+    }
+  </script>
+</body>
+</html>
+

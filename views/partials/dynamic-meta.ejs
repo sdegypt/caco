@@ -1,0 +1,87 @@
+<%
+/**
+ * قالب EJS لإدراج علامات الميتا الديناميكية
+ * يستخدم هذا القالب في جميع صفحات الموقع لتوحيد علامات الميتا وتحسين SEO
+ * 
+ * المتغيرات المطلوبة:
+ * - pageName: اسم الصفحة الحالية (مثل 'home', 'forum', 'profile', إلخ)
+ * - pageData: كائن يحتوي على بيانات إضافية للصفحة (اختياري)
+ */
+
+// استيراد وظائف الميتا الديناميكية (يتم استيرادها في الراوتر)
+// const metaUtils = require('../../utils/dynamicMetaUtils');
+
+// تعيين القيم الافتراضية إذا لم يتم تمريرها
+const currentPageName = typeof pageName !== 'undefined' ? pageName : 'default';
+const currentPageData = typeof pageData !== 'undefined' ? pageData : {};
+
+// توليد العنوان والوصف والكلمات المفتاحية
+const pageTitle = metaUtils.generateDynamicTitle(currentPageName, currentPageData);
+const pageDescription = metaUtils.generateDynamicDescription(currentPageName, currentPageData);
+const pageKeywords = metaUtils.generateDynamicKeywords(currentPageName, currentPageData);
+
+// توليد بيانات Open Graph
+const og = metaUtils.generateOpenGraphData(currentPageName, currentPageData);
+
+// توليد بيانات Twitter Card
+const twitter = metaUtils.generateTwitterCardData(currentPageName, currentPageData);
+
+// تحديد الصورة الافتراضية إذا لم تكن موجودة
+const defaultImage = '/uploads/images/logo.png';
+const pageImage = currentPageData.image || defaultImage;
+
+// تحديد الرابط الكامل للصفحة الحالية
+const baseUrl = 'https://www.colorizer.com';
+const pageUrl = currentPageData.url || `${baseUrl}/${currentPageName}`;
+
+// تحديد اللغة والاتجاه
+const pageLang = 'ar';
+const pageDir = 'rtl';
+%>
+
+<!-- علامات الميتا الأساسية -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title><%= pageTitle %></title>
+<meta name="description" content="<%= pageDescription %>">
+<meta name="keywords" content="<%= pageKeywords %>">
+<meta name="author" content="DIY">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow">
+
+<!-- تحسين الأداء والأمان -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com 'unsafe-inline'; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://*; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;">
+<meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="<%= og.type %>">
+<meta property="og:url" content="<%= og.url %>">
+<meta property="og:title" content="<%= og.title %>">
+<meta property="og:description" content="<%= og.description %>">
+<meta property="og:image" content="<%= og.image %>">
+<meta property="og:site_name" content="<%= og.siteName %>">
+<meta property="og:locale" content="<%= og.locale %>">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="<%= twitter.card %>">
+<meta name="twitter:title" content="<%= twitter.title %>">
+<meta name="twitter:description" content="<%= twitter.description %>">
+<meta name="twitter:image" content="<%= twitter.image %>">
+
+<!-- تحسين الأداء: تحميل مسبق للموارد -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+<!-- تحسين تجربة الجوال -->
+<meta name="theme-color" content="#6B48FF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- الرابط القانوني -->
+<link rel="canonical" href="<%= pageUrl %>">

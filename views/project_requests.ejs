@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>طلبات الانضمام للمشاريع</title>
+  <!-- استيراد خط "Cairo" -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- استيراد SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    :root {
+      --primary-color: #6c5ce7;
+      --secondary-color: #a29bfe;
+      --accent-color: #ff7675;
+      --background-color: #f8f8f8;
+      --card-bg: #fff;
+      --text-color: #2d3436;
+      --border-radius: 16px;
+      --transition: 0.4s ease;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Cairo", sans-serif;
+   
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.8;
+     
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: right;
+      direction: rtl;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+
+    .request-card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+    }
+
+    .request-card.hidden {
+      opacity: 0;
+      height: 0;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      transform: translateY(20px);
+    }
+
+    .request-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .request-card h3 {
+      font-size: 1.6rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .request-card p {
+      font-size: 1.1rem;
+      color: var(--text-color);
+      margin: 0.75rem 0;
+    }
+
+    .request-card strong {
+      color: var(--secondary-color);
+      font-weight: 600;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition), transform var(--transition);
+    }
+
+    .btn-accept {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+
+    .btn-accept:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    .btn-reject {
+      background-color: var(--accent-color);
+      color: #fff;
+    }
+
+    .btn-reject:hover {
+      background-color: #ff5252;
+      transform: translateY(-3px);
+    }
+
+    .no-requests {
+      text-align: center;
+      padding: 3rem;
+      font-size: 1.4rem;
+      color: var(--text-color);
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        width: 95%;
+      }
+
+      .request-card {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/headerhome') %>
+  <%- include('partials/headeraction') %>
+
+  <div class="container">
+    <h1>طلبات الانضمام للمشاريع</h1>
+    <% if (requests && requests.length > 0) { %>
+      <% requests.forEach(function(request) { %>
+        <div class="request-card" id="request-<%= request.id %>">
+          <h3>المشروع: <%= request.project_title %></h3>
+          <p><strong>اسم المتقدم:</strong> <%= request.applicant_name %></p>
+          <p><strong>البريد الإلكتروني:</strong> <%= request.applicant_email %></p>
+          <p><strong>الرسالة:</strong> <%= request.motivation %></p>
+          <p><strong>الحالة:</strong> <span id="status-<%= request.id %>"><%= request.status %></span></p>
+          <div class="buttons">
+            <% if (request.status === 'pending') { %>
+              <button class="btn btn-accept" onclick="acceptRequest('<%= request.id %>')">قبول</button>
+              <button class="btn btn-reject" onclick="rejectRequest('<%= request.id %>')">رفض</button>
+            <% } else { %>
+              <p style="color: var(--accent-color); font-weight: 600;">تمت معالجة هذا الطلب</p>
+            <% } %>
+          </div>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p class="no-requests">لا توجد طلبات انضمام حتى الآن.</p>
+    <% } %>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // جلب التوكن من الكوكيز
+      const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1] || '';
+
+      // قبول الطلب
+      window.acceptRequest = async function (requestId) {
+        Swal.fire({
+          title: 'هل أنت متأكد؟',
+          text: 'سيتم قبول هذا الطلب وسيتم إنشاء محادثة.',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'نعم، قبول',
+          cancelButtonText: 'إلغاء',
+          confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+          cancelButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim(),
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              const response = await fetch(`/projects/accept-request/${requestId}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`,
+                },
+                credentials: 'include'
+              });
+
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+
+              const data = await response.json();
+
+              if (data.success) {
+                const card = document.getElementById(`request-${requestId}`);
+                card.classList.add('hidden');
+                Swal.fire({
+                  icon: 'success',
+                  title: 'تم القبول!',
+                  text: 'تم قبول الطلب بنجاح، سيتم توجيهك إلى المحادثات.',
+                  confirmButtonText: 'موافق',
+                  confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+                }).then(() => {
+                  setTimeout(() => {
+                    card.remove();
+                    window.location.href = `/projects/ongoing_chats`;
+                  }, 300);
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'خطأ',
+                  text: 'حدث خطأ أثناء قبول الطلب: ' + (data.message || 'غير معروف'),
+                  confirmButtonText: 'موافق',
+                  confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim(),
+                });
+              }
+            } catch (error) {
+              console.error('Error:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'خطأ غير متوقع',
+                text: 'حدث خطأ أثناء قبول الطلب: ' + error.message,
+                confirmButtonText: 'موافق',
+                confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim(),
+              });
+            }
+          }
+        });
+      };
+
+      // رفض الطلب
+      window.rejectRequest = async function (requestId) {
+        Swal.fire({
+          title: 'هل أنت متأكد؟',
+          text: 'سيتم رفض هذا الطلب.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'نعم، رفض',
+          cancelButtonText: 'إلغاء',
+          confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+          cancelButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim(),
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              const response = await fetch(`/projects/reject-request/${requestId}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`,
+                },
+                credentials: 'include'
+              });
+
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+
+              const data = await response.json();
+
+              if (data.success) {
+                const card = document.getElementById(`request-${requestId}`);
+                card.classList.add('hidden');
+                Swal.fire({
+                  icon: 'success',
+                  title: 'تم الرفض!',
+                  text: 'تم رفض الطلب بنجاح.',
+                  confirmButtonText: 'موافق',
+                  confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+                }).then(() => {
+                  setTimeout(() => card.remove(), 300);
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'خطأ',
+                  text: 'حدث خطأ أثناء رفض الطلب: ' + (data.message || 'غير معروف'),
+                  confirmButtonText: 'موافق',
+                  confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim(),
+                });
+              }
+            } catch (error) {
+              console.error('Error:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'خطأ غير متوقع',
+                text: 'حدث خطأ أثناء رفض الطلب: ' + error.message,
+                confirmButtonText: 'موافق',
+                confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim(),
+              });
+            }
+          }
+        });
+      };
+    });
+  </script>
+
+</body>
+<footer style="margin-top: 80vh !important;">
+  <%- include("partials/footer") %>
+</footer>
+</html>

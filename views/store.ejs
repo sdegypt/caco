@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= store.name %> | DIY</title>
+    <!-- Meta Tags -->
+    <meta name="description" content="<%= store.description || 'متجر ' + store.name + ' على منصة DIY' %>">
+    <meta name="keywords" content="<%= store.name %>, متجر, منتجات, DIY">
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="<%= store.name %> | DIY">
+    <meta property="og:description" content="<%= store.description || 'تسوق أفضل المنتجات من متجر ' + store.name %>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://<%= req.headers.host %>/stores/<%= store.id %>">
+    <meta property="og:image" content="<%= store.logo || '/images/default-store-og.jpg' %>">
+    
+    <!-- CSS Files -->
+
+    
+    <style>
+        :root {
+            --primary: #FF7F50;
+            --primary-light: #FF9F66;
+            --primary-dark: #FF5722;
+            --secondary: #FFDAB9;
+            --accent: #FFA07A;
+            --dark: #2C3E50;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --success: #25D366;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --card-padding: 1.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #FFFCFA;
+            color: var(--dark);
+            direction: rtl;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Header */
+        .store-header {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background-size: 200% 200%;
+            animation: gradientAnimation 12s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .store-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h30v30H0V0zm30 30h30v30H30V30z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .store-header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 1.5rem;
+        }
+
+        .store-name {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .store-description {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease both;
+        }
+
+        .store-owner-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            animation: fadeIn 1.2s ease both;
+        }
+
+        .owner-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .owner-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .owner-avatar:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Stats */
+        .store-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--card-padding);
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: fadeInUp 0.5s ease both;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+            transform: translateX(-100%);
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .stat-card:hover::after {
+            transform: translateX(0);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-feature-settings: "tnum";
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Products */
+        .products-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 800;
+            animation: fadeIn 0.8s ease both;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 2px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: fadeIn 0.6s ease both;
+            will-change: transform;
+        }
+
+        .product-card.skeleton {
+            background: var(--light-gray);
+        }
+
+        .product-card.skeleton .product-image {
+            background: var(--light-gray);
+            animation: pulse 1.5s infinite;
+        }
+
+        .product-card.skeleton .product-info > * {
+            background: var(--light-gray);
+            height: 1.25rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .product-card.skeleton .product-info .product-price {
+            height: 2rem;
+            width: 50%;
+        }
+
+        .product-card.skeleton .product-info .product-actions {
+            height: 3rem;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-image {
+            height: 220px;
+            background: linear-gradient(45deg, var(--light), var(--light-gray));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.08);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .product-info {
+            padding: var(--card-padding);
+        }
+
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 3.5rem;
+        }
+
+        .product-description {
+            color: var(--gray);
+            margin-bottom: 1.25rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            min-height: 4.5rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .product-price .old-price {
+            font-size: 1rem;
+            color: var(--gray);
+            text-decoration: line-through;
+            margin-right: 0.5rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            flex: 1;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success), #128C7E);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(45deg, #128C7E, var(--success));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+            animation: fadeIn 0.8s ease both;
+        }
+
+        .empty-state i {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .empty-state p {
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .store-footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 5rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            color: var(--gray);
+            background: white;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: var(--primary-dark);
+            box-shadow: 0 8px 16px rgba(255, 87, 34, 0.2);
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: white;
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Loading Animation */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Product Preview Modal */
+        .preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .preview-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .preview-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .preview-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .close-preview {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: var(--transition);
+        }
+
+        .close-preview:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: rotate(90deg);
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .store-name {
+                font-size: 2.5rem;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .store-header {
+                padding: 3rem 0;
+                margin-bottom: 1.5rem;
+            }
+            .store-name {
+                font-size: 2rem;
+            }
+            .store-description {
+                font-size: 1.1rem;
+            }
+            .store-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .section-title::after {
+                width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .store-name {
+                font-size: 1.7rem;
+            }
+            .store-stats {
+                grid-template-columns: 1fr;
+            }
+            .product-name {
+                font-size: 1.1rem;
+                min-height: 3rem;
+            }
+            .product-description {
+                min-height: 4rem;
+                font-size: 0.9rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .product-actions {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+        
+        /* أنماط الفوتر المعزولة */
+        .footer-container {
+            width: 100%;
+            background: white;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            margin-top: auto;
+        }
+
+        .footer-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            color: var(--gray);
+        }
+
+        .footer-social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-social-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .footer-social-icon:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: var(--primary-dark);
+            box-shadow: 0 8px 16px rgba(255, 87, 34, 0.2);
+        }
+
+        .footer-copyright {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<% function getCurrencyName(code) {
+  switch(code) {
+    case 'SAR': return 'ريال';
+    case 'QAR': return 'ريال قطري';
+    case 'OMR': return 'ريال عماني';
+    case 'KWD': return 'دينار كويتي';
+    case 'EGP': return 'جنيه مصري';
+    case 'USD': return 'دولار أمريكي';
+    case 'AED': return 'درهم إماراتي';
+    case 'LYD': return 'دينار ليبي';
+    case 'SDG': return 'جنيه سوداني';
+    default: return code || 'ريال';
+  }
+} %>
+<% function getImageUrl(image) {
+  if (!image) return '/uploads/images/pngwing.com.png';
+  if (image.startsWith('http')) return image;
+  if (image.startsWith('/uploads') || image.startsWith('uploads')) return image;
+  return '/uploads/images/pngwing.com.png';
+} %>
+<% function getCloudinaryImageUrl(image, fallback) {
+  if (!image) return fallback || '/uploads/images/pngwing.com.png';
+  if (image.startsWith('http')) return image;
+  if (image.startsWith('/uploads/') || image.startsWith('/gallery/') || image.startsWith('/images/')) return image;
+  return '/uploads/products/' + image;
+} %>
+<body>
+    <%- include('partials/headerhome') %>
+    <%- include('partials/headeraction') %>
+  
+    <div class="container">
+        <!-- Back Button -->
+        <a href="/stores" class="back-btn">
+            <i class="fas fa-arrow-right"></i>
+            العودة للمتاجر
+        </a>
+
+        <!-- Store Header -->
+        <div class="store-header">
+            <div class="store-header-content">
+                <h1 class="store-name"><%= store.name %></h1>
+                <% if (store.description) { %>
+                    <p class="store-description"><%= store.description %></p>
+                <% } %>
+                
+                <div class="store-owner-info">
+                    <div class="owner-avatar" aria-label="المالك: <%= store.owner_name %>">
+                        <% if (store.owner_avatar) { %>
+                            <img src="<%= getCloudinaryImageUrl(store.owner_avatar, '/uploads/images/pngwing.com.png') %>" alt="<%= store.owner_name %>" onerror="this.style.display='none'; this.parentElement.innerHTML='<%= store.owner_name.charAt(0).toUpperCase() %>';">
+                        <% } else { %>
+                            <%= store.owner_name.charAt(0).toUpperCase() %>
+                        <% } %>
+                    </div>
+                    <span>بواسطة: <%= store.owner_name %></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Store Statistics -->
+        <% if (stats) { %>
+            <div class="store-stats">
+                <div class="stat-card" style="animation-delay: 0.1s">
+                    <div class="stat-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="stat-number"><%= stats.total_products || 0 %></div>
+                    <div class="stat-label">إجمالي المنتجات</div>
+                </div>
+                
+                <div class="stat-card" style="animation-delay: 0.2s">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-number"><%= stats.active_products || 0 %></div>
+                    <div class="stat-label">منتجات متاحة</div>
+                </div>
+                
+                <div class="stat-card" style="animation-delay: 0.3s">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-number">
+                        <%= stats.average_price ? Math.round(stats.average_price) : 0 %>
+                    </div>
+                    <div class="stat-label">متوسط السعر</div>
+                </div>
+                
+                <div class="stat-card" style="animation-delay: 0.4s">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-number">
+                        <%= new Date(store.created_at).getFullYear() %>
+                    </div>
+                    <div class="stat-label">سنة التأسيس</div>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="empty-state">
+                <i class="fas fa-chart-line"></i>
+                <h3>لا توجد إحصائيات متاحة</h3>
+                <p>لا تتوفر بيانات إحصائية عن هذا المتجر حالياً</p>
+            </div>
+        <% } %>
+
+        <!-- Products Section -->
+        <div class="products-section">
+            <h2 class="section-title">
+                <i class="fas fa-shopping-basket"></i>
+                منتجات المتجر
+            </h2>
+
+            <% if (products && products.length > 0) { %>
+                <div class="products-grid" id="products-grid">
+                    <% products.forEach((product, index) => { %>
+                        <div class="product-card" style="animation-delay: <%= index * 0.1 %>s">
+                            <div class="product-image">
+                                <% if (product.primary_image) { %>
+                                    <img src="<%= getCloudinaryImageUrl(product.primary_image, '/uploads/images/pngwing.com.png') %>" alt="<%= product.name %>" loading="lazy" class="product-img" data-preview="<%= getImageUrl(product.primary_image) %>" onerror="this.src='/uploads/images/pngwing.com.png'">
+                                <% } else { %>
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #ccc;">
+                                        <i class="fas fa-image" style="font-size: 3rem;"></i>
+                                    </div>
+                                <% } %>
+                                <% if (product.is_new) { %>
+                                    <span class="product-badge">جديد</span>
+                                <% } %>
+                            </div>
+                            
+                            <div class="product-info">
+                                <h3 class="product-name"><%= product.name %></h3>
+                                <p class="product-description"><%= product.description || 'لا يوجد وصف لهذا المنتج' %></p>
+                                <div class="product-price">
+                                    <i class="fas fa-tag"></i>
+                                    <%= product.price %> <%= getCurrencyName(product.currency || store.currency) %>
+                                    <% if (product.old_price) { %>
+                                        <span class="old-price"><%= product.old_price %></span>
+                                    <% } %>
+                                </div>
+                                
+                                <div class="product-actions">
+                                    <% const waMsg = 'مرحباً، أود شراء المنتج: ' + product.name + ' بسعر ' + product.price + ' ' + getCurrencyName(product.currency || store.currency) + ' من متجرك ' + store.name + ' (رابط المنتج: http://' + req.headers.host + '/stores/' + store.id + ')'; %>
+                                    <a class="btn btn-success" target="_blank"
+                                       href="https://wa.me/<%= store.whatsapp_number %>?text=<%= encodeURIComponent(waMsg) %>">
+                                        <i class="fab fa-whatsapp"></i> شراء
+                                    </a>
+                                    <button class="btn btn-outline btn-sm preview-btn" data-image="<%= getImageUrl(product.primary_image) %>">
+                                        معاينة المنتج
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <h3>لا توجد منتجات في هذا المتجر</h3>
+                    <p>تابع المتجر لتصلك أحدث المنتجات عند إضافتها</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Product Preview Modal -->
+    <div class="preview-modal" id="previewModal">
+        <div class="preview-content">
+            <span class="close-preview">&times;</span>
+            <img id="previewImage" src="" alt="معاينة المنتج">
+        </div>
+    </div>
+
+    <script>
+        // Enhanced animations and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Intersection Observer for scroll animations
+            const animateOnScroll = (elements, className) => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add(className);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                elements.forEach(el => observer.observe(el));
+            };
+
+            // Animate product cards
+            const productCards = document.querySelectorAll('.product-card');
+            animateOnScroll(productCards, 'visible');
+
+            // Animate stat cards
+            const statCards = document.querySelectorAll('.stat-card');
+            animateOnScroll(statCards, 'visible');
+
+            // Skeleton loading simulation
+            const skeletonCards = document.querySelectorAll('.product-card.skeleton');
+            skeletonCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.remove('skeleton');
+                }, 500 + index * 150);
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add hover effect to product cards
+            productCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px)';
+                    card.style.boxShadow = 'var(--shadow-hover)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                    card.style.boxShadow = 'var(--shadow)';
+                });
+            });
+
+            // Product Preview Functionality
+            const previewModal = document.getElementById('previewModal');
+            const previewImage = document.getElementById('previewImage');
+            const previewButtons = document.querySelectorAll('.preview-btn');
+            const closePreview = document.querySelector('.close-preview');
+
+            // Open preview modal
+            previewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    if (imageUrl) {
+                        previewImage.src = imageUrl;
+                        previewModal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            // Click on product image to preview
+            document.querySelectorAll('.product-img').forEach(img => {
+                img.addEventListener('click', function() {
+                    const imageUrl = this.getAttribute('data-preview');
+                    if (imageUrl) {
+                        previewImage.src = imageUrl;
+                        previewModal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            // Close preview modal
+            closePreview.addEventListener('click', function() {
+                previewModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            // Close when clicking outside the image
+            previewModal.addEventListener('click', function(e) {
+                if (e.target === previewModal) {
+                    previewModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Close with ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && previewModal.classList.contains('active')) {
+                    previewModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Lazy load images with Intersection Observer
+            if ('IntersectionObserver' in window) {
+                const lazyImages = document.querySelectorAll('.product-img');
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.preview && !img.src.includes(img.dataset.preview)) {
+                                img.src = img.dataset.preview;
+                                img.removeAttribute('data-preview');
+                            }
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                }, { rootMargin: '200px 0px' });
+
+                lazyImages.forEach(img => {
+                    if (img.dataset.preview) {
+                        imageObserver.observe(img);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+<div class="footer-container">
+    <div class="footer-wrapper">
+        <h3><%= store.name %></h3>
+     
+        <p class="footer-copyright">جميع الحقوق محفوظة &copy; <%= new Date().getFullYear() %></p>
+    </div>
+</div>
+</html>
+

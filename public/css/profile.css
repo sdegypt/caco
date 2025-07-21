@@ -1,0 +1,158 @@
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.friend-button {
+    min-width: 130px;
+}
+
+.friend-button.add {
+    background-color: #1877f2;
+    color: white;
+}
+
+.friend-button.add:hover {
+    background-color: #166fe5;
+}
+
+.friend-button.pending {
+    background-color: #e4e6eb;
+    color: #050505;
+}
+
+.friend-button.pending:hover {
+    background-color: #d8dadf;
+}
+
+.friend-button.remove {
+    background-color: #e4e6eb;
+    color: #050505;
+}
+
+.friend-button.remove:hover {
+    background-color: #d8dadf;
+}
+
+.like-button {
+    background-color: #e4e6eb;
+    color: #050505;
+}
+
+.like-button:hover {
+    background-color: #d8dadf;
+}
+
+.like-button.liked {
+    background-color: #e41e3f;
+    color: white;
+}
+
+.like-button.liked:hover {
+    background-color: #d71838;
+}
+
+.feedback-message-container {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.feedback-message {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.feedback-message.success {
+    background-color: #e3f3e3;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.feedback-message.error {
+    background-color: #fdecea;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
+}
+
+/* تحسين الاستجابة للهاتف */
+@media (max-width: 768px) {
+    .feedback-message-container {
+        top: 60px;
+        width: 95%;
+        max-width: 350px;
+        padding: 0 10px;
+    }
+    
+    .feedback-message {
+        padding: 10px 15px;
+        font-size: 13px;
+        border-radius: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .feedback-message-container {
+        top: 50px;
+        width: 98%;
+        max-width: 320px;
+        padding: 0 5px;
+    }
+    
+    .feedback-message {
+        padding: 8px 12px;
+        font-size: 12px;
+        border-radius: 4px;
+        line-height: 1.4;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+} 

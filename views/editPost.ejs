@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تعديل المنشور | DIY</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@700&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      color: #333;
+      direction: rtl;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header {
+      background: linear-gradient(135deg, #FF6B35, #FF8E53);
+      color: #ffffff;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-container {
+      padding: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 30px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .form-group label i {
+      margin-left: 8px;
+      color: #FF6B35;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #FF6B35;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 20px;
+      border: 2px dashed #FF6B35;
+      border-radius: 12px;
+      background: #fff5f2;
+      color: #FF6B35;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .file-input-label:hover {
+      background: #FF6B35;
+      color: #ffffff;
+      border-style: solid;
+    }
+
+    .file-input-label i {
+      font-size: 1.2rem;
+    }
+
+    .image-preview {
+      margin-top: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .image-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .image-item:hover {
+      transform: scale(1.05);
+    }
+
+    .image-item img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-item .remove-btn {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: rgba(255, 0, 0, 0.8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      transition: background 0.3s ease;
+    }
+
+    .image-item .remove-btn:hover {
+      background: rgba(255, 0, 0, 1);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 40px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #FF6B35, #FF8E53);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #FF8E53, #FF6B35);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+    }
+
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 2px solid #ffffff;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px;
+        border-radius: 15px;
+      }
+
+      .header {
+        padding: 20px;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .form-container {
+        padding: 20px;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .image-item img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      .header p {
+        font-size: 1rem;
+      }
+
+      .form-container {
+        padding: 15px;
+      }
+
+      .image-preview {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<%- include('partials/headerhome') %>
+<%- include('partials/headeraction') %>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-edit"></i> تعديل المنشور</h1>
+      <p>قم بتحديث محتوى منشورك والصور المرفقة</p>
+    </div>
+
+    <div class="form-container">
+      <form id="editPostForm" action="/forum/post/<%= post.id %>/edit" method="POST" enctype="multipart/form-data">
+        
+        <div class="form-group">
+          <label for="content">
+            <i class="fas fa-pen"></i>
+            محتوى المنشور
+          </label>
+          <textarea 
+            name="content" 
+            id="content" 
+            class="form-control" 
+            placeholder="اكتب محتوى منشورك هنا..."
+            required
+          ><%= post.content %></textarea>
+        </div>
+
+        <% for (let i = 1; i <= 4; i++) { %>
+          <div class="form-group">
+            <label for="postImages<%= i %>">
+              <i class="fas fa-image"></i>
+              الصورة <%= i %>
+            </label>
+            
+            <div class="file-input-wrapper">
+              <input 
+                type="file" 
+                name="postImages" 
+                id="postImages<%= i %>" 
+                class="file-input"
+                accept="image/*"
+                onchange="previewImage(this, <%= i %>)"
+              />
+              <label for="postImages<%= i %>" class="file-input-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                اختر صورة أو اسحبها هنا
+              </label>
+            </div>
+
+            <div class="image-preview" id="preview<%= i %>">
+              <% if (post['image' + i]) { %>
+                <div class="image-item">
+                  <img src="<%= getCloudinaryImageUrl(post['image' + i], '/uploads/images/pngwing.com.png') %>" alt="الصورة <%= i %>" />
+                  <button type="button" class="remove-btn" onclick="removeExistingImage(<%= i %>)">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
+
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i>
+            <span class="btn-text">تحديث المنشور</span>
+            <div class="loading-spinner"></div>
+          </button>
+          
+          <a href="/forum" class="btn btn-secondary">
+            <i class="fas fa-arrow-right"></i>
+            العودة للمنتدى
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    <% function getCloudinaryImageUrl(image, fallback) { return image && image.startsWith('http') ? image : (image ? '/uploads/images/' + image : (fallback || '/uploads/images/pngwing.com.png')); } %>
+
+    // Preview uploaded images
+    function previewImage(input, imageNumber) {
+      const preview = document.getElementById(`preview${imageNumber}`);
+      
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          preview.innerHTML = `
+            <div class="image-item">
+              <img src="${e.target.result}" alt="معاينة الصورة ${imageNumber}" />
+              <button type="button" class="remove-btn" onclick="removePreviewImage(${imageNumber})">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          `;
+        };
+        
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // Remove preview image
+    function removePreviewImage(imageNumber) {
+      const input = document.getElementById(`postImages${imageNumber}`);
+      const preview = document.getElementById(`preview${imageNumber}`);
+      
+      input.value = '';
+      preview.innerHTML = '';
+    }
+
+    // Remove existing image
+    function removeExistingImage(imageNumber) {
+      const preview = document.getElementById(`preview${imageNumber}`);
+      preview.innerHTML = '';
+      
+      // Add hidden input to mark image for deletion
+      const form = document.getElementById('editPostForm');
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = `removeImage${imageNumber}`;
+      hiddenInput.value = 'true';
+      form.appendChild(hiddenInput);
+    }
+
+    // Form submission with loading state
+    document.getElementById('editPostForm').addEventListener('submit', function(e) {
+      const submitBtn = this.querySelector('.btn-primary');
+      const btnText = submitBtn.querySelector('.btn-text');
+      const spinner = submitBtn.querySelector('.loading-spinner');
+      
+      // Show loading state
+      submitBtn.disabled = true;
+      btnText.style.display = 'none';
+      spinner.style.display = 'inline-block';
+      
+      // Show success message after a delay (simulating processing)
+      setTimeout(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'تم التحديث بنجاح!',
+          text: 'تم تحديث منشورك بنجاح',
+          confirmButtonText: 'موافق',
+          confirmButtonColor: '#FF6B35',
+          timer: 3000,
+          timerProgressBar: true
+        });
+      }, 1000);
+    });
+
+    // Drag and drop functionality
+    document.querySelectorAll('.file-input-label').forEach(label => {
+      label.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        this.style.background = '#FF6B35';
+        this.style.color = '#ffffff';
+      });
+
+      label.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        this.style.background = '#fff5f2';
+        this.style.color = '#FF6B35';
+      });
+
+      label.addEventListener('drop', function(e) {
+        e.preventDefault();
+        this.style.background = '#fff5f2';
+        this.style.color = '#FF6B35';
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          const input = this.previousElementSibling;
+          input.files = files;
+          
+          // Trigger change event
+          const event = new Event('change', { bubbles: true });
+          input.dispatchEvent(event);
+        }
+      });
+    });
+  </script>
+</body>
+
+<footer style="margin-top: 40px;">
+  <%- include('partials/footer') %>
+</footer>
+
+</html>
+

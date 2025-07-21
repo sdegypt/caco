@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="DYJRfaCRv2A7svif6_JoSm2FKoJXmsi5JvRkcrHzt1E" />
+  
+  <!-- Content Security Policy for AdSense -->
+  <%- include("csp-policy") %>
+  
+  <!-- تضمين علامات الميتا الديناميكية -->
+  <%- include("dynamic-meta") %>
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  
+  <!-- PWA Icons - محدثة للقندس -->
+  <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72-new.png" />
+  <link rel="apple-touch-icon" sizes="92x92" href="/icons/icon-92x92-new.png" />
+  <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128x128-new.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144-new.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152-new.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192-new.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192-new.png" />
+  <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384-new.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512-new.png" />
+  
+  <!-- Standard Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-72x72-new.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-72x72-new.png" />
+  <link rel="shortcut icon" href="/icons/icon-72x72-new.png" />
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#FF6B00" />
+  <meta name="msapplication-TileColor" content="#FF6B00" />
+  <meta name="msapplication-TileImage" content="/icons/icon-144x144-new.png" />
+  
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="اعملها براك" />
+  
+  <!-- Android Chrome -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="اعملها براك" />
+  
+  <!-- Dynamic SEO Meta Tags -->
+  <title><%= typeof seo !== 'undefined' && seo.title ? seo.title : 'اعملها براك' %></title>
+  <meta name="description" content="<%= typeof seo !== 'undefined' && seo.description ? seo.description : 'منصة شاملة للمبدعين العرب في التصميم، الفن، البرمجة، والكتابة' %>" />
+  <meta name="keywords" content="<%= typeof seo !== 'undefined' && seo.keywords ? seo.keywords : 'إبداع، تصميم، فن، برمجة، كتابة، عرب' %>" />
+  
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="اعملها براك" />
+  <meta property="og:locale" content="ar_SA" />
+  <meta property="og:type" content="<%= typeof seo !== 'undefined' && seo.ogType ? seo.ogType : 'website' %>" />
+  <meta property="og:title" content="<%= typeof seo !== 'undefined' && seo.ogTitle ? seo.ogTitle : 'اعملها براك' %>" />
+  <meta property="og:description" content="<%= typeof seo !== 'undefined' && seo.ogDescription ? seo.ogDescription : 'منصة شاملة للمبدعين العرب في التصميم، الفن، البرمجة، والكتابة' %>" />
+  <meta property="og:url" content="<%= typeof seo !== 'undefined' && seo.ogUrl ? seo.ogUrl : 'https://www.amlhabrak.online' %>" />
+  <meta property="og:image" content="<%= typeof seo !== 'undefined' && seo.ogImage ? seo.ogImage : 'https://www.amlhabrak.online/public/images/logo-og.png' %>" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="شعار اعملها براك" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="<%= typeof seo !== 'undefined' && seo.twitterCard ? seo.twitterCard : 'summary_large_image' %>" />
+  <meta name="twitter:site" content="@amlhabrak" />
+  <meta name="twitter:title" content="<%= typeof seo !== 'undefined' && seo.twitterTitle ? seo.twitterTitle : 'اعملها براك' %>" />
+  <meta name="twitter:description" content="<%= typeof seo !== 'undefined' && seo.twitterDescription ? seo.twitterDescription : 'منصة شاملة للمبدعين العرب في التصميم، الفن، البرمجة، والكتابة' %>" />
+  <meta name="twitter:image" content="<%= typeof seo !== 'undefined' && seo.twitterImage ? seo.twitterImage : 'https://www.amlhabrak.online/public/images/logo-og.png' %>" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="<%= typeof seo !== 'undefined' && seo.canonical ? seo.canonical : 'https://www.amlhabrak.online' %>" />
+  
+  <!-- Alternate Languages -->
+  <link rel="alternate" hreflang="ar" href="<%= typeof seo !== 'undefined' && seo.canonical ? seo.canonical : 'https://www.amlhabrak.online' %>" />
+  <link rel="alternate" hreflang="x-default" href="<%= typeof seo !== 'undefined' && seo.canonical ? seo.canonical : 'https://www.amlhabrak.online' %>" />
+  
+  <!-- Robots Meta -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="author" content="اعملها براك" />
+  <meta name="publisher" content="اعملها براك" />
+  <meta name="copyright" content="© 2025 اعملها براك. جميع الحقوق محفوظة." />
+  <meta name="rating" content="general" />
+  <meta name="distribution" content="global" />
+  <meta name="revisit-after" content="1 days" />
+  
+  <!-- Structured Data - Organization & WebSite -->
+  <% if (typeof structuredData !== 'undefined') { %>
+  <script type="application/ld+json">
+  <%- JSON.stringify(structuredData, null, 2) %>
+  </script>
+  <% } %>
+  
+  <!-- Structured Data - BreadcrumbList (if applicable) -->
+  <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs.length > 0) { %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      <% breadcrumbs.forEach((crumb, index) => { %>
+      {
+        "@type": "ListItem",
+        "position": <%= index + 1 %>,
+        "name": "<%= crumb.name %>",
+        "item": "https://www.amlhabrak.online<%= crumb.url %>"
+      }<%= index < breadcrumbs.length - 1 ? ',' : '' %>
+      <% }); %>
+    ]
+  }
+  </script>
+  <% } %>
+  
+  <!-- تحسين الأداء: تحميل Google Fonts و FontAwesome مع تأخير -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <!-- Critical CSS inline (يجب إضافة CSS الحرج هنا) -->
+  <style>
+    /* CSS حرج للتحميل السريع */
+    body { font-family: 'Cairo', 'Tajawal', Arial, sans-serif; margin: 0; padding: 0; }
+    .loading { display: flex; justify-content: center; align-items: center; height: 100vh; }
+    .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #6c5ce7; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+  
+  <!-- تحميل الخطوط مع تحسين الأداء -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
+  
+  <!-- FontAwesome مع تحسين الأداء -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /></noscript>
+  
+  <!-- SweetAlert2 مع تحسين الأداء -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" media="print" onload="this.media='all'" />
+  
+  <!-- ملفات CSS الرئيسية -->
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/progressive-images.css" />
+  <link rel="stylesheet" href="/css/performance-optimizations.css" />
+  
+  <!-- تحسينات الأداء والأخطاء -->
+  <script src="/js/error-handler.js" defer></script>
+  <script src="/js/performance-optimizer.js" defer></script>
+  <script src="/js/image-optimizer.js" defer></script>
+  <script src="/js/keyboard-navigation.js" defer></script>
+  <script src="/js/aria-support.js" defer></script>
+  <script src="/js/progressive-images.js" defer></script>
+  
+  <!-- Service Worker Registration مع Cache Busting -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        // تسجيل Service Worker مع cache busting
+        const swUrl = "/service-worker.js?v=" + Date.now();
+        navigator.serviceWorker.register(swUrl)
+          .then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            
+            // فحص التحديثات
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // إشعار المستخدم بوجود تحديث
+                  if (confirm('يتوفر تحديث جديد للتطبيق. هل تريد إعادة التحميل؟')) {
+                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                    window.location.reload();
+                  }
+                }
+              });
+            });
+            
+            // الاستماع لرسائل من Service Worker
+            navigator.serviceWorker.addEventListener('message', event => {
+              if (event.data && event.data.type === 'SW_UPDATED') {
+                console.log('Service Worker updated to version:', event.data.version);
+              }
+            });
+            
+          }, function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+          
+        // فرض تحديث الكاش عند الحاجة
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          window.location.reload();
+        });
+      });
+    }
+    
+    // إضافة زر تحديث الكاش للمطورين (يمكن إزالته في الإنتاج)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      window.clearAppCache = function() {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistration().then(registration => {
+            if (registration) {
+              registration.unregister().then(() => {
+                caches.keys().then(cacheNames => {
+                  return Promise.all(cacheNames.map(cacheName => caches.delete(cacheName)));
+                }).then(() => {
+                  window.location.reload();
+                });
+              });
+            }
+          });
+        }
+      };
+      console.log('للمطورين: استخدم clearAppCache() لمسح الكاش');
+    }
+  </script>
+  
+  <!-- Google Analytics المحسن -->
+  <%- include("google-analytics") %>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X88DTB0JB8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X88DTB0JB8', {
+      page_title: document.title,
+      page_location: window.location.href,
+      content_group1: '<%= typeof pageCategory !== "undefined" ? pageCategory : "general" %>'
+    });
+  </script>
+  
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2350758257463070" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-2350758257463070">
+</head>
+
+

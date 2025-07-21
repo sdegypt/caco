@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد | DIY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B00;
+            --primary-light: #FF8A3D;
+            --secondary: #6B48FF;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --success: #28A745;
+            --error: #DC3545;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        /* إخفاء أيقونات المشاريع والوظائف في الهيدر */
+        .right-nav li:nth-child(1),
+        .right-nav li:nth-child(2) {
+            display: none !important;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .signup-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .signup-box {
+            background: white;
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--light-gray);
+        }
+
+        .signup-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+        }
+
+        .logo img {
+            max-width: 120px;
+        }
+
+        .signup-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .signup-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            position: relative;
+            width: 100%;
+            text-align: right;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .input-field {
+            position: relative;
+        }
+
+        .input-field i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+            outline: none;
+        }
+
+        .file-input {
+            padding: 0.5rem;
+            border: 1px dashed var(--light-gray);
+            border-radius: var(--radius-sm);
+            background-color: var(--light);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .file-input:hover {
+            border-color: var(--primary-light);
+        }
+
+        .file-input input[type="file"] {
+            display: none;
+        }
+
+        .file-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(107, 72, 255, 0.2);
+        }
+
+        .signup-btn:hover {
+            box-shadow: 0 8px 25px rgba(107, 72, 255, 0.3);
+        }
+
+        .signup-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .login-link {
+            margin-top: 1.5rem;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .login-link a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: var(--error);
+            background-color: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .success-message {
+            color: var(--success);
+            background-color: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .signup-box {
+                padding: 2rem;
+            }
+            
+            .signup-title {
+                font-size: 1.5rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 1rem;
+            }
+            
+            .signup-box {
+                padding: 1.5rem;
+            }
+            
+            .form-control {
+                padding: 0.75rem 1rem 0.75rem 2.5rem;
+            }
+            
+            .input-field i {
+                left: 10px;
+            }
+        }
+
+        #alertBox {
+            display: none;
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 7px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: opacity 0.3s;
+        }
+        #alertBox.success {
+            background: #e8f9f1;
+            color: #1dd1a1;
+            border: 1px solid #1dd1a1;
+        }
+        #alertBox.error {
+            background: #fff0f0;
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+        #alertBox .icon {
+            margin-left: 0.5rem;
+            font-size: 1.1em;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+  <header style="width: 100%;">
+    <%- include('partials/headerhome') %>
+    <%- include('partials/headeraction') %>
+  </header>
+
+  <div class="signup-container">
+    <div class="signup-box">
+      <div class="logo">
+        <img src="/favicon/logo.png" alt="DIY Logo">
+      </div>
+      
+      <h1 class="signup-title">إنشاء حساب جديد</h1>
+      
+      <% if (typeof errorMessage !== 'undefined') { %>
+        <div class="error-message"><%= errorMessage %></div>
+      <% } %>
+      <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+        <div class="success-message"><%= successMessage %></div>
+      <% } %>
+      
+      <div id="alertBox" style="display:none;"></div>
+      
+      <form id="signupForm" class="signup-form" action="/signup" method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name" class="form-label">الاسم الكامل</label>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" id="name" name="name" class="form-control" required placeholder="أدخل اسمك الكامل">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="email" class="form-label">البريد الإلكتروني</label>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="email" name="email" class="form-control" required placeholder="أدخل بريدك الإلكتروني">
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="age" class="form-label">العمر</label>
+            <div class="input-field">
+              <i class="fas fa-calendar-alt"></i>
+              <input type="number" id="age" name="age" class="form-control" min="1" required placeholder="أدخل عمرك">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="gender" class="form-label">الجنس</label>
+            <div class="input-field">
+              <i class="fas fa-venus-mars"></i>
+              <select id="gender" name="gender" class="form-control" required>
+                <option value="">اختر الجنس</option>
+                <option value="male">ذكر</option>
+                <option value="female">أنثى</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <!-- حذف جميع الحقول الإضافية: الدولة، اللغة، المهنة، الهاتف، الموقع الشخصي، وصورة الملف الشخصي -->
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password" class="form-label">كلمة المرور</label>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password" name="password" class="form-control" required placeholder="أدخل كلمة المرور">
+              <i class="fas fa-eye password-toggle" id="toggle-password"></i>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="confirm_password" class="form-label">تأكيد كلمة المرور</label>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="confirm_password" name="confirm_password" class="form-control" required placeholder="أعد إدخال كلمة المرور">
+              <i class="fas fa-eye password-toggle" id="toggle-confirm-password"></i>
+            </div>
+          </div>
+        </div>
+        
+        <button type="submit" class="signup-btn" id="signup-btn">
+          <span id="btn-text">إنشاء حساب</span>
+          <span id="btn-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span>
+        </button>
+      </form>
+      
+      <div class="login-link">
+        لديك حساب بالفعل؟ <a href="/login">تسجيل الدخول</a>
+      </div>
+    </div>
+  </div>
+
+  <footer style="width: 100%; margin-top: auto;">
+    <%- include('partials/footer') %>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const signupForm = document.querySelector('.signup-form');
+      const signupBtn = document.getElementById('signup-btn');
+      const btnText = document.getElementById('btn-text');
+      const btnSpinner = document.getElementById('btn-spinner');
+      
+      // تم حذف حقل الصورة الشخصية من نموذج التسجيل
+      
+      // Password toggle
+      const togglePassword = document.getElementById('toggle-password');
+      const passwordField = document.getElementById('password');
+      
+      const toggleConfirmPassword = document.getElementById('toggle-confirm-password');
+      const confirmPasswordField = document.getElementById('confirm_password');
+      
+      togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+      });
+      
+      toggleConfirmPassword.addEventListener('click', function() {
+        const type = confirmPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPasswordField.setAttribute('type', type);
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+      });
+      
+      // Form submission
+      if (signupForm) {
+        signupForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const password = passwordField.value;
+          const confirmPassword = confirmPasswordField.value;
+          
+          if (password !== confirmPassword) {
+            alert('كلمة المرور وتأكيدها غير متطابقين');
+            return;
+          }
+          
+          btnText.style.display = 'none';
+          btnSpinner.style.display = 'inline-block';
+          signupBtn.disabled = true;
+
+          // اجمع بيانات النموذج حسب الحقول الموجودة لديك
+          const formData = new FormData(this);
+          const dataObj = {};
+          formData.forEach((value, key) => { dataObj[key] = value; });
+          const alertBox = document.getElementById('alertBox');
+          alertBox.style.display = 'none';
+          try {
+            const res = await fetch('/signup', {
+              method: 'POST',
+              body: JSON.stringify(dataObj),
+              headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await res.json();
+            if (data.success) {
+              alertBox.innerHTML = '<span class="icon"><i class="fa fa-check-circle"></i></span>' + data.message;
+              alertBox.className = 'success';
+              alertBox.style.display = 'block';
+              setTimeout(() => { window.location.href = '/login'; }, 1200);
+            } else {
+              alertBox.innerHTML = '<span class="icon"><i class="fa fa-exclamation-circle"></i></span>' + (data.message || 'فشل إنشاء الحساب');
+              alertBox.className = 'error';
+              alertBox.style.display = 'block';
+            }
+          } catch (err) {
+            alertBox.innerHTML = '<span class="icon"><i class="fa fa-exclamation-triangle"></i></span> حدث خطأ أثناء الاتصال بالخادم';
+            alertBox.className = 'error';
+            alertBox.style.display = 'block';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+

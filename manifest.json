@@ -1,0 +1,148 @@
+{
+  "name": "اعملها براك - منصة المشاريع والوظائف",
+  "short_name": "اعملها براك",
+  "description": "منصة عربية للمشاريع والوظائف والتعاون بين المبدعين وأصحاب المهارات في العالم العربي.",
+  "start_url": "/?utm_source=pwa&utm_medium=homescreen&v=4.0.0",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "window-controls-overlay", "minimal-ui"],
+  "background_color": "#ffffff",
+  "theme_color": "#FF6B00",
+  "orientation": "portrait-primary",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72-new.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-92x92-new.png",
+      "sizes": "92x92",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-128x128-new.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-144x144-new.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-152x152-new.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192x192-new.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-384x384-new.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512-new.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "social", "utilities"],
+  "launch_handler": {
+    "client_mode": "auto"
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+amlhabrak",
+      "url": "/?action=%s"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "المشاريع",
+      "short_name": "مشاريع",
+      "description": "عرض جميع المشاريع المتاحة",
+      "url": "/projects?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192-new.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "الوظائف",
+      "short_name": "وظائف",
+      "description": "البحث عن الوظائف المتاحة",
+      "url": "/jobs?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192-new.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "المنتدى",
+      "short_name": "منتدى",
+      "description": "تصفح المنتدى والمناقشات",
+      "url": "/forum?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192-new.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/screen1.png",
+      "type": "image/png",
+      "sizes": "540x960",
+      "form_factor": "narrow",
+      "label": "الصفحة الرئيسية لمنصة اعملها براك"
+    },
+    {
+      "src": "/screenshots/screen2.png",
+      "type": "image/png",
+      "sizes": "540x960",
+      "form_factor": "narrow",
+      "label": "صفحة المشاريع والوظائف"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "file_handlers": [
+    {
+      "action": "/upload",
+      "accept": {
+        "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
+        "application/pdf": [".pdf"],
+        "text/plain": [".txt", ".md"]
+      }
+    }
+  ]
+}
+

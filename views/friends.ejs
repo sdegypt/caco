@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr
+">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأصدقاء - نونا</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            min-height: 100vh;
+        }
+        
+        .main-container {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 159, 67, 0.15);
+            margin: 20px auto;
+            padding: 30px;
+            max-width: 1200px;
+            direction: rtl;
+        }
+        
+        .section-title {
+            color: #343a40;
+            border-bottom: 3px solid #ff9f43;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+        
+        .user-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(255, 159, 67, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #ffe0c2;
+        }
+        
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 159, 67, 0.25);
+        }
+        
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ff9f43;
+        }
+        
+        .user-info h5 {
+            color: #343a40;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .user-status {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        
+        .online-indicator {
+            width: 12px;
+            height: 12px;
+            background: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+        
+        .offline-indicator {
+            width: 12px;
+            height: 12px;
+            background: #6c757d;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .user-actions .btn {
+            flex: 1;
+            min-width: 100px;
+            font-size: 0.9em;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(255, 159, 67, 0.15);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff9f43, #ff7f50);
+            border: none;
+            color: #ffffff;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #e67e22, #ff9f43);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 159, 67, 0.25);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+            color: #ffffff;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #218838, #28a745);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            border: none;
+            color: #343a40;
+        }
+        
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #e0a800, #ffc107);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.25);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+            border: none;
+            color: #ffffff;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c82333, #dc3545);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+        }
+        
+        .btn-secondary {
+            background: #ffffff;
+            color: #ff9f43;
+            border: 1px solid #ff9f43;
+        }
+        
+        .btn-secondary:hover {
+            background: #fff8f0;
+            color: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 159, 67, 0.25);
+        }
+        
+        .search-container {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(255, 159, 67, 0.15);
+            border: 1px solid #ffe0c2;
+        }
+        
+        .search-input {
+            border: 2px solid #ffe0c2;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .search-input:focus {
+            border-color: #ff9f43;
+            box-shadow: 0 0 0 0.2rem rgba(255, 159, 67, 0.25);
+            outline: none;
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid #ffe0c2;
+            margin-bottom: 25px;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, #ff9f43, #ff7f50);
+            color: #ffffff;
+            border: none;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            color: #ff9f43;
+            border: none;
+        }
+        
+        .badge-notification {
+            background: #dc3545;
+            color: #ffffff;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #ffe0c2;
+        }
+        
+        .friend-request-item {
+            background: #fff8f0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff9f43;
+            transition: all 0.3s ease;
+        }
+        
+        .friend-request-item:hover {
+            box-shadow: 0 4px 15px rgba(255, 159, 67, 0.15);
+        }
+        
+        .likes-count {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .ranking-badge {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #343a40;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .text-primary {
+            color: #ff9f43 !important;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .user-actions {
+                flex-direction: column;
+            }
+            
+            .user-actions .btn {
+                min-width: auto;
+            }
+            
+            .nav-tabs .nav-link {
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<%- include('partials/headerhome') %>
+<%- include('partials/headeraction') %>
+
+<body>
+<% function getCloudinaryImageUrl(image, fallback) { return image && image.startsWith('http') ? image : (fallback || '/uploads/images/pngwing.com.png'); } %>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- عنوان الصفحة -->
+            <div class="text-center mb-4">
+                <h1 class="display-4 text-primary">
+                    <i class="fas fa-users"></i> إدارة الأصدقاء
+                </h1>
+                <p class="lead text-muted">تواصل مع أصدقائك وأضف أصدقاء جدد</p>
+            </div>
+
+            <!-- شريط البحث -->
+            <div class="search-container">
+                <form action="/friends/search" method="GET" class="d-flex">
+                    <input type="text" name="q" class="form-control search-input me-2" 
+                           placeholder="ابحث عن الأصدقاء بالاسم أو البريد الإلكتروني..." 
+                           value="<%= typeof query !== 'undefined' ? query : '' %>">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> بحث
+                    </button>
+                </form>
+            </div>
+
+            <!-- عرض الرسائل -->
+            <% if (errorMessage) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle"></i> <%= errorMessage %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% } %>
+
+            <% if (successMessage) { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle"></i> <%= successMessage %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% } %>
+
+            <!-- التبويبات -->
+            <ul class="nav nav-tabs" id="friendsTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="friends-tab" data-bs-toggle="tab" 
+                            data-bs-target="#friends" type="button" role="tab">
+                        <i class="fas fa-user-friends"></i> الأصدقاء (<%= friends.length %>)
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="requests-tab" data-bs-toggle="tab" 
+                            data-bs-target="#requests" type="button" role="tab">
+                        <i class="fas fa-user-plus"></i> طلبات الصداقة
+                        <% if (friendRequests.length > 0) { %>
+                            <span class="badge-notification unread-requests-count"><%= friendRequests.length %></span>
+                        <% } %>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="discover-tab" data-bs-toggle="tab" 
+                            data-bs-target="#discover" type="button" role="tab">
+                        <i class="fas fa-compass"></i> اكتشف أصدقاء جدد
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="blocked-tab" data-bs-toggle="tab" 
+                            data-bs-target="#blocked" type="button" role="tab">
+                        <i class="fas fa-ban"></i> المحظورون (<%= blockedFriends.length %>)
+                    </button>
+                </li>
+            </ul>
+
+            <!-- محتوى التبويبات -->
+            <div class="tab-content" id="friendsTabContent">
+                <!-- تبويب الأصدقاء -->
+                <div class="tab-pane fade show active" id="friends" role="tabpanel">
+                    <h3 class="section-title">
+                        <i class="fas fa-user-friends"></i> قائمة الأصدقاء
+                    </h3>
+                    
+                    <% if (friends.length === 0) { %>
+                        <div class="empty-state">
+                            <i class="fas fa-user-friends"></i>
+                            <h4>لا يوجد أصدقاء حتى الآن</h4>
+                            <p>ابدأ بإضافة أصدقاء جدد من تبويب "اكتشف أصدقاء جدد"</p>
+                        </div>
+                    <% } else { %>
+                        <div class="row">
+                            <% friends.forEach(friend => { %>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="user-card">
+                                        <div class="d-flex align-items-center mb-3">                                            <a href="/profile?userId=<%= friend.id %>" class="friend-link">
+                                                <% if (friend.avatar && friend.avatar !== 
+'/uploads/images/pngwing.com.png') { %>
+                                                    <img src="<%= getCloudinaryImageUrl(friend.avatar, 
+'/uploads/images/pngwing.com.png') %>" alt="<%= friend.name %>" class="user-avatar me-3">
+                                                <% } else { %>
+                                                    <i class="fas fa-user-circle fa-3x me-3" style="color: #aaa;"></i>
+                                                <% } %>
+                                                <div class="user-info flex-grow-1">
+                                                    <h5><%= friend.name %></h5>
+                                                </div>
+                                            </a>
+                                            <div class="user-status">
+                                                <% if (friend.online) { %>
+                                                    <span class="online-indicator"></span> متصل الآن
+                                                <% } else { %>
+                                                    <span class="offline-indicator"></span> غير متصل
+                                                <% } %>
+                                            </div>
+                                            <div class="mt-1">
+                                                <span class="likes-count"><%= friend.likes || 0 %></span> إعجاب
+                                                <% if (friend.ranking > 0) { %>
+                                                    <span class="ranking-badge ms-2">المرتبة <%= friend.ranking %></span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                        <div class="user-actions">
+                                            <a href="/chat/<%= friend.id %>" class="btn btn-primary">
+                                                <i class="fas fa-comment"></i> مراسلة
+                                            </a>
+                                            <button class="btn btn-warning remove-friend" data-friend-id="<%= friend.id %>">
+                                                <i class="fas fa-user-minus"></i> إزالة
+                                            </button>
+                                            <button class="btn btn-danger block-user" data-friend-id="<%= friend.id %>">
+                                                <i class="fas fa-ban"></i> حظر
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } %>
+                </div>
+
+                <!-- تبويب طلبات الصداقة -->
+                <div class="tab-pane fade" id="requests" role="tabpanel">
+                    <h3 class="section-title">
+                        <i class="fas fa-user-plus"></i> طلبات الصداقة الواردة
+                    </h3>
+                    
+                    <% if (friendRequests.length === 0) { %>
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h4>لا توجد طلبات صداقة</h4>
+                            <p>لم تتلق أي طلبات صداقة جديدة</p>
+                        </div>
+                    <% } else { %>
+                        <% friendRequests.forEach(request => { %>
+                            <div class="friend-request-item" data-request-id="<%= request.id %>">
+                                <div class="d-flex align-items-center">
+                                    <a href="/profile?userId=<%= request.sender_id %>" class="friend-link">
+                                        <% if (request.sender_avatar && request.sender_avatar !== 
+'/uploads/images/pngwing.com.png') { %>
+                                            <img src="<%= getCloudinaryImageUrl(request.sender_avatar, 
+'/uploads/images/pngwing.com.png') %>" alt="<%= request.sender_name %>" class="user-avatar me-3">
+                                        <% } else { %>
+                                            <i class="fas fa-user-circle fa-3x me-3" style="color: #aaa;"></i>
+                                        <% } %>
+                                        <div class="flex-grow-1">
+                                            <h5><%= request.sender_name %></h5>
+                                        </div>
+                                    </a>                                   <small class="text-muted">
+                                        <i class="fas fa-clock"></i> 
+                                        <%= new Date(request.created_at).toLocaleDateString('ar-EG') %>
+                                    </small>
+                                    <div class="user-actions">
+                                        <button class="btn btn-success accept-friend-request" data-request-id="<%= request.id %>">
+                                            <i class="fas fa-check"></i> قبول
+                                        </button>
+                                        <button class="btn btn-danger reject-friend-request" data-request-id="<%= request.id %>">
+                                            <i class="fas fa-times"></i> رفض
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+
+                <!-- تبويب اكتشاف أصدقاء جدد -->
+                <div class="tab-pane fade" id="discover" role="tabpanel">
+                    <h3 class="section-title">
+                        <i class="fas fa-compass"></i> اكتشف أصدقاء جدد
+                    </h3>
+                    
+                    <% const usersToShow = searchResults || users; %>
+                    <% if (usersToShow.length === 0) { %>
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <h4>لا توجد نتائج</h4>
+                            <p>لم يتم العثور على مستخدمين جدد للإضافة</p>
+                        </div>
+                    <% } else { %>
+                        <div class="row">
+                            <% usersToShow.forEach(user => { %>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="user-card">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <a href="/profile?userId=<%= user.id %>" class="friend-link">
+                                                <% if (user.avatar && user.avatar !== '/uploads/images/pngwing.com.png') { %>
+                                                    <img src="<%= getCloudinaryImageUrl(user.avatar, '/uploads/images/pngwing.com.png') %>" alt="<%= user.name %>" class="user-avatar me-3">
+                                                <% } else { %>
+                                                    <i class="fas fa-user-circle fa-3x me-3" style="color: #aaa;"></i>
+                                                <% } %>
+                                                <div class="user-info flex-grow-1">
+                                                    <h5><%= user.name %></h5>
+                                                </div>
+                                            </a>
+                                            <div class="user-status">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-map-marker-alt"></i> <%= user.country %>
+                                                    <br>
+                                                    <i class="fas fa-birthday-cake"></i> <%= user.age %> سنة
+                                                    <br>
+                                                    <i class="fas fa-language"></i> <%= user.language %>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="user-actions">
+                                            <% if (user.friendship_status === 'friend') { %>
+                                                <button class="btn btn-success" disabled>
+                                                    <i class="fas fa-check"></i> صديق
+                                                </button>
+                                            <% } else if (user.friendship_status === 'request_sent') { %>
+                                                <button class="btn btn-warning cancel-friend-request" data-friend-id="<%= user.id %>">
+                                                    <i class="fas fa-times"></i> إلغاء الطلب
+                                                </button>
+                                            <% } else if (user.friendship_status === 'request_received') { %>
+                                                <button class="btn btn-info" disabled>
+                                                    <i class="fas fa-clock"></i> أرسل لك طلب
+                                                </button>
+                                            <% } else if (user.friendship_status === 'blocked') { %>
+                                                <button class="btn btn-secondary unblock-user" data-friend-id="<%= user.id %>">
+                                                    <i class="fas fa-unlock"></i> إلغاء الحظر
+                                                </button>
+                                            <% } else if (user.friendship_status === 'blocked_by') { %>
+                                                <button class="btn btn-secondary" disabled>
+                                                    <i class="fas fa-ban"></i> محظور
+                                                </button>
+                                            <% } else { %>
+                                                <button class="btn btn-primary send-friend-request" data-friend-id="<%= user.id %>">
+                                                    <i class="fas fa-user-plus"></i> إرسال طلب
+                                                </button>
+                                                <button class="btn btn-danger block-user" data-friend-id="<%= user.id %>">
+                                                    <i class="fas fa-ban"></i> حظر
+                                                </button>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } %>
+                </div>
+
+                <!-- تبويب المحظورين -->
+                <div class="tab-pane fade" id="blocked" role="tabpanel">
+                    <h3 class="section-title">
+                        <i class="fas fa-ban"></i> المستخدمون المحظورون
+                    </h3>
+                    
+                    <% if (blockedFriends.length === 0) { %>
+                        <div class="empty-state">
+                            <i class="fas fa-ban"></i>
+                            <h4>لا توجد مستخدمين محظورين</h4>
+                            <p>لم تقم بحظر أي مستخدم</p>
+                        </div>
+                    <% } else { %>
+                        <div class="row">
+                            <% blockedFriends.forEach(blocked => { %>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="user-card">
+                                        <div class="d-flex align-items-center mb-3                                            <a href="/profile?userId=<%= blocked.id %>" class="friend-link">
+                                                <% if (blocked.avatar && blocked.avatar !== 
+'/uploads/images/pngwing.com.png') { %>
+                                                    <img src="<%= getCloudinaryImageUrl(blocked.avatar, 
+'/uploads/images/pngwing.com.png') %>" alt="<%= blocked.name %>" class="user-avatar me-3">
+                                                <% } else { %>
+                                                    <i class="fas fa-user-circle fa-3x me-3" style="color: #aaa;"></i>
+                                                <% } %>
+                                                <div class="user-info flex-grow-1">
+                                                    <h5><%= blocked.name %></h5>
+                                                </div>
+                                            </a>                                            <div class="user-status">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-ban"></i> محظور
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="user-actions">
+                                            <button class="btn btn-secondary unblock-user" data-friend-id="<%= blocked.id %>">
+                                                <i class="fas fa-unlock"></i> إلغاء الحظر
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- تضمين المكتبات -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/friends.js"></script>
+</body>
+
+<footer style="margin-top: auto;">
+    <%- include('partials/footer') %>
+  </footer>
+
+</html>

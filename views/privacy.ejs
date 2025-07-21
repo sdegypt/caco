@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سياسة الخصوصية - DIY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B00;
+            --primary-light: #FF8A3D;
+            --secondary: #6B48FF;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--light);
+
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header Section */
+        .privacy-header {
+            background:#FF8A3D;
+            color: white;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .privacy-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 Q50,80 0,100 L0,0 Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header-content h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .header-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            color: #E9ECEF;
+        }
+
+        .privacy-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            color:#FF6B00;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Main Content */
+        .privacy-main {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .privacy-main::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: 0;
+            width: 100%;
+            height: 100px;
+            background: var(--light);
+            clip-path: polygon(0 0, 100% 50%, 100% 100%, 0% 100%);
+        }
+
+        .privacy-section {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--light-gray);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin: 2rem 0 1rem;
+            position: relative;
+            padding-right: 1rem;
+        }
+
+        .section-subtitle::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+     .container  p {
+            margin-bottom: 1.5rem;
+        }
+
+      .container ul {
+            margin-bottom: 2rem;
+            padding-right: 2rem;
+        }
+
+      .container li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-right: 1.5rem;
+            color: var(--gray);
+        }
+
+      .container li::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0.7em;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-light);
+            border-radius: 50%;
+        }
+
+      .container a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+      .container a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        /* Accordion Style */
+        .accordion-item {
+            margin-bottom: 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background: var(--light);
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background: rgba(255, 107, 0, 0.05);
+        }
+
+        .accordion-header h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .accordion-icon {
+            transition: var(--transition);
+        }
+
+        .accordion-content {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 1.5rem;
+            max-height: 1000px;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: rgba(255, 107, 0, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .privacy-header {
+                padding: 4rem 0;
+            }
+            
+            .header-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .privacy-main {
+                padding: 3rem 0;
+            }
+            
+            .privacy-section {
+                padding: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .header-content h1 {
+                font-size: 2rem;
+            }
+            
+            .privacy-header {
+                padding: 3rem 0;
+            }
+            
+            .privacy-section {
+                padding: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/headerhome') %>
+    <%- include('partials/headeraction') %>
+    
+    <!-- Header Section -->
+    <header class="privacy-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="privacy-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1 style="color: #fff;">سياسة الخصوصية</h1>
+                <p 
+                >في DIY، نضع خصوصيتك وأمان بياناتك في مقدمة أولوياتنا. تعرف على كيفية تعاملنا مع معلوماتك الشخصية.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="privacy-main">
+        <div class="container">
+            <div class="privacy-section">
+                <h2 class="section-title">مقدمة</h2>
+                <p>نرحب بك في سياسة الخصوصية الخاصة بـ DIY. ندرك أهمية الخصوصية في العالم الرقمي، ولهذا نلتزم بحماية بياناتك الشخصية وتوفير تجربة آمنة وشفافة لمستخدمينا. توضح هذه السياسة ممارساتنا فيما يتعلق بجمع المعلومات واستخدامها والكشف عنها.</p>
+                
+                <div class="highlight-box">
+                    <p><strong>ملاحظة مهمة:</strong> باستخدامك لخدمات DIY، فإنك توافق على ممارسات جمع البيانات واستخدامها كما هو موضح في سياسة الخصوصية هذه.</p>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h2 class="section-title">جمع البيانات واستخدامها</h2>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>البيانات التي نجمعها</h3>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>نجمع أنواعًا مختلفة من المعلومات لتقديم خدماتنا وتحسينها:</p>
+                        <ul>
+                            <li><strong>المعلومات الشخصية:</strong> الاسم، البريد الإلكتروني، رقم الهاتف، صورة الملف الشخصي، والمعلومات المهنية التي تقدمها عند التسجيل أو تحديث حسابك.</li>
+                            <li><strong>بيانات الاستخدام:</strong> الصفحات التي تزورها، الوقت الذي تقضيه على الموقع، المشاريع التي تتفاعل معها، والبحث عن وظائف.</li>
+                            <li><strong>معلومات الجهاز والتقنية:</strong> عنوان IP، نوع المتصفح، إصدار نظام التشغيل، ومعرفات الجهاز.</li>
+                            <li><strong>بيانات المشاريع:</strong> المشاريع التي تنشئها، التصاميم التي تشاركها، والتعليقات التي تكتبها.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>كيف نستخدم بياناتك</h3>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>نستخدم المعلومات التي نجمعها لعدة أغراض:</p>
+                        <ul>
+                            <li>تقديم خدمات DIY الأساسية والاحتفاظ بحسابك.</li>
+                            <li>تحسين وتطوير خدماتنا ومنتجاتنا الجديدة.</li>
+                            <li>تخصيص تجربتك وتقديم محتوى ووظائف ذات صلة باهتماماتك.</li>
+                            <li>التواصل معك بشأن التحديثات المهمة، التغييرات في السياسات، أو الفرص المهنية.</li>
+                            <li>تحليل استخدام الموقع لتحسين أدائه وتجربة المستخدم.</li>
+                            <li>منع الاحتيال وحماية أمن النظام.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h2 class="section-title">حماية البيانات</h2>
+                
+                <h3 class="section-subtitle">إجراءات الأمان</h3>
+                <p>نحن نستخدم مجموعة من الإجراءات التقنية والتنظيمية لحماية بياناتك:</p>
+                <ul>
+                    <li><strong>التشفير:</strong> نستخدم تشفير SSL/TLS لحماية البيانات أثناء النقل.</li>
+                    <li><strong>الوصول المقيد:</strong> يقتصر الوصول إلى بياناتك على الموظفين الذين يحتاجون إليها لأداء وظائفهم.</li>
+                    <li><strong>التخزين الآمن:</strong> يتم تخزين البيانات في خوادم آمنة مع إجراءات حماية متعددة الطبقات.</li>
+                    <li><strong>التدقيق الأمني:</strong> نجري عمليات تدقيق أمنية منتظمة لضمان استمرار فعالية إجراءات الحماية.</li>
+                </ul>
+                
+                <h3 class="section-subtitle">الاحتفاظ بالبيانات</h3>
+                <p>نحتفظ ببياناتك الشخصية فقط طالما كان ذلك ضروريًا لتحقيق الأغراض التي تم جمعها من أجلها، بما في ذلك الامتثال للالتزامات القانونية أو حل النزاعات أو تنفيذ اتفاقياتنا.</p>
+            </div>
+
+            <div class="privacy-section">
+                <h2 class="section-title">حقوقك</h2>
+                <p>بصفتك مستخدمًا لـ DIY، لديك حقوق معينة فيما يتعلق ببياناتك الشخصية:</p>
+                
+                <div class="accordion-item active">
+                    <div class="accordion-header">
+                        <h3>حقوق الخصوصية الخاصة بك</h3>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul>
+                            <li><strong>حق الوصول:</strong> يمكنك طلب نسخة من بياناتك الشخصية التي نحتفظ بها.</li>
+                            <li><strong>حق التصحيح:</strong> يمكنك تحديث أو تصحيح أي معلومات غير دقيقة.</li>
+                            <li><strong>حق الحذف:</strong> يمكنك طلب حذف بياناتك الشخصية في ظروف معينة.</li>
+                            <li><strong>حق الاعتراض:</strong> يمكنك الاعتراض على معالجة بياناتك في حالات محددة.</li>
+                            <li><strong>حق تقييد المعالجة:</strong> يمكنك طلب تقييد طريقة معالجة بياناتك.</li>
+                            <li><strong>حق التنقل:</strong> يمكنك طلب نقل بياناتك إلى خدمة أخرى.</li>
+                            <li><strong>حق سحب الموافقة:</strong> يمكنك سحب موافقتك على معالجة بياناتك في أي وقت.</li>
+                        </ul>
+                        
+                        <div class="highlight-box">
+                            <p>للمطالبة بأي من هذه الحقوق، يرجى التواصل معنا عبر <a href="mailto:privacy@colorizer.com">privacy@colorizer.com</a>. سنرد على طلبك في غضون 30 يومًا.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h2 class="section-title">مشاركة البيانات</h2>
+                <p>نحن لا نبيع بياناتك الشخصية لأطراف ثالثة. ومع ذلك، قد نشارك معلوماتك في الحالات التالية:</p>
+                <ul>
+                    <li><strong>مع مزودي الخدمات:</strong> مع شركاء موثوقين يساعدوننا في تشغيل خدماتنا (مثل استضافة الويب، التحليلات، خدمة العملاء).</li>
+                    <li><strong>لأغراض قانونية:</strong> عندما نعتقد أن الكشف مطلوب بموجب القانون أو لحماية حقوقنا أو ممتلكاتنا أو سلامة مستخدمينا.</li>
+                    <li><strong>مع موافقتك:</strong> في حالات أخرى، سنشارك بياناتك فقط إذا حصلنا على موافقتك الصريحة.</li>
+                </ul>
+                
+                <h3 class="section-subtitle">النقل الدولي للبيانات</h3>
+                <p>قد يتم نقل بياناتك ومعالجتها في دول أخرى غير دولتك. نضمن أن أي نقل دولي للبيانات يتم وفقًا لمعايير الحماية المناسبة.</p>
+            </div>
+
+            <div class="privacy-section">
+                <h2 class="section-title">ملفات تعريف الارتباط والتقنيات المماثلة</h2>
+                <p>نستخدم ملفات تعريف الارتباط والتقنيات المماثلة لتحسين تجربتك على موقعنا:</p>
+                <ul>
+                    <li><strong>ملفات تعريف الارتباط الأساسية:</strong> ضرورية لتشغيل الموقع (مثل تسجيل الدخول).</li>
+                    <li><strong>ملفات تعريف الارتباط الوظيفية:</strong> تحفظ تفضيلاتك وتخصص تجربتك.</li>
+                    <li><strong>ملفات تعريف الارتباط التحليلية:</strong> تساعدنا في فهم كيفية استخدام الموقع.</li>
+                    <li><strong>ملفات تعريف الارتباط التسويقية:</strong> تستخدم لعرض إعلانات ذات صلة.</li>
+                </ul>
+                <p>يمكنك إدارة تفضيلات ملفات تعريف الارتباط من خلال إعدادات المتصفح، لكن هذا قد يؤثر على بعض وظائف الموقع.</p>
+            </div>
+
+            <div class="privacy-section">
+                <h2 class="section-title">التغييرات على السياسة</h2>
+                <p>قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سنخطرك بأي تغييرات جوهرية عن طريق نشر الإشعار المحدث على موقعنا أو عبر البريد الإلكتروني عندما يكون ذلك مناسبًا.</p>
+                
+                <div class="highlight-box">
+                    <p><strong>تاريخ النفاذ الأخير:</strong> 1 يناير 2023</p>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h2 class="section-title">اتصل بنا</h2>
+                <p>إذا كانت لديك أي أسئلة أو استفسارات حول سياسة الخصوصية هذه أو ممارسات البيانات الخاصة بنا، يرجى التواصل مع:</p>
+                <p><strong>مسؤول حماية البيانات</strong><br>
+                <a href="mailto:privacy@colorizer.com">privacy@colorizer.com</a><br>
+                DIY HQ، شارع التكنولوجيا، الرياض، المملكة العربية السعودية</p>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                item.classList.toggle('active');
+                
+                // Close other open items
+                document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

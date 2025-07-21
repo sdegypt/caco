@@ -1,0 +1,363 @@
+/* حذف الإعلانات الثابتة - Ad Blocker CSS */
+
+/* إخفاء جميع أنواع الإعلانات الثابتة */
+.fixed-ad,
+.sticky-ad,
+.banner-ad,
+.header-ad,
+.footer-ad,
+.sidebar-ad,
+.floating-ad,
+.popup-ad,
+.overlay-ad,
+.interstitial-ad,
+.native-ad,
+.sponsored-content,
+.advertisement,
+.ads-container,
+.ad-banner,
+.ad-block,
+.ad-space,
+.ad-unit,
+.ad-wrapper,
+.google-ads,
+.adsense,
+.adsbygoogle,
+.ad-placement,
+.promotional-banner,
+.promo-banner {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  max-height: 0 !important;
+  max-width: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  z-index: -1 !important;
+}
+
+/* إخفاء الإعلانات بناءً على الـ ID */
+[id*="ad-"],
+[id*="ads-"],
+[id*="banner"],
+[id*="sponsor"],
+[id*="promo"],
+[id*="advertisement"],
+[id*="google-ads"],
+[id*="adsense"],
+[id^="ad_"],
+[id^="ads_"],
+[id$="_ad"],
+[id$="_ads"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الإعلانات بناءً على الـ Class */
+[class*="ad-"],
+[class*="ads-"],
+[class*="banner"],
+[class*="sponsor"],
+[class*="promo"],
+[class*="advertisement"],
+[class*="google-ads"],
+[class*="adsense"],
+[class^="ad_"],
+[class^="ads_"],
+[class$="_ad"],
+[class$="_ads"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الإعلانات الثابتة بناءً على الموضع */
+[style*="position: fixed"],
+[style*="position:fixed"] {
+  /* فحص إضافي للإعلانات الثابتة */
+}
+
+.fixed-top-ad,
+.fixed-bottom-ad,
+.fixed-left-ad,
+.fixed-right-ad,
+.sticky-header-ad,
+.sticky-footer-ad {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء إعلانات Google AdSense */
+ins.adsbygoogle,
+.adsbygoogle,
+.google-auto-placed,
+.google-ad-unit {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء إطارات الإعلانات */
+iframe[src*="ads"],
+iframe[src*="doubleclick"],
+iframe[src*="googlesyndication"],
+iframe[src*="googleadservices"],
+iframe[src*="amazon-adsystem"],
+iframe[src*="facebook.com/tr"],
+iframe[name*="google_ads"],
+iframe[id*="google_ads"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الصور الإعلانية */
+img[src*="ads"],
+img[src*="banner"],
+img[src*="sponsor"],
+img[alt*="advertisement"],
+img[alt*="sponsored"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الروابط الإعلانية */
+a[href*="ads"],
+a[href*="sponsor"],
+a[href*="promo"],
+a[href*="affiliate"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء العناصر بناءً على النص */
+[data-ad],
+[data-ads],
+[data-sponsor],
+[data-advertisement] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الإعلانات المتحركة */
+.animated-ad,
+.rotating-ad,
+.carousel-ad,
+.slider-ad {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الإعلانات المنبثقة */
+.popup,
+.modal-ad,
+.overlay,
+.lightbox-ad,
+.dialog-ad {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الإعلانات في الشريط الجانبي */
+.sidebar .ad,
+.sidebar .advertisement,
+.sidebar .banner,
+.sidebar .sponsor,
+aside .ad,
+aside .advertisement,
+aside .banner,
+aside .sponsor {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الإعلانات في الهيدر والفوتر */
+header .ad,
+header .advertisement,
+header .banner,
+header .sponsor,
+footer .ad,
+footer .advertisement,
+footer .banner,
+footer .sponsor {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الإعلانات المدمجة في المحتوى */
+.content-ad,
+.inline-ad,
+.article-ad,
+.post-ad,
+.between-content-ad {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء إعلانات الفيديو */
+.video-ad,
+.preroll-ad,
+.midroll-ad,
+.postroll-ad {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الإعلانات على الجوال */
+@media (max-width: 767px) {
+  .mobile-ad,
+  .mobile-banner,
+  .mobile-popup {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+  }
+  
+  /* إخفاء جميع العناصر الثابتة التي قد تكون إعلانات */
+  [style*="position: fixed"]:not(.notification-toast):not(.nav):not(.navbar):not(.menu) {
+    display: none !important;
+  }
+  
+  [style*="position: sticky"]:not(.notification-toast):not(.nav):not(.navbar):not(.menu) {
+    display: none !important;
+  }
+}
+
+/* إخفاء الإعلانات بناءً على الحجم المشبوه */
+div[style*="width: 728px"],
+div[style*="width: 300px"][style*="height: 250px"],
+div[style*="width: 320px"][style*="height: 50px"],
+div[style*="width: 468px"][style*="height: 60px"],
+div[style*="width: 970px"][style*="height: 90px"],
+div[style*="width: 160px"][style*="height: 600px"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إخفاء الإعلانات بناءً على النص المشبوه */
+*:contains("Advertisement"),
+*:contains("Sponsored"),
+*:contains("إعلان"),
+*:contains("ممول"),
+*:contains("برعاية") {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* منع ظهور المحتوى الإعلاني */
+.sponsored-post,
+.promoted-content,
+.paid-content,
+.affiliate-link {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* إزالة المساحات الفارغة التي تتركها الإعلانات */
+.ad-placeholder,
+.ad-space-holder,
+.empty-ad-space {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* تنظيف التخطيط بعد إزالة الإعلانات */
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* استثناءات للعناصر المهمة */
+.notification-toast,
+.alert,
+.message,
+.notice,
+.important-notice {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  width: auto !important;
+  overflow: visible !important;
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  z-index: auto !important;
+}
+

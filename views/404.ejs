@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة غير موجودة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background: #f8f9fa;
+            color: #333;
+            font-family: 'Tajawal', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .error-container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            text-align: center;
+        }
+        .error-icon {
+            font-size: 4rem;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #fff;
+            background: #6c5ce7;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        a:hover {
+            background: #4834d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div>
+        <h1>عذراً، الصفحة غير موجودة</h1>
+        <p><%= typeof message !== 'undefined' ? message : 'الصفحة التي تبحث عنها غير متوفرة أو حدث خطأ ما.' %></p>
+        <a href="/">العودة للصفحة الرئيسية</a>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,536 @@
+<!-- نظام الإعلانات المحسن لموقع أمل حبرك -->
+<% 
+// إعدادات الإعلانات المحسنة
+const enhancedAdsConfig = {
+  enabled: true,
+  publisherId: 'ca-pub-2350758257463070',
+  autoAds: true,
+  lazyLoading: true,
+  adBlockDetection: true,
+  respectUserPrivacy: true,
+  performanceOptimized: true
+};
+
+// مواضع الإعلانات المحسنة
+const enhancedAdPlacements = {
+  header: { enabled: true, slot: '1234567890', size: 'responsive', priority: 'high' },
+  sidebar: { enabled: true, slot: '1234567891', size: '300x250', priority: 'medium' },
+  content: { enabled: true, slot: '1234567892', size: 'responsive', priority: 'high' },
+  footer: { enabled: true, slot: '1234567893', size: '728x90', priority: 'low' },
+  mobile: { enabled: true, slot: '1234567894', size: 'responsive', priority: 'high' },
+  inArticle: { enabled: true, slot: '1234567895', size: 'responsive', priority: 'medium' }
+};
+%>
+
+<% if (enhancedAdsConfig.enabled) { %>
+  <!-- Google AdSense Script المحسن -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= enhancedAdsConfig.publisherId %>" 
+          crossorigin="anonymous"
+          data-ad-frequency-hint="30s"
+          data-ad-layout-key="-6t+ed+2i-1n-4w"
+          data-full-width-responsive="true"></script>
+
+  <!-- Auto Ads Configuration -->
+  <% if (enhancedAdsConfig.autoAds) { %>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "<%= enhancedAdsConfig.publisherId %>",
+        enable_page_level_ads: true,
+        overlays: {bottom: true}
+      });
+    </script>
+  <% } %>
+
+  <!-- Enhanced Ad Block Detection -->
+  <% if (enhancedAdsConfig.adBlockDetection) { %>
+    <script>
+      function detectAdBlockEnhanced() {
+        // طريقة محسنة لكشف مانع الإعلانات
+        const testAd = document.createElement('div');
+        testAd.innerHTML = '&nbsp;';
+        testAd.className = 'adsbox adsbygoogle';
+        testAd.style.cssText = 'position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;';
+        document.body.appendChild(testAd);
+        
+        setTimeout(() => {
+          const isBlocked = testAd.offsetHeight === 0 || 
+                           window.getComputedStyle(testAd).display === 'none' ||
+                           testAd.style.display === 'none';
+          
+          if (isBlocked) {
+            showEnhancedAdBlockMessage();
+          }
+          
+          if (testAd.parentNode) {
+            testAd.parentNode.removeChild(testAd);
+          }
+        }, 100);
+      }
+
+      function showEnhancedAdBlockMessage() {
+        // تجنب إظهار رسائل متعددة
+        if (document.getElementById('enhanced-adblock-notice')) return;
+        
+        const adBlockNotice = document.createElement('div');
+        adBlockNotice.id = 'enhanced-adblock-notice';
+        adBlockNotice.innerHTML = `
+          <div style="background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; padding: 20px; text-align: center; position: fixed; top: 0; left: 0; right: 0; z-index: 10000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); backdrop-filter: blur(10px);">
+            <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+              <div style="flex: 1; min-width: 300px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                  <span style="font-size: 24px;">🛡️</span>
+                  <strong style="font-size: 18px;">مانع الإعلانات نشط</strong>
+                </div>
+                <p style="margin: 0; font-size: 14px; opacity: 0.9; line-height: 1.4;">
+                  نحن نعتمد على الإعلانات لتقديم المحتوى المجاني. يرجى إضافة موقعنا إلى القائمة البيضاء لدعمنا.
+                </p>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <button onclick="window.open('https://help.getadblock.com/support/solutions/articles/6000055743-how-to-whitelist-a-website', '_blank')" 
+                        style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 20px; border-radius: 25px; cursor: pointer; transition: all 0.3s; font-size: 14px;">
+                  كيفية الإلغاء
+                </button>
+                <button onclick="document.getElementById('enhanced-adblock-notice').style.display='none'" 
+                        style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 15px; border-radius: 50%; cursor: pointer; transition: all 0.3s; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                  ✕
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(adBlockNotice);
+        
+        // إضافة تأثير الظهور
+        adBlockNotice.style.transform = 'translateY(-100%)';
+        adBlockNotice.style.transition = 'transform 0.5s ease-out';
+        setTimeout(() => {
+          adBlockNotice.style.transform = 'translateY(0)';
+        }, 100);
+      }
+
+      // تشغيل كشف مانع الإعلانات
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          setTimeout(detectAdBlockEnhanced, 2000);
+        });
+      } else {
+        setTimeout(detectAdBlockEnhanced, 2000);
+      }
+    </script>
+  <% } %>
+
+  <!-- Enhanced CSS للإعلانات -->
+  <style>
+    /* تنسيق الإعلانات المحسن */
+    .enhanced-ad-container {
+      margin: 25px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+      border: 1px solid #dee2e6;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .enhanced-ad-container:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      transform: translateY(-3px);
+      border-color: #FF6B35;
+    }
+
+    .enhanced-ad-label {
+      font-size: 11px;
+      color: #6c757d;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+      font-weight: 700;
+      position: relative;
+      padding: 5px 0;
+    }
+
+    .enhanced-ad-label::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 2px;
+      background: linear-gradient(90deg, #FF6B35, #F7931E);
+      border-radius: 1px;
+    }
+
+    .enhanced-ad-responsive {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 120px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* إعلانات الأولوية العالية */
+    .enhanced-ad-priority-high {
+      border-left: 4px solid #FF6B35;
+      background: linear-gradient(145deg, #fff, #f8f9fa);
+    }
+
+    .enhanced-ad-priority-medium {
+      border-left: 4px solid #F7931E;
+    }
+
+    .enhanced-ad-priority-low {
+      opacity: 0.9;
+    }
+
+    /* تحسينات الهاتف المحمول */
+    @media (max-width: 768px) {
+      .enhanced-ad-container {
+        margin: 20px 0;
+        border-radius: 10px;
+        padding: 10px;
+      }
+      
+      .enhanced-ad-desktop-only {
+        display: none !important;
+      }
+
+      .enhanced-ad-mobile-optimized {
+        padding: 15px;
+        margin: 15px -15px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+      }
+    }
+
+    /* إعلانات سطح المكتب */
+    @media (min-width: 769px) {
+      .enhanced-ad-mobile-only {
+        display: none !important;
+      }
+    }
+
+    /* تأثيرات التحميل المحسنة */
+    .enhanced-ad-loading {
+      background: linear-gradient(90deg, 
+        rgba(255, 107, 53, 0.1) 25%, 
+        rgba(247, 147, 30, 0.2) 50%, 
+        rgba(255, 107, 53, 0.1) 75%);
+      background-size: 200% 100%;
+      animation: enhancedLoading 2s infinite;
+      position: relative;
+    }
+
+    .enhanced-ad-loading::before {
+      content: '⏳ جاري تحميل الإعلان...';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #6c757d;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    @keyframes enhancedLoading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* إخفاء الإعلانات الفارغة */
+    .enhanced-ad-container:empty {
+      display: none;
+    }
+
+    /* تحسين الأداء */
+    .enhanced-ad-container {
+      contain: layout style paint;
+      will-change: transform;
+    }
+
+    /* إعلانات داخل المقال */
+    .enhanced-ad-in-article {
+      margin: 30px 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      border: 2px dashed #dee2e6;
+      border-radius: 15px;
+      position: relative;
+    }
+
+    .enhanced-ad-in-article::before {
+      content: '📢';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      background: white;
+      padding: 0 10px;
+      font-size: 16px;
+    }
+
+    /* تأثيرات التفاعل */
+    .enhanced-ad-interactive {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .enhanced-ad-interactive:hover {
+      transform: scale(1.02);
+    }
+
+    /* وضع الليل */
+    @media (prefers-color-scheme: dark) {
+      .enhanced-ad-container {
+        background: linear-gradient(145deg, #2d3748, #4a5568);
+        border-color: #4a5568;
+        color: #e2e8f0;
+      }
+
+      .enhanced-ad-label {
+        color: #a0aec0;
+      }
+    }
+  </style>
+
+  <!-- Enhanced JavaScript للإعلانات -->
+  <script>
+    // مدير الإعلانات المحسن
+    window.EnhancedAdManager = {
+      config: {
+        lazyLoading: <%= enhancedAdsConfig.lazyLoading %>,
+        performanceOptimized: <%= enhancedAdsConfig.performanceOptimized %>,
+        publisherId: '<%= enhancedAdsConfig.publisherId %>'
+      },
+
+      // تحميل إعلان محسن
+      loadEnhancedAd: function(containerId, adSlot, adSize, priority = 'medium') {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        // إضافة فئة الأولوية
+        container.classList.add(`enhanced-ad-priority-${priority}`);
+        container.classList.add('enhanced-ad-loading');
+        
+        // تأخير التحميل حسب الأولوية
+        const delay = priority === 'high' ? 500 : priority === 'medium' ? 1500 : 3000;
+        
+        setTimeout(() => {
+          this.createAdElement(container, adSlot, adSize);
+        }, delay);
+      },
+
+      // إنشاء عنصر الإعلان
+      createAdElement: function(container, adSlot, adSize) {
+        try {
+          container.classList.remove('enhanced-ad-loading');
+          
+          const adElement = document.createElement('ins');
+          adElement.className = 'adsbygoogle enhanced-ad-responsive';
+          adElement.style.display = 'block';
+          adElement.setAttribute('data-ad-client', this.config.publisherId);
+          adElement.setAttribute('data-ad-slot', adSlot);
+          adElement.setAttribute('data-ad-format', 'auto');
+          adElement.setAttribute('data-full-width-responsive', 'true');
+          
+          // إضافة معرف فريد
+          adElement.id = `ad-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+          
+          container.appendChild(adElement);
+          
+          // تحميل الإعلان
+          if (window.adsbygoogle) {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          }
+          
+          // مراقبة نجاح التحميل
+          this.monitorAdLoad(adElement, container);
+          
+        } catch (error) {
+          console.warn('Failed to load ad:', error);
+          this.handleAdError(container);
+        }
+      },
+
+      // مراقبة تحميل الإعلان
+      monitorAdLoad: function(adElement, container) {
+        const checkInterval = setInterval(() => {
+          if (adElement.getAttribute('data-ad-status') === 'filled') {
+            clearInterval(checkInterval);
+            container.classList.add('enhanced-ad-loaded');
+            this.trackAdImpression(adElement.id);
+          }
+        }, 1000);
+
+        // إيقاف المراقبة بعد 10 ثوان
+        setTimeout(() => {
+          clearInterval(checkInterval);
+          if (!container.classList.contains('enhanced-ad-loaded')) {
+            this.handleAdError(container);
+          }
+        }, 10000);
+      },
+
+      // معالجة أخطاء الإعلانات
+      handleAdError: function(container) {
+        container.style.display = 'none';
+        console.warn('Ad failed to load, container hidden');
+      },
+
+      // تتبع ظهور الإعلان
+      trackAdImpression: function(adId) {
+        if (window.gtag) {
+          gtag('event', 'ad_impression', {
+            'ad_id': adId,
+            'event_category': 'advertising'
+          });
+        }
+      },
+
+      // تحميل كسول للإعلانات
+      initLazyLoading: function() {
+        if (!this.config.lazyLoading) return;
+
+        const adContainers = document.querySelectorAll('.enhanced-ad-container[data-ad-slot]');
+        
+        if ('IntersectionObserver' in window) {
+          const adObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const container = entry.target;
+                const adSlot = container.getAttribute('data-ad-slot');
+                const adSize = container.getAttribute('data-ad-size') || 'responsive';
+                const priority = container.getAttribute('data-priority') || 'medium';
+                
+                this.loadEnhancedAd(container.id, adSlot, adSize, priority);
+                adObserver.unobserve(container);
+              }
+            });
+          }, {
+            rootMargin: '100px 0px',
+            threshold: 0.1
+          });
+
+          adContainers.forEach(container => {
+            adObserver.observe(container);
+          });
+        } else {
+          // تحميل فوري للمتصفحات القديمة
+          adContainers.forEach(container => {
+            const adSlot = container.getAttribute('data-ad-slot');
+            const adSize = container.getAttribute('data-ad-size') || 'responsive';
+            const priority = container.getAttribute('data-priority') || 'medium';
+            
+            this.loadEnhancedAd(container.id, adSlot, adSize, priority);
+          });
+        }
+      },
+
+      // تحديث الإعلانات
+      refreshAds: function() {
+        if (window.googletag) {
+          googletag.cmd.push(function() {
+            googletag.pubads().refresh();
+          });
+        }
+      },
+
+      // إحصائيات الإعلانات
+      getAdStats: function() {
+        const loadedAds = document.querySelectorAll('.enhanced-ad-loaded').length;
+        const totalAds = document.querySelectorAll('.enhanced-ad-container').length;
+        
+        return {
+          loaded: loadedAds,
+          total: totalAds,
+          loadRate: totalAds > 0 ? (loadedAds / totalAds * 100).toFixed(2) + '%' : '0%'
+        };
+      }
+    };
+
+    // تهيئة مدير الإعلانات المحسن
+    document.addEventListener('DOMContentLoaded', function() {
+      // تأخير التحميل لتحسين الأداء
+      setTimeout(() => {
+        EnhancedAdManager.initLazyLoading();
+      }, 1000);
+    });
+
+    // تحديث الإعلانات عند تغيير الصفحة (للـ SPA)
+    window.addEventListener('popstate', function() {
+      setTimeout(() => {
+        EnhancedAdManager.refreshAds();
+      }, 500);
+    });
+  </script>
+<% } %>
+
+<!-- إعلان الرأس المحسن -->
+<% if (enhancedAdsConfig.enabled && enhancedAdPlacements.header.enabled) { %>
+  <div class="enhanced-ad-container enhanced-ad-desktop-only" 
+       id="enhanced-header-ad" 
+       data-ad-slot="<%= enhancedAdPlacements.header.slot %>" 
+       data-ad-size="<%= enhancedAdPlacements.header.size %>"
+       data-priority="<%= enhancedAdPlacements.header.priority %>">
+    <div class="enhanced-ad-label">إعلان مميز</div>
+  </div>
+<% } %>
+
+<!-- إعلان الشريط الجانبي المحسن -->
+<% if (enhancedAdsConfig.enabled && enhancedAdPlacements.sidebar.enabled) { %>
+  <div class="enhanced-ad-container" 
+       id="enhanced-sidebar-ad" 
+       data-ad-slot="<%= enhancedAdPlacements.sidebar.slot %>" 
+       data-ad-size="<%= enhancedAdPlacements.sidebar.size %>"
+       data-priority="<%= enhancedAdPlacements.sidebar.priority %>">
+    <div class="enhanced-ad-label">إعلان</div>
+  </div>
+<% } %>
+
+<!-- إعلان داخل المحتوى -->
+<% if (enhancedAdsConfig.enabled && enhancedAdPlacements.inArticle.enabled) { %>
+  <div class="enhanced-ad-container enhanced-ad-in-article" 
+       id="enhanced-in-article-ad" 
+       data-ad-slot="<%= enhancedAdPlacements.inArticle.slot %>" 
+       data-ad-size="<%= enhancedAdPlacements.inArticle.size %>"
+       data-priority="<%= enhancedAdPlacements.inArticle.priority %>">
+    <div class="enhanced-ad-label">محتوى مدعوم</div>
+  </div>
+<% } %>
+
+<!-- إعلان المحتوى المحسن -->
+<% if (enhancedAdsConfig.enabled && enhancedAdPlacements.content.enabled) { %>
+  <div class="enhanced-ad-container" 
+       id="enhanced-content-ad" 
+       data-ad-slot="<%= enhancedAdPlacements.content.slot %>" 
+       data-ad-size="<%= enhancedAdPlacements.content.size %>"
+       data-priority="<%= enhancedAdPlacements.content.priority %>">
+    <div class="enhanced-ad-label">إعلان</div>
+  </div>
+<% } %>
+
+<!-- إعلان التذييل المحسن -->
+<% if (enhancedAdsConfig.enabled && enhancedAdPlacements.footer.enabled) { %>
+  <div class="enhanced-ad-container enhanced-ad-desktop-only" 
+       id="enhanced-footer-ad" 
+       data-ad-slot="<%= enhancedAdPlacements.footer.slot %>" 
+       data-ad-size="<%= enhancedAdPlacements.footer.size %>"
+       data-priority="<%= enhancedAdPlacements.footer.priority %>">
+    <div class="enhanced-ad-label">إعلان</div>
+  </div>
+<% } %>
+
+<!-- إعلان الهاتف المحمول المحسن -->
+<% if (enhancedAdsConfig.enabled && enhancedAdPlacements.mobile.enabled) { %>
+  <div class="enhanced-ad-container enhanced-ad-mobile-only enhanced-ad-mobile-optimized" 
+       id="enhanced-mobile-ad" 
+       data-ad-slot="<%= enhancedAdPlacements.mobile.slot %>" 
+       data-ad-size="<%= enhancedAdPlacements.mobile.size %>"
+       data-priority="<%= enhancedAdPlacements.mobile.priority %>">
+    <div class="enhanced-ad-label">إعلان</div>
+  </div>
+<% } %>
+

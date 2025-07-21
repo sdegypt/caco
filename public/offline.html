@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>غير متصل - أمل حبرك</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', 'Tajawal', Arial, sans-serif;
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .offline-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .retry-btn {
+            background: white;
+            color: #6c5ce7;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features {
+            margin-top: 40px;
+            text-align: right;
+        }
+        
+        .feature {
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .feature i {
+            margin-left: 10px;
+            color: #fdcb6e;
+        }
+        
+        @media (max-width: 768px) {
+            .offline-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .offline-icon {
+                font-size: 60px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">
+            <i class="fas fa-wifi" style="opacity: 0.3;"></i>
+        </div>
+        
+        <h1>غير متصل بالإنترنت</h1>
+        
+        <p>
+            يبدو أنك غير متصل بالإنترنت حالياً. 
+            تحقق من اتصالك وحاول مرة أخرى.
+        </p>
+        
+        <button class="retry-btn" onclick="window.location.reload()">
+            <i class="fas fa-redo"></i>
+            إعادة المحاولة
+        </button>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-briefcase"></i>
+                تصفح الوظائف المحفوظة
+            </div>
+            <div class="feature">
+                <i class="fas fa-project-diagram"></i>
+                عرض المشاريع المحفوظة
+            </div>
+            <div class="feature">
+                <i class="fas fa-comments"></i>
+                قراءة الرسائل المحفوظة
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // التحقق من الاتصال تلقائياً
+        window.addEventListener('online', function() {
+            window.location.reload();
+        });
+        
+        // إعادة المحاولة كل 30 ثانية
+        setInterval(function() {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
+

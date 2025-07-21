@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حول اعملها براك - منصة التصنيع الذاتي والإبداع</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B00;
+            --primary-light: #FF8A3D;
+            --secondary: #6B48FF;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .about-hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 8rem 0;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 Q50,80 0,100 L0,0 Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .hero-illustration {
+            margin-top: 3rem;
+        }
+
+        .hero-illustration img {
+            max-width: 600px;
+            width: 100%;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            right: 50%;
+            transform: translateX(50%);
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--light-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255,107,0,0.1) 0%, rgba(107,72,255,0.1) 100%);
+            border-radius: 50%;
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+      
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero {
+                padding: 6rem 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .features-section, 
+            .community-section,
+            .cta-section {
+                padding: 4rem 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 3rem;
+            }
+            
+            .community-stats {
+                gap: 1.5rem;
+            }
+            
+            .stat-item {
+                min-width: 150px;
+                padding: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .about-hero {
+                padding: 4rem 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-card {
+                padding: 2rem;
+            }
+            
+            .community-content h2,
+            .cta-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .community-stats {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+            
+            .stat-item {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/headerhome') %>
+    <%- include('partials/headeraction') %>
+    
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 style="color: #fff;">DIY: منصة التصنيع الذاتي والإبداع العربي</h1>
+                <p>مجتمع يجمع المبدعين العرب لتبادل الخبرات، عرض الأعمال، وإيجاد فرص التمكين الذاتي</p>
+                <div class="hero-illustration">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3058/3058973.png" alt="إبداع اعملها براك">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">لماذا DIY هي منصتك المفضلة؟</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>مجتمع عربي شامل</h3>
+                    <p>انضم إلى آلاف المبدعين العرب من مختلف التخصصات والخبرات لتبادل الأفكار والخبرات في التصنيع الذاتي</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>فرص تمكين ذاتي</h3>
+                    <p>تصفح مئات المشاريع وفرص العمل التي تناسب مهاراتك وتخصصك في الحرف اليدوية والتصنيع</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>معرض أعمال متكامل</h3>
+                    <p>أنشئ معرضًا شخصيًا لأعمالك اليدوية يعكس هويتك الإبداعية ويبرز موهبتك للعالم</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>تواصل مباشر</h3>
+                    <p>تواصل مع المبدعين الآخرين، شارك أفكارك، وابنِ شبكة علاقات مهنية قوية في مجال التصنيع الذاتي</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h3>مجاني بالكامل</h3>
+                    <p>منصة مجانية لكل المبدعين بدون أي رسوم خفية أو اشتراكات متميزة</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>تعاون إبداعي</h3>
+                    <p>ابحث عن شركاء لمشاريعك اليدوية أو انضم إلى مشاريع أخرى لتوسيع خبراتك في التصنيع الذاتي</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>أدوات ومصادر قيمة</h3>
+                    <p>استفد من مجموعة الأدوات والميزات والمصادر التعليمية المصممة خصيصًا لدعم العمل اليدوي والإبداعي</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>إلهام مستمر</h3>
+                    <p>استكشف أعمال المبدعين الآخرين واستلهم أفكارًا جديدة لمشاريعك في التصنيع الذاتي</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <%- include('partials/footer') %>
+
+    <script>
+        // Animate feature cards on scroll
+        const featureCards = document.querySelectorAll('.feature-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        featureCards.forEach(card => {
+            card.style.opacity = '0';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

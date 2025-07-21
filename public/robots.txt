@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+
+# الصفحات المهمة
+Allow: /forum
+Allow: /jobs
+Allow: /ProjectSpace
+Allow: /login
+Allow: /register
+
+# منع الوصول للملفات الحساسة
+Disallow: /admin/
+Disallow: /api/
+Disallow: /uploads/
+Disallow: /node_modules/
+Disallow: /.env
+Disallow: /package.json
+Disallow: /package-lock.json
+
+# السماح لمحركات البحث بالوصول للأيقونات والصور
+Allow: /icons/
+Allow: /favicon/
+Allow: /css/
+Allow: /js/
+
+# خريطة الموقع
+Sitemap: https://www.amlhabrak.online/sitemap.xml
+
+# معدل الزحف
+Crawl-delay: 1
+

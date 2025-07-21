@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>بوابة الوظائف | DIY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary: #6B48FF;
+      --primary-light: #8A6AFF;
+      --secondary: #FF6B00;
+      --dark: #1A1A2E;
+      --light: #F8F9FA;
+      --gray: #6C757D;
+      --light-gray: #E9ECEF;
+      --success: #28A745;
+      --error: #DC3545;
+      --transition: all 0.3s ease-in-out;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .jobs-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: 2rem auto;
+      flex: 1;
+    }
+
+    .job-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      border: 1px solid var(--light-gray);
+      position: relative;
+    }
+
+    .job-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .job-icon {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 1.5rem;
+    }
+
+    .job-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .job-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 50%;
+      transform: translateX(50%);
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    .job-description {
+      font-size: 1rem;
+      color: var(--gray);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    .job-btn {
+      width: 100%;
+      max-width: 200px;
+      padding: 0.75rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(107, 72, 255, 0.2);
+    }
+
+    .job-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(107, 72, 255, 0.3);
+    }
+
+    .popup-ad {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      max-width: 320px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      padding: 15px;
+      z-index: 9999;
+      display: none;
+    }
+
+    .popup-ad .close-btn {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      color: var(--gray);
+      cursor: pointer;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 576px) {
+      .popup-ad {
+        max-width: 90%;
+        left: 5%;
+      }
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X88DTB0JB8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag("js", new Date());
+    gtag("config", "G-X88DTB0JB8");
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2350758257463070" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <header style="width: 100%;">
+    <%- include('partials/headerhome') %>
+    <%- include('partials/headeraction') %>
+  </header>
+
+  <div class="jobs-container">
+    <!-- بطاقة عرض الوظائف -->
+    <div class="job-card">
+      <img src="/icons/pngwing.com(6).png" alt="عرض الوظائف" class="job-icon">
+      <h2 class="job-title">عرض الوظائف</h2>
+      <p class="job-description">استكشف أحدث الفرص الوظيفية وابحث عن وظيفتك المثالية.</p>
+      <a href="/listing-job" class="job-btn">اذهب إلى الوظائف</a>
+    </div>
+
+    <!-- بطاقة إضافة وظيفة -->
+    <div class="job-card">
+      <img src="/icons/pngwing.com(4).png" alt="إضافة وظيفة" class="job-icon">
+      <h2 class="job-title">إضافة وظيفة</h2>
+      <p class="job-description">قم بنشر إعلان وظيفي جديد لجذب أفضل المواهب لشركتك.</p>
+      <a href="/add-job" class="job-btn">إضافة وظيفة</a>
+    </div>
+
+    <!-- بطاقة طلبات التوظيف -->
+    <div class="job-card">
+      <img src="/icons/pngwing.com(5).png" alt="طلبات التوظيف" class="job-icon">
+      <h2 class="job-title">طلبات التوظيف</h2>
+      <p class="job-description">قم بمراجعة الطلبات المقدمة من المرشحين المحتملين.</p>
+      <a href="/jobapplications" class="job-btn">عرض الطلبات</a>
+    </div>
+  </div>
+
+  <!-- إعلان منبثق -->
+  <div class="popup-ad" id="popupAd">
+    <button class="close-btn" onclick="document.getElementById('popupAd').style.display='none';">&times;</button>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-2350758257463070"
+         data-ad-slot="1111111111"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.getElementById('popupAd').style.display = 'block';
+    }, 3000); // ظهور الإعلان بعد 3 ثوانٍ
+  </script>
+
+  <footer style="width: 100%; margin-top: auto;">
+    <%- include('partials/footer') %>
+  </footer>
+</body>
+</html>

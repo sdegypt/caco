@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="أضف وظيفة جديدة إلى منصة اعملها براك لجذب المواهب التقنية والإبداعية." />
+  <meta name="keywords" content="اعملها براك, إضافة وظيفة, وظائف تقنية, توظيف" />
+  <meta name="author" content="اعملها براك Team" />
+  <meta name="robots" content="index, follow" />
+  <title>إضافة وظيفة جديدة - اعملها براك</title>
+
+  <!-- Performance Optimizations -->
+  <meta name="theme-color" content="#1A365D" />
+  <link rel="dns-prefetch" href="//www.colorizer.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+  <!-- Fonts and Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F7FAFC; /* Light Gray Background */
+      color: #2D3748; /* Primary Text Color */
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Poppins', sans-serif;
+    }
+    .primary-bg {
+      background-color: #1A365D; /* Primary Blue */
+    }
+    .primary-text {
+      color: #1A365D;
+    }
+    .secondary-text {
+      color: #4FD1C5; /* Secondary Teal */
+    }
+    .primary-btn {
+      background-color: #1A365D; /* Primary Blue */
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    .primary-btn:hover {
+      background-color: #112747; /* Darker Blue on hover */
+    }
+    .secondary-btn {
+      background-color: #4FD1C5; /* Secondary Teal */
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    .secondary-btn:hover {
+      background-color: #38B2AC; /* Darker Teal on hover */
+    }
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      border-color: #E2E8F0; /* Neutral Border */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #1A365D; /* Primary Blue on focus */
+      box-shadow: 0 0 0 1px #1A365D;
+      outline: none;
+    }
+    header {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    footer {
+      background-color: #2D3748; /* Dark Gray for Footer */
+      color: #A0AEC0; /* Light Gray text in Footer */
+    }
+    .custom-file-input::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+    .custom-file-input::before {
+      content: 'اختر صورة (اختياري)';
+      display: inline-block;
+      background: #E2E8F0; /* Neutral background */
+      color: #4A5568;
+      border: 1px solid #CBD5E0;
+      border-radius: 0.375rem; /* rounded-md */
+      padding: 0.5rem 1rem; /* py-2 px-4 */
+      outline: none;
+      white-space: nowrap;
+      -webkit-user-select: none;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.875rem; /* text-sm */
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+    .custom-file-input:hover::before {
+      background-color: #CBD5E0;
+      border-color: #A0AEC0;
+    }
+    .custom-file-input:active::before {
+      background-color: #A0AEC0;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .disabled {
+      background-color: #E9ECEF;
+      border-color: #CED4DA;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Includes -->
+  <%- include('partials/headerhome') %>
+  <%- include('partials/headeraction') %>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-lg shadow-md">
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 border-b pb-4">إضافة وظيفة جديدة</h2>
+      
+      <form id="jobForm" action="/jobs/add" method="POST" enctype="multipart/form-data">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-1">المسمى الوظيفي <span class="text-red-500">*</span></label>
+            <input type="text" id="title" name="title" required
+                   class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50"
+                   placeholder="مثال: مطور واجهات أمامية">
+          </div>
+          <div>
+            <label for="location" class="block text-sm font-medium text-gray-700 mb-1">الموقع <span class="text-red-500">*</span></label>
+            <input type="text" id="location" name="location" required
+                   class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50"
+                   placeholder="مثال: الرياض، السعودية أو عن بعد">
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">الوصف الوظيفي <span class="text-red-500">*</span></label>
+          <textarea id="description" name="description" rows="6" required
+                    class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50"
+                    placeholder="أدخل وصفاً تفصيلياً للوظيفة، المسؤوليات، والمؤهلات المطلوبة..."></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label for="jobType" class="block text-sm font-medium text-gray-700 mb-1">نوع العمل <span class="text-red-500">*</span></label>
+            <select id="jobType" name="jobType" required
+                    class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50 bg-white">
+              <option value="" disabled selected>اختر نوع العمل</option>
+              <option value="full-time">دوام كامل</option>
+              <option value="part-time">دوام جزئي</option>
+            </select>
+          </div>
+          <div>
+            <label for="education" class="block text-sm font-medium text-gray-700 mb-1">المؤهل العلمي <span class="text-red-500">*</span></label>
+            <select id="education" name="education" required
+                    class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50 bg-white">
+              <option value="" disabled selected>اختر المؤهل</option>
+              <option value="إعدادي">إعدادي</option>
+              <option value="ثانوي">ثانوي</option>
+              <option value="جامعة">جامعة</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label for="currency" class="block text-sm font-medium text-gray-700 mb-1">نوع العملة (اختياري)</label>
+            <input type="text" id="currency" name="currency"
+                   class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50"
+                   placeholder="مثال: ريال سعودي">
+          </div>
+          <div>
+            <label for="experience" class="block text-sm font-medium text-gray-700 mb-1">الخبرة <span class="text-red-500">*</span></label>
+            <input type="text" id="experience" name="experience" required
+                   class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50"
+                   placeholder="مثال: 3-5 سنوات">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label for="salaryMin" class="block text-sm font-medium text-gray-700 mb-1">أقل راتب <span class="text-red-500">*</span></label>
+            <input type="number" id="salaryMin" name="salaryMin" required
+                   class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50"
+                   placeholder="مثال: 5000">
+          </div>
+          <div>
+            <label for="salaryMax" class="block text-sm font-medium text-gray-700 mb-1">أعلى راتب <span class="text-red-500">*</span></label>
+            <input type="number" id="salaryMax" name="salaryMax" required
+                   class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50"
+                   placeholder="مثال: 7000">
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <div class="checkbox-group">
+            <input type="checkbox" id="salaryAfterInterview" name="salaryAfterInterview" value="1">
+            <label for="salaryAfterInterview" class="text-sm font-medium text-gray-700">تحديد الراتب بعد المقابلة</label>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">مدة الإعلان (بالأيام) <span class="text-red-500">*</span></label>
+          <input type="number" id="duration" name="duration" required
+                 class="w-full px-3 py-2 border rounded-md focus:ring-opacity-50"
+                 placeholder="مثال: 30">
+        </div>
+
+        <div class="mb-8">
+          <label for="logo" class="block text-sm font-medium text-gray-700 mb-1">الشعار (اختياري)</label>
+          <input type="file" id="logo" name="logo" accept="image/*"
+                 class="custom-file-input w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+          <p class="mt-1 text-xs text-gray-500">يمكنك رفع شعار الشركة (يفضل PNG, JPG, WEBP بحجم أقل من 2MB).</p>
+        </div>
+
+        <div class="flex justify-end">
+          <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-md hover:bg-gray-300 transition duration-150 ease-in-out mr-4">إلغاء</button>
+          <button type="submit"
+                  class="primary-btn font-semibold py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1A365D]">
+            إضافة الوظيفة
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+      <footer style="width: 100%; margin-top: 14vh;" ><%- include('partials/footer') %></footer>
+
+
+  <script>
+    const salaryAfterInterviewCheckbox = document.getElementById("salaryAfterInterview");
+    const salaryMinInput = document.getElementById("salaryMin");
+    const salaryMaxInput = document.getElementById("salaryMax");
+
+    // Disable/enable salary inputs based on checkbox state
+    salaryAfterInterviewCheckbox.addEventListener("change", function () {
+      if (this.checked) {
+        salaryMinInput.disabled = true;
+        salaryMaxInput.disabled = true;
+        salaryMinInput.classList.add("disabled");
+        salaryMaxInput.classList.add("disabled");
+        salaryMinInput.removeAttribute("required");
+        salaryMaxInput.removeAttribute("required");
+        salaryMinInput.value = "";
+        salaryMaxInput.value = "";
+      } else {
+        salaryMinInput.disabled = false;
+        salaryMaxInput.disabled = false;
+        salaryMinInput.classList.remove("disabled");
+        salaryMaxInput.classList.remove("disabled");
+        salaryMinInput.setAttribute("required", "true");
+        salaryMaxInput.setAttribute("required", "true");
+      }
+    });
+
+    document.getElementById("jobForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+
+      // If salaryAfterInterview is checked, set salary fields to empty
+      if (salaryAfterInterviewCheckbox.checked) {
+        formData.set("salaryMin", "");
+        formData.set("salaryMax", "");
+      }
+
+      try {
+        console.log("📤 إرسال البيانات:", Object.fromEntries(formData));
+        const response = await fetch("/jobs/add", {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        console.log("✅ استجابة السيرفر:", result);
+
+        if (response.ok) {
+          Swal.fire({
+            icon: "success",
+            title: "تم الإضافة!",
+            text: result.message || "تمت إضافة الوظيفة بنجاح",
+            confirmButtonText: "موافق",
+            confirmButtonColor: "#1A365D",
+          }).then(() => {
+            window.location.href = "/listing-job";
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "فشل الإضافة",
+            text: result.message || "فشل في إضافة الوظيفة، حاول مرة أخرى.",
+            confirmButtonText: "موافق",
+            confirmButtonColor: "#e74c3c",
+          });
+        }
+      } catch (error) {
+        console.error("❌ خطأ:", error);
+        Swal.fire({
+          icon: "error",
+          title: "خطأ!",
+          text: error.message || "حدث خطأ أثناء إرسال البيانات إلى السيرفر.",
+          confirmButtonText: "موافق",
+          confirmButtonColor: "#e74c3c",
+        });
+      }
+    });
+  </script>
+</body>
+</html>

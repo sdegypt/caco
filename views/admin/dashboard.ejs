@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="لوحة التحكم الإدارية لـ اعملها براك لإدارة المستخدمين، المنتدى، والوظائف">
+    <meta name="robots" content="noindex, nofollow"> <!-- لمنع فهرسة لوحة الإدارة -->
+    <title>لوحة التحكم - اعملها براك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/css/admin-dashboard.css" media="print" onload="this.media='all'">
+</head>
+
+    <%- include('../partials/headerhome') %>
+    <%- include('../partials/headeraction') %>
+<body>
+    <!-- القائمة العلوية -->
+    <nav class="top-nav">
+        <a href="/forum" class="back-button"><i class="fas fa-arrow-right"></i> العودة إلى المنصة</a>
+        <span class="logo-text">اعملها براك</span>
+    </nav>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>لوحة التحكم</h1>
+            <p>إدارة جميع أقسام النظام بسهولة وأناقة</p>
+        </header>
+
+        <section class="dashboard-section">
+            <div class="dashboard-grid">
+                <a href="/admin/messages" class="dashboard-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>رسائل المستخدمين</h3>
+                    <p>عرض وإدارة الرسائل المرسلة من المستخدمين</p>
+                </a>
+                <a href="/admin/notify" class="dashboard-card">
+                    <i class="fas fa-bell"></i>
+                    <h3>إرسال إشعار</h3>
+                    <p>إرسال إشعارات إلى جميع المستخدمين</p>
+                </a>
+                <a href="/admin/users" class="dashboard-card">
+                    <i class="fas fa-users"></i>
+                    <h3>إدارة المستخدمين</h3>
+                    <p>عرض وتعديل بيانات المستخدمين</p>
+                </a>
+                <a href="/admin/statistics" class="dashboard-card">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>عدد المستخدمين: <%= typeof totalUsers !== 'undefined' ? totalUsers : 'غير متاح' %></h3>
+                    <p>عرض إحصائيات المستخدمين والرسوم البيانية</p>
+                </a>
+                <a href="/admin/site-stats" class="dashboard-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>إحصائيات الموقع</h3>
+                    <p>عرض بيانات وتحليلات تقدم الموقع بشكل مرئي</p>
+                </a>
+                <a href="/admin/roles-permissions" class="dashboard-card">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>إعدادات الأدوار والصلاحيات</h3>
+                    <p>إدارة الأدوار وصلاحيات المشرفين</p>
+                </a>
+                <a href="/admin/forum-settings" class="dashboard-card">
+                    <i class="fas fa-comment-alt"></i>
+                    <h3>إعدادات المنتدى</h3>
+                    <p>تخصيص قواعد المنتدى والإعلانات</p>
+                </a>
+                <a href="/admin/job-project-settings" class="dashboard-card">
+                    <i class="fas fa-briefcase"></i>
+                    <h3>إعدادات الوظائف والمشاريع</h3>
+                    <p>تحكم في حدود إضافة الوظائف والمشاريع</p>
+                </a>
+                <a href="/admin/store-requests" class="dashboard-card">
+                    <i class="fas fa-store"></i>
+                    <h3>طلبات إنشاء المتجر</h3>
+                    <p>مراجعة والموافقة على طلبات المتاجر الجديدة</p>
+                </a>
+                <a href="#" class="dashboard-card">
+                    <i class="fas fa-cog"></i>
+                    <h3>الإعدادات</h3>
+                    <p>تخصيص إعدادات النظام (قيد التطوير)</p>
+                </a>
+            </div>
+        </section>
+    </div>
+
+  
+    <!-- تضمين الهيدر والفوتر -->
+    <%- include('../partials/footer') %>
+
+    <!-- CSS للقائمة والفوتر -->
+    <style>
+        /* تنسيق القائمة العلوية */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6c5ce7, #8e7bff);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .logo-text {
+            font-family: "Tajawal", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c5ce7;
+        }
+
+        /* تنسيق الفوتر */
+        .dashboard-footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .dashboard-footer p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #2d3748;
+        }
+    </style>
+</body>
+</html>

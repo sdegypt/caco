@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة المستخدمين - اعملها براك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin-users.css">
+</head>
+<body>
+      <!-- القائمة العلوية -->
+      <nav class="top-nav">
+        <a href="/forum" class="back-button"><i class="fas fa-arrow-right"></i> العودة إلى المنصة</a>
+        <span class="logo-text">اعملها براك</span>
+    </nav>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>إدارة المستخدمين</h1>
+            <p>عرض وتعديل حالة المستخدمين في النظام</p>
+        </header>
+
+        <section class="users-section">
+            <div class="search-bar">
+                <form action="/admin/users" method="GET" class="search-form">
+                    <input type="text" name="query" placeholder="ابحث بالاسم، البريد، أو المعرف" value="<%= query || '' %>">
+                    <button type="submit" class="search-btn"><i class="fas fa-search"></i> بحث</button>
+                </form>
+            </div>
+
+            <% if (users.length === 0) { %>
+                <div class="no-users">
+                    <i class="fas fa-users-slash"></i>
+                    <p>لا توجد مستخدمين تطابق بحثك</p>
+                </div>
+            <% } else { %>
+                <div class="users-grid">
+                    <% users.forEach(user => { %>
+                        <div class="user-card">
+                            <div class="user-header">
+                                <img 
+                                    src="<%= getCloudinaryImageUrl(user.avatar, '/uploads/images/pngwing.com.png') %>" 
+                                    alt="<%= user.name %>" 
+                                    class="user-avatar" 
+                                    onerror="this.src='/uploads/images/pngwing.com.png'"
+                                >
+                                <h3><%= user.name %></h3>
+                            </div>
+                            <div class="user-body">
+                                <p><strong>المعرف:</strong> <%= user.id %></p>
+                                <p><strong>البريد:</strong> <%= user.email %></p>
+                                <p><strong>الدور:</strong> <%= user.role %></p>
+                                <p><strong>الحالة:</strong> <%= user.is_active ? 'نشط' : 'محظور' %></p>
+                            </div>
+                            <div class="user-actions">
+                                <% if (user.role !== 'admin') { %>
+                                    <form action="/admin/users/<%= user.id %>/set-admin" method="POST" style="display: inline;">
+                                        <button type="submit" class="action-btn set-admin-btn">تعيين كمسؤول</button>
+                                    </form>
+                                <% } %>
+                                <form action="/admin/users/<%= user.id %>/toggle-block" method="POST" style="display: inline;">
+                                    <button type="submit" class="action-btn <%= user.is_active ? 'block-btn' : 'unblock-btn' %>">
+                                        <%= user.is_active ? 'حظر' : 'إلغاء الحظر' %>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </section>
+    </div>
+    
+    <!-- الفوتر -->
+    <footer class="dashboard-footer">
+        <p>© 2025 اعملها براك - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <!-- CSS للقائمة والفوتر -->
+    <style>
+        /* تنسيق القائمة العلوية */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6c5ce7, #8e7bff);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .logo-text {
+            font-family: "Tajawal", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c5ce7;
+        }
+
+        /* تنسيق الفوتر */
+        .dashboard-footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .dashboard-footer p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #2d3748;
+        }
+    </style>
+
+    <% function getCloudinaryImageUrl(image, fallback) { return image && image.startsWith('http') ? image : (fallback || '/uploads/images/pngwing.com.png'); } %>
+</body>
+
+
+</html>

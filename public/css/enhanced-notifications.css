@@ -1,0 +1,230 @@
+/*
+ * أنماط CSS لنظام الإشعارات المحسنة (Toast)
+ */
+
+/* حاوية الإشعارات */
+.notifications-container {
+  position: fixed;
+  top: 20px;
+  /* تحديد الاتجاه بناءً على اتجاه الصفحة (RTL/LTR) */
+  right: 20px; /* الافتراضي لـ LTR */
+  left: auto;
+  z-index: 1050; /* أعلى من معظم العناصر الأخرى */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* محاذاة الإشعارات إلى اليمين */
+  gap: 10px;
+  max-width: 320px; /* العرض المحدد من قبل المستخدم */
+  width: calc(100% - 40px);
+}
+
+/* دعم RTL */
+html[dir="rtl"] .notifications-container {
+  right: auto;
+  left: 20px;
+  align-items: flex-start; /* محاذاة الإشعارات إلى اليسار في RTL */
+}
+
+/* الإشعار (Toast) */
+.notification {
+  display: flex;
+  align-items: flex-start; /* محاذاة الأيقونة والمحتوى رأسيًا */
+  width: 100%; /* جعل الإشعار يملأ الحاوية */
+  padding: 12px 15px;
+  border-radius: 8px; /* حواف دائرية */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* ظل خفيف */
+  background-color: #fff;
+  border-right: 4px solid transparent; /* حد جانبي للتمييز اللوني */
+  margin-bottom: 0; /* تم إزالة الهامش السفلي، نستخدم gap في الحاوية */
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1); /* انتقال سلس */
+  opacity: 0;
+  transform: translateX(100%); /* يبدأ من خارج الشاشة (يمين) */
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+  position: relative; /* للسماح بتموضع زر الإغلاق */
+  overflow: hidden; /* لإخفاء أي تجاوز */
+}
+
+/* دعم RTL للإشعارات */
+html[dir="rtl"] .notification {
+  border-right: none;
+  border-left: 4px solid transparent;
+  transform: translateX(-100%); /* يبدأ من خارج الشاشة (يسار) في RTL */
+}
+
+/* أنواع الإشعارات (الألوان) */
+.notification-success {
+  border-color: #2E7D32; /* أخضر للنجاح */
+  background-color: #f0f9f4;
+}
+.notification-success .notification-icon {
+  color: #2E7D32;
+}
+
+.notification-warning {
+  border-color: #AF6C00; /* أصفر للتحذير */
+  background-color: #fff8e1;
+}
+.notification-warning .notification-icon {
+  color: #AF6C00;
+}
+
+.notification-error {
+  border-color: #D32F2F; /* أحمر للخطأ */
+  background-color: #fdecea;
+}
+.notification-error .notification-icon {
+  color: #D32F2F;
+}
+
+.notification-info {
+  border-color: #0277BD; /* أزرق للمعلومات */
+  background-color: #e1f5fe;
+}
+.notification-info .notification-icon {
+  color: #0277BD;
+}
+
+/* أيقونة الإشعار */
+.notification-icon {
+  margin-left: 12px; /* هامش يسار الأيقونة */
+  margin-right: 0;
+  font-size: 1.2rem; /* حجم الأيقونة */
+  line-height: 1.4; /* محاذاة مع النص */
+  flex-shrink: 0;
+}
+
+html[dir="rtl"] .notification-icon {
+  margin-left: 0;
+  margin-right: 12px; /* هامش يمين الأيقونة في RTL */
+}
+
+/* محتوى الإشعار */
+.notification-content {
+  flex-grow: 1;
+  padding-right: 25px; /* مساحة لزر الإغلاق */
+}
+
+html[dir="rtl"] .notification-content {
+  padding-right: 0;
+  padding-left: 25px; /* مساحة لزر الإغلاق في RTL */
+}
+
+/* عنوان الإشعار (اختياري) */
+.notification-title {
+  margin: 0 0 4px 0;
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+/* رسالة الإشعار */
+.notification-message {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* زر إغلاق الإشعار (X) */
+.notification-close {
+  position: absolute;
+  top: 8px;
+  right: 10px; /* تموضع زر الإغلاق */
+  left: auto;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  color: #888;
+  opacity: 0.7;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+html[dir="rtl"] .notification-close {
+  right: auto;
+  left: 10px;
+}
+
+.notification-close:hover {
+  opacity: 1;
+  color: #000;
+}
+
+/* إشعار قابل للنقر (إذا تم تفعيله) */
+.notification-clickable {
+  cursor: pointer;
+}
+
+.notification-clickable:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* رسوم متحركة للظهور */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* رسوم متحركة للإغلاق */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; transform: scale(0.95); }
+}
+
+@keyframes fadeOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+/* تطبيق الرسوم المتحركة */
+.notification.slideInRight { animation-name: slideInRight; }
+.notification.slideInLeft { animation-name: slideInLeft; }
+
+.notification.fadeOut { animation-name: fadeOut; animation-duration: 0.3s; }
+.notification.fadeOutRight { animation-name: fadeOutRight; animation-duration: 0.4s; }
+.notification.fadeOutLeft { animation-name: fadeOutLeft; animation-duration: 0.4s; }
+
+/* تحديد الرسوم المتحركة الافتراضية بناءً على اتجاه الصفحة */
+.notification {
+  animation-name: slideInRight; /* الافتراضي لـ LTR */
+}
+html[dir="rtl"] .notification {
+  animation-name: slideInLeft; /* الافتراضي لـ RTL */
+}
+

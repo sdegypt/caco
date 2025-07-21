@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تفاصيل المنشور</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>تفاصيل المنشور</h1>
+
+      <div class="post-details">
+        <div class="post-header">
+          <div class="user-info">
+            <img
+              src="<%= getCloudinaryImageUrl(post.user_avatar, '/uploads/images/pngwing.com.png') %>"
+              alt="<%= post.user_name %>"
+              class="user-avatar"
+            />
+            <p><strong><%= post.user_name %></strong></p>
+          </div>
+          <p class="post-time"><%= post.created_at %></p>
+        </div>
+        <div class="post-content">
+          <p><%= post.content %></p>
+        </div>
+
+        <% function getCloudinaryImageUrl(image, fallback) { return image && image.startsWith('http') ? image : (fallback || '/uploads/images/pngwing.com.png'); } %>
+        <% if (post.image1) { %>
+        <div class="post-images">
+          <img
+            src="<%= getCloudinaryImageUrl(post.image1, '/uploads/images/pngwing.com.png') %>"
+            alt="Image 1"
+            class="post-image"
+          />
+        </div>
+        <% } %> <% if (post.image2) { %>
+        <div class="post-images">
+          <img
+            src="<%= getCloudinaryImageUrl(post.image2, '/uploads/images/pngwing.com.png') %>"
+            alt="Image 2"
+            class="post-image"
+          />
+        </div>
+        <% } %> <% if (post.image3) { %>
+        <div class="post-images">
+          <img
+            src="<%= getCloudinaryImageUrl(post.image3, '/uploads/images/pngwing.com.png') %>"
+            alt="Image 3"
+            class="post-image"
+          />
+        </div>
+        <% } %> <% if (post.image4) { %>
+        <div class="post-images">
+          <img
+            src="<%= getCloudinaryImageUrl(post.image4, '/uploads/images/pngwing.com.png') %>"
+            alt="Image 4"
+            class="post-image"
+          />
+        </div>
+        <% } %>
+
+        <div class="post-actions">
+          <form action="/forum/post/<%= post.id %>/like" method="POST">
+            <button type="submit" class="like-button">
+              أعجبني (<%= post.like_count %>)
+            </button>
+          </form>
+
+          <form action="/forum/post/<%= post.id %>/comment" method="POST">
+            <input
+              type="text"
+              name="comment"
+              placeholder="أضف تعليقاً..."
+              required
+            />
+            <button type="submit" class="comment-button">إضافة تعليق</button>
+          </form>
+        </div>
+
+        <div class="comments-section">
+          <h3>التعليقات (<%= post.comment_count %>)</h3>
+          <% post.comments.forEach(function(comment) { %>
+          <div class="comment">
+            <p>
+              <strong><%= comment.user_name %></strong> <%= comment.created_at
+              %>
+            </p>
+            <p><%= comment.content %></p>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <div class="post-footer">
+        <form action="/forum/post/<%= post.id %>/share" method="POST">
+          <button type="submit" class="share-button">مشاركة</button>
+        </form>
+        <form action="/forum/post/<%= post.id %>/hide" method="POST">
+          <button type="submit" class="hide-button">إخفاء المنشور</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منشوراتي</title>
+  <link rel="stylesheet" href="/css/userPosts.css">
+
+</head>
+<body>
+  <%- include('partials/headerhome') %> 
+  <%- include('partials/headeraction') %>
+
+  <main class="main">
+    <h1 style="text-align: center; margin: 20px 0; color: #2c3e50;">منشوراتي</h1>
+
+    <section>
+      <% if (posts && posts.length > 0) { %>
+        <% posts.forEach((post) => { %>
+          <div class="post">
+            <div class="post-header">
+              <div class="post-actions">
+                <% if (currentUserId && post.showEditDeleteButtons) { %>
+                  <form action="/forum/post/<%= post.id %>/delete" method="POST">
+                    <button type="submit" class="action-btn"><i class="fas fa-trash-alt"></i></button>
+                  </form>
+                  <form action="/forum/post/<%= post.id %>/edit" method="GET">
+                    <button type="submit" class="action-btn"><i class="fas fa-edit"></i></button>
+                  </form>
+                <% } %>
+                <form action="/forum/post/<%= post.id %>/hide" method="POST">
+                  <button type="submit" class="action-btn"><i class="fas fa-eye-slash"></i></button>
+                </form>
+              </div>
+              <div class="person">
+                <div class="post-avatar">
+                  <a href="/profile?userId=<%= post.user_id %>">
+                    <% if (post.user_avatar) { %>
+                      <img src="<%= getCloudinaryImageUrl(post.user_avatar, '/uploads/images/pngwing.com.png') %>" alt="<%= post.user_name %>" width="50" style="border-radius: 50%;" />
+                    <% } else { %>
+                      <span class="fa fa-user-circle fa-2x" style="color: #aaa; font-size: 50px;"></span>
+                    <% } %>
+                  </a>
+                </div>
+                <div class="post-user-info">
+                  <p class="post-user-name">
+                    <a href="/profile?userId=<%= post.user_id %>" style="text-decoration: none; color: inherit;">
+                      <%= post.user_name %>
+                    </a>
+                  </p>
+                  <span class="post-time">
+                    <%= new Date(post.created_at).toLocaleString('ar-EG', { hour12: true }) %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="post-content">
+              <p style="text-align: center;"><%= post.content %></p>
+            </div>
+
+            <div class="post-images" style="display: flex; justify-content: center; align-items: center;">
+              <% if (post.image1 || post.image2 || post.image3 || post.image4) { %>
+                <% [post.image1, post.image2, post.image3, post.image4].forEach((image) => { %>
+                  <% if (image) { %>
+                    <img src="<%= getCloudinaryImageUrl(image, '/uploads/images/pngwing.com.png') %>" alt="Post Image" class="post-image" />
+                  <% } %>
+                <% }); %>
+              <% } else { %>
+                <p>لا توجد صور في هذا المنشور.</p>
+              <% } %>
+            </div>
+
+            <div class="post-footer">
+              <button class="like-button" data-post-id="<%= post.id %>" data-liked="<%= post.liked ? 'true' : 'false' %>">
+                <i class="fas fa-thumbs-up"></i><span class="like-count"><%= post.like_count || 0 %></span>
+              </button>
+              <button type="button" class="show-comments-btn" data-post-id="<%= post.id %>">
+                <i class="fas fa-comment"></i> تعليق
+                <span id="comment-count-<%= post.id %>" class="count">
+                  <%= post.comment_count > 0 ? post.comment_count : 'لا تعليقات' %>
+                </span>
+              </button>
+              <form action="/forum/post/<%= post.id %>/share" method="POST">
+                <button type="submit"><i class="fas fa-share"></i><span class="count"><%= post.share_count || 0 %></span></button>
+              </form>
+            </div>
+
+            <div class="comments-section" id="comments-<%= post.id %>">
+              <form class="comment-form" data-post-id="<%= post.id %>" style="display: none;">
+                <div class="rowcomment">
+                  <input type="text" name="comment" placeholder="اكتب تعليقاً..." required />
+                  <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </div>
+              </form>
+              <div class="comments-list" id="comments-list-<%= post.id %>"></div>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p style="text-align: center; font-size: 18px; color: #636e72;">لم تقم بنشر أي منشورات بعد.</p>
+      <% } %>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', async function() {
+          const postId = this.getAttribute('data-post-id');
+          const liked = this.getAttribute('data-liked') === 'true';
+
+          try {
+            const response = await fetch(`/forum/toggle-like/${postId}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({ liked: !liked }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+              this.querySelector('.like-count').textContent = data.likeCount;
+              this.setAttribute('data-liked', data.liked);
+              this.classList.toggle('liked', data.liked);
+            } else {
+              console.error('Error toggling like:', data.message);
+            }
+          } catch (err) {
+            console.error('Error in like toggle:', err);
+          }
+        });
+      });
+
+      document.querySelectorAll(".show-comments-btn").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const postId = btn.getAttribute("data-post-id");
+          const commentsSection = document.getElementById(`comments-${postId}`);
+          const commentsList = commentsSection.querySelector(".comments-list");
+          const commentForm = commentsSection.querySelector(".comment-form");
+
+          commentsSection.classList.toggle("active");
+
+          if (commentsSection.classList.contains("active")) {
+            await loadComments(postId);
+            commentForm.style.display = "block";
+          } else {
+            commentsList.innerHTML = "";
+            commentForm.style.display = "none";
+          }
+        });
+      });
+
+      document.querySelectorAll(".comment-form").forEach((form) => {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const postId = form.getAttribute("data-post-id");
+          const commentContent = form.querySelector("input[name='comment']").value.trim();
+          if (!commentContent) return;
+
+          try {
+            const response = await fetch(`/forum/comments/${postId}/add`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: 'include',
+              body: JSON.stringify({ content: commentContent }),
+            });
+            const result = await response.json();
+            if (result.success) {
+              form.querySelector("input[name='comment']").value = "";
+              await loadComments(postId);
+              const commentCountElement = document.getElementById(`comment-count-${postId}`);
+              commentCountElement.textContent = parseInt(commentCountElement.textContent) + 1 || 1;
+            } else {
+              console.error('Error adding comment:', result.message);
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        });
+      });
+
+      async function loadComments(postId) {
+        const commentsList = document.getElementById(`comments-list-${postId}`);
+        try {
+          const response = await fetch(`/forum/comments/${postId}`, {
+            method: "GET",
+            credentials: 'include',
+          });
+          const result = await response.json();
+          if (result.success) {
+            commentsList.innerHTML = result.comments
+              .map(comment => `
+                <div class="comment">
+                  <a href="/profile?userId=${comment.user_id}">
+                    ${comment.user_avatar
+                      ? `<img src="${(comment.user_avatar.startsWith('http') ? comment.user_avatar : (comment.user_avatar.startsWith('/uploads/') ? comment.user_avatar : '/uploads/avatars/' + comment.user_avatar))}" alt="${comment.user_name}" class="comment-avatar" style="width: 50px; border-radius: 50%;" />`
+                      : `<span class="fa fa-user-circle fa-2x" style="color: #aaa; font-size: 50px;"></span>`}
+                  </a>
+                  <p>
+                    <a href="/profile?userId=${comment.user_id}" style="text-decoration: none; color: inherit;">
+                      <strong>${comment.user_name}</strong>
+                    </a>: ${comment.content}
+                  </p>
+                </div>
+              `)
+              .join("");
+            const commentCountElement = document.getElementById(`comment-count-${postId}`);
+            commentCountElement.textContent = result.comments.length > 0 ? result.comments.length : 'لا تعليقات';
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    });
+  </script>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
+
+<% function getCloudinaryImageUrl(image, fallback) { return image && image.startsWith('http') ? image : (fallback || '/uploads/images/pngwing.com.png'); } %>

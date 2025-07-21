@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Base Styles */
+body {
+  font-family: 'Cairo', 'Poppins', sans-serif; /* Default to Cairo, fallback to Poppins, then sans-serif */
+  background-color: #f8f9fa; /* Light gray background */
+  color: #343a40; /* Dark gray text */
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Apply Poppins specifically for English text if possible (might need JS or specific classes) */
+[lang="en"] {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Color Palette - تدرجات برتقالية عصرية */
+:root {
+  --primary-color: #ff9f43; /* برتقالي أساسي */
+  --primary-light: #ffc078; /* برتقالي فاتح */
+  --primary-dark: #e67e22; /* برتقالي داكن */
+  --secondary-color: #ff7f50; /* برتقالي ثانوي */
+  --accent-color: #ff6b6b; /* برتقالي مائل للأحمر */
+  --background-color: #ffffff; /* أبيض */
+  --background-light: #fff8f0; /* أبيض مائل للبرتقالي الفاتح */
+  --text-color: #343a40; /* رمادي داكن */
+  --text-secondary-color: #6c757d; /* رمادي أفتح للنصوص الثانوية */
+  --border-color: #ffe0c2; /* حدود بلون برتقالي فاتح جداً */
+  --shadow-color: rgba(255, 159, 67, 0.15); /* ظلال برتقالية شفافة */
+}
+
+/* Common Elements Styling */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-dark); /* برتقالي داكن عند التحويم */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cairo', 'Poppins', sans-serif; /* Ensure headings use the right fonts */
+  color: var(--text-color);
+  margin-bottom: 0.5em;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--background-color);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--background-light);
+  color: var(--primary-dark);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transform: translateY(-2px);
+}
+
+/* Cards */
+.card {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+/* Forms */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: 'Cairo', 'Poppins', sans-serif;
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.2);
+}
+
+/* Spacing System (Example using margin utility classes) */
+.m-1 { margin: 8px; }
+.m-2 { margin: 16px; }
+.m-3 { margin: 24px; }
+.m-4 { margin: 32px; }
+.m-5 { margin: 48px; }
+
+.p-1 { padding: 8px; }
+.p-2 { padding: 16px; }
+.p-3 { padding: 24px; }
+.p-4 { padding: 32px; }
+.p-5 { padding: 48px; }
+
+/* Header Example */
+.header {
+  background: linear-gradient(135deg, var(--background-color) 0%, var(--background-light) 100%);
+  padding: 16px 32px;
+  box-shadow: 0 2px 15px var(--shadow-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 24px;
+}
+
+.header nav a {
+  color: var(--text-color);
+  font-weight: 600;
+  position: relative;
+}
+
+.header nav a:hover {
+  color: var(--primary-color);
+}
+
+.header nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  transition: width 0.3s ease;
+}
+
+.header nav a:hover::after {
+  width: 100%;
+}
+
+/* Footer Example - تم تحديثه في ملف footer.css */
+.footer {
+  background: linear-gradient(135deg, var(--background-color) 0%, var(--background-light) 100%);
+  color: var(--text-color);
+  padding: 32px;
+  margin-top: 48px;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer a {
+  color: var(--primary-color);
+}
+
+.footer a:hover {
+  color: var(--primary-dark);
+}
+
+/* تحسينات إضافية للعناصر المشتركة */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+  margin: 24px 0;
+}
+
+/* تأثيرات التحويم والانتقالات */
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
+/* تحسينات للأجهزة المحمولة */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: 16px;
+  }
+  
+  .header nav ul {
+    margin-top: 16px;
+    gap: 16px;
+  }
+}

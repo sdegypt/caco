@@ -1,0 +1,130 @@
+/* الألوان الأساسية */
+:root {
+  --primary-color: #6a1b9a; /* بنفسجي غامق */
+  --secondary-color: #9c27b0; /* بنفسجي فاتح */
+  --background-color: #f3e5f5; /* بنفسجي فاتح جدًا للخلفية */
+  --text-color: #4a148c; /* بنفسجي غامق للنصوص */
+  --button-color: #7b1fa2; /* بنفسجي متوسط للأزرار */
+  --button-hover-color: #4a148c; /* بنفسجي غامق عند التمرير */
+  --border-color: #d1c4e9; /* بنفسجي فاتح للحدود */
+  --shadow-color: rgba(106, 27, 154, 0.2); /* ظلال بنفسجية */
+  
+}
+
+/* تهيئة عامة للصفحة */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Cairo", sans-serif;
+}
+body {
+  color: #333;
+  margin: 0;
+  padding: 0;
+  background: #f9fbfc;
+  font-size: 0.875rem;
+}
+/* تنسيق النموذج */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px var(--shadow-color);
+  border: 1px solid var(--border-color);
+}
+
+/* تنسيق العناوين */
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+/* تنسيق حقول الإدخال */
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 16px;
+  color: var(--text-color);
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus,
+select:focus {
+  border-color: var(--secondary-color);
+  outline: none;
+  box-shadow: 0 0 8px var(--shadow-color);
+}
+
+/* تنسيق زر التحديث */
+button {
+  background-color: var(--button-color);
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 20px auto;
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* تنسيق الصورة الحالية */
+img {
+  display: block;
+  margin: 15px auto;
+  border-radius: 10px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* تنسيق النص في المركز */
+center {
+  text-align: center;
+}
+
+/* تنسيق إضافي للعناصر */
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+/* تنسيق للرسائل أو النصوص الإضافية */
+.message {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: var(--primary-color);
+}

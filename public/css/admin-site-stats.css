@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #f0f2f5 0%, #e8e8f8 100%);
+    color: #333;
+    line-height: 1.6;
+    padding: 0px;
+}
+
+.dashboard-container {
+    width: 100%;
+    margin: 0 auto;
+    direction: rtl;
+}
+
+.dashboard-header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #6B48FF, #A78BFA);
+    color: #FFFFFF;
+    border-radius: 0px 0px 20px 20px;
+    box-shadow: 0 10px 20px rgba(107, 72, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    animation: rotate 15s linear infinite;
+}
+
+.dashboard-header h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.dashboard-header p {
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.charts-section {
+    padding: 20px;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.chart-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 35px rgba(107, 72, 255, 0.2);
+}
+
+.chart-card h2 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.8rem;
+    color: #6B48FF;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* التصميم المتجاوب */
+@media (max-width: 1024px) {
+    .dashboard-header h1 { font-size: 2.2rem; }
+    .dashboard-header p { font-size: 1.1rem; }
+    .charts-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header { padding: 30px 15px; }
+    .dashboard-header h1 { font-size: 1.8rem; }
+    .dashboard-header p { font-size: 1rem; }
+    .chart-card { padding: 15px; }
+    .chart-card h2 { font-size: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header { padding: 20px 10px; }
+    .dashboard-header h1 { font-size: 1.5rem; }
+    .dashboard-header p { font-size: 0.9rem; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .chart-card h2 { font-size: 1.3rem; }
+}

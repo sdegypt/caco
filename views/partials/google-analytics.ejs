@@ -1,0 +1,578 @@
+<!-- Google Analytics 4 (GA4) لموقع أمل حبرك -->
+<% 
+// إعدادات Google Analytics
+const analyticsConfig = {
+  enabled: true,
+  measurementId: 'G-X88DTB0JB8',
+  streamId: '3128000324',
+  dataSourceName: 'Sediagabdo',
+  
+  // إعدادات الخصوصية
+  anonymizeIp: true,
+  respectDoNotTrack: true,
+  cookieConsent: true,
+  
+  // إعدادات التتبع المحسنة
+  enhancedMeasurement: {
+    scrolls: true,
+    outboundClicks: true,
+    siteSearch: true,
+    videoEngagement: true,
+    fileDownloads: true
+  },
+  
+  // الأحداث المخصصة
+  customEvents: {
+    pageView: true,
+    userEngagement: true,
+    conversion: true,
+    ecommerce: true
+  }
+};
+%>
+
+<% if (analyticsConfig.enabled) { %>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= analyticsConfig.measurementId %>"></script>
+  <script>
+    // تهيئة Google Analytics 4
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    
+    // إعدادات الخصوصية
+    <% if (analyticsConfig.respectDoNotTrack) { %>
+    // احترام إعداد عدم التتبع
+    if (navigator.doNotTrack === '1' || window.doNotTrack === '1') {
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied'
+      });
+    } else {
+      gtag('consent', 'default', {
+        'analytics_storage': 'granted',
+        'ad_storage': 'granted'
+      });
+    }
+    <% } %>
+    
+    // تهيئة GA4
+    gtag('js', new Date());
+    gtag('config', '<%= analyticsConfig.measurementId %>', {
+      // إعدادات الخصوصية
+      <% if (analyticsConfig.anonymizeIp) { %>
+      'anonymize_ip': true,
+      <% } %>
+      
+      // إعدادات التتبع المحسنة
+      'enhanced_measurement': {
+        'scrolls': <%= analyticsConfig.enhancedMeasurement.scrolls %>,
+        'outbound_clicks': <%= analyticsConfig.enhancedMeasurement.outboundClicks %>,
+        'site_search': <%= analyticsConfig.enhancedMeasurement.siteSearch %>,
+        'video_engagement': <%= analyticsConfig.enhancedMeasurement.videoEngagement %>,
+        'file_downloads': <%= analyticsConfig.enhancedMeasurement.fileDownloads %>
+      },
+      
+      // إعدادات إضافية
+      'send_page_view': true,
+      'page_title': document.title,
+      'page_location': window.location.href,
+      'content_group1': 'أمل حبرك',
+      'content_group2': '<%= typeof pageCategory !== "undefined" ? pageCategory : "عام" %>',
+      'custom_map': {
+        'custom_parameter_1': 'user_type',
+        'custom_parameter_2': 'page_category'
+      }
+    });
+
+    // تتبع الأحداث المخصصة
+    <% if (analyticsConfig.customEvents.pageView) { %>
+    // تتبع مشاهدة الصفحة المحسن
+    gtag('event', 'page_view', {
+      'page_title': document.title,
+      'page_location': window.location.href,
+      'page_path': window.location.pathname,
+      'content_group1': 'أمل حبرك',
+      'content_group2': '<%= typeof pageCategory !== "undefined" ? pageCategory : "عام" %>',
+      'user_id': '<%= typeof user !== "undefined" && user ? user.id : "" %>',
+      'user_type': '<%= typeof user !== "undefined" && user ? "logged_in" : "guest" %>'
+    });
+    <% } %>
+
+    <% if (analyticsConfig.customEvents.userEngagement) { %>
+    // تتبع تفاعل المستخدم
+    let engagementTimer = 0;
+    setInterval(() => {
+      engagementTimer += 10;
+      if (engagementTimer % 30 === 0) { // كل 30 ثانية
+        gtag('event', 'user_engagement', {
+          'engagement_time_msec': engagementTimer * 1000,
+          'page_title': document.title,
+          'page_location': window.location.href
+        });
+      }
+    }, 10000);
+    <% } %>
+
+    // تتبع الأخطاء
+    window.addEventListener('error', (e) => {
+      gtag('event', 'exception', {
+        'description': e.message,
+        'fatal': false,
+        'page_title': document.title,
+        'page_location': window.location.href
+      });
+    });
+
+    // تتبع النقرات على الروابط الخارجية
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (link && link.hostname !== window.location.hostname) {
+        gtag('event', 'click', {
+          'event_category': 'outbound',
+          'event_label': link.href,
+          'transport_type': 'beacon'
+        });
+      }
+    });
+
+    // تتبع التمرير
+    let scrollDepth = 0;
+    window.addEventListener('scroll', () => {
+      const currentScroll = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+      
+      if (currentScroll > scrollDepth && currentScroll % 25 === 0) {
+        scrollDepth = currentScroll;
+        gtag('event', 'scroll', {
+          'event_category': 'engagement',
+          'event_label': scrollDepth + '%',
+          'value': scrollDepth
+        });
+      }
+    });
+
+    // تتبع وقت البقاء في الصفحة
+    let startTime = Date.now();
+    window.addEventListener('beforeunload', () => {
+      const timeSpent = Math.round((Date.now() - startTime) / 1000);
+      gtag('event', 'timing_complete', {
+        'name': 'page_read_time',
+        'value': timeSpent,
+        'event_category': 'engagement'
+      });
+    });
+
+    // تتبع البحث في الموقع
+    const searchForm = document.querySelector('form[action*="search"]');
+    if (searchForm) {
+      searchForm.addEventListener('submit', (e) => {
+        const searchTerm = searchForm.querySelector('input[type="search"], input[name*="search"], input[name*="q"]');
+        if (searchTerm && searchTerm.value) {
+          gtag('event', 'search', {
+            'search_term': searchTerm.value,
+            'event_category': 'site_search'
+          });
+        }
+      });
+    }
+
+    // تتبع تحميل الملفات
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (link && link.href) {
+        const fileExtensions = /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar|mp3|mp4|avi|mov)$/i;
+        if (fileExtensions.test(link.href)) {
+          gtag('event', 'file_download', {
+            'event_category': 'downloads',
+            'event_label': link.href,
+            'transport_type': 'beacon'
+          });
+        }
+      }
+    });
+
+    // تتبع النماذج
+    document.querySelectorAll('form').forEach(form => {
+      form.addEventListener('submit', (e) => {
+        const formName = form.name || form.id || 'unnamed_form';
+        gtag('event', 'form_submit', {
+          'event_category': 'forms',
+          'event_label': formName,
+          'form_id': formName
+        });
+      });
+    });
+
+    // تتبع مشاهدة الفيديو
+    document.querySelectorAll('video').forEach(video => {
+      video.addEventListener('play', () => {
+        gtag('event', 'video_start', {
+          'event_category': 'video',
+          'event_label': video.src || video.currentSrc || 'unknown'
+        });
+      });
+      
+      video.addEventListener('ended', () => {
+        gtag('event', 'video_complete', {
+          'event_category': 'video',
+          'event_label': video.src || video.currentSrc || 'unknown'
+        });
+      });
+    });
+
+    // تتبع الأداء
+    window.addEventListener('load', () => {
+      // Core Web Vitals
+      if ('PerformanceObserver' in window) {
+        // Largest Contentful Paint
+        const lcpObserver = new PerformanceObserver((list) => {
+          list.getEntries().forEach((entry) => {
+            gtag('event', 'web_vital', {
+              'event_category': 'performance',
+              'event_label': 'LCP',
+              'value': Math.round(entry.startTime),
+              'custom_parameter': 'core_web_vitals'
+            });
+          });
+        });
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+
+        // First Input Delay
+        const fidObserver = new PerformanceObserver((list) => {
+          list.getEntries().forEach((entry) => {
+            gtag('event', 'web_vital', {
+              'event_category': 'performance',
+              'event_label': 'FID',
+              'value': Math.round(entry.processingStart - entry.startTime),
+              'custom_parameter': 'core_web_vitals'
+            });
+          });
+        });
+        fidObserver.observe({ entryTypes: ['first-input'] });
+
+        // Cumulative Layout Shift
+        let clsValue = 0;
+        const clsObserver = new PerformanceObserver((list) => {
+          list.getEntries().forEach((entry) => {
+            if (!entry.hadRecentInput) {
+              clsValue += entry.value;
+              gtag('event', 'web_vital', {
+                'event_category': 'performance',
+                'event_label': 'CLS',
+                'value': Math.round(clsValue * 1000),
+                'custom_parameter': 'core_web_vitals'
+              });
+            }
+          });
+        });
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
+      }
+
+      // Navigation Timing
+      const navigation = performance.getEntriesByType('navigation')[0];
+      if (navigation) {
+        gtag('event', 'timing_complete', {
+          'name': 'page_load_time',
+          'value': Math.round(navigation.loadEventEnd - navigation.navigationStart),
+          'event_category': 'performance'
+        });
+
+        gtag('event', 'timing_complete', {
+          'name': 'dom_content_loaded',
+          'value': Math.round(navigation.domContentLoadedEventEnd - navigation.navigationStart),
+          'event_category': 'performance'
+        });
+      }
+    });
+
+    // تتبع الأخطاء JavaScript
+    window.addEventListener('unhandledrejection', (e) => {
+      gtag('event', 'exception', {
+        'description': 'Unhandled Promise Rejection: ' + e.reason,
+        'fatal': false,
+        'page_title': document.title,
+        'page_location': window.location.href
+      });
+    });
+
+    // تتبع حالة الاتصال
+    window.addEventListener('online', () => {
+      gtag('event', 'connection_change', {
+        'event_category': 'network',
+        'event_label': 'online'
+      });
+    });
+
+    window.addEventListener('offline', () => {
+      gtag('event', 'connection_change', {
+        'event_category': 'network',
+        'event_label': 'offline'
+      });
+    });
+
+    // تتبع معلومات الجهاز
+    gtag('event', 'device_info', {
+      'event_category': 'technical',
+      'screen_resolution': screen.width + 'x' + screen.height,
+      'viewport_size': window.innerWidth + 'x' + window.innerHeight,
+      'color_depth': screen.colorDepth,
+      'pixel_ratio': window.devicePixelRatio || 1,
+      'timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+      'language': navigator.language,
+      'platform': navigator.platform,
+      'user_agent': navigator.userAgent.substring(0, 100) // أول 100 حرف فقط
+    });
+
+    // تتبع سرعة الاتصال
+    if ('connection' in navigator) {
+      const connection = navigator.connection;
+      gtag('event', 'connection_info', {
+        'event_category': 'technical',
+        'connection_type': connection.effectiveType,
+        'downlink': connection.downlink,
+        'rtt': connection.rtt
+      });
+    }
+  </script>
+
+  <!-- Enhanced Ecommerce Tracking (للمتاجر) -->
+  <% if (typeof isStorePage !== 'undefined' && isStorePage) { %>
+  <script>
+    // تتبع عرض المنتجات
+    function trackProductView(productId, productName, category, price) {
+      gtag('event', 'view_item', {
+        'currency': 'SAR',
+        'value': price,
+        'items': [{
+          'item_id': productId,
+          'item_name': productName,
+          'category': category,
+          'price': price
+        }]
+      });
+    }
+
+    // تتبع إضافة للسلة
+    function trackAddToCart(productId, productName, category, price, quantity = 1) {
+      gtag('event', 'add_to_cart', {
+        'currency': 'SAR',
+        'value': price * quantity,
+        'items': [{
+          'item_id': productId,
+          'item_name': productName,
+          'category': category,
+          'quantity': quantity,
+          'price': price
+        }]
+      });
+    }
+
+    // تتبع بداية عملية الشراء
+    function trackBeginCheckout(items, value) {
+      gtag('event', 'begin_checkout', {
+        'currency': 'SAR',
+        'value': value,
+        'items': items
+      });
+    }
+
+    // تتبع إتمام الشراء
+    function trackPurchase(transactionId, items, value) {
+      gtag('event', 'purchase', {
+        'transaction_id': transactionId,
+        'currency': 'SAR',
+        'value': value,
+        'items': items
+      });
+    }
+  </script>
+  <% } %>
+
+  <!-- Job Tracking (للوظائف) -->
+  <% if (typeof isJobPage !== 'undefined' && isJobPage) { %>
+  <script>
+    // تتبع عرض الوظائف
+    function trackJobView(jobId, jobTitle, company, location) {
+      gtag('event', 'view_job', {
+        'event_category': 'jobs',
+        'job_id': jobId,
+        'job_title': jobTitle,
+        'company': company,
+        'location': location
+      });
+    }
+
+    // تتبع التقديم للوظائف
+    function trackJobApplication(jobId, jobTitle, company) {
+      gtag('event', 'job_application', {
+        'event_category': 'jobs',
+        'job_id': jobId,
+        'job_title': jobTitle,
+        'company': company
+      });
+    }
+
+    // تتبع حفظ الوظائف
+    function trackJobSave(jobId, jobTitle) {
+      gtag('event', 'job_save', {
+        'event_category': 'jobs',
+        'job_id': jobId,
+        'job_title': jobTitle
+      });
+    }
+  </script>
+  <% } %>
+
+  <!-- Project Tracking (للمشاريع) -->
+  <% if (typeof isProjectPage !== 'undefined' && isProjectPage) { %>
+  <script>
+    // تتبع عرض المشاريع
+    function trackProjectView(projectId, projectTitle, category) {
+      gtag('event', 'view_project', {
+        'event_category': 'projects',
+        'project_id': projectId,
+        'project_title': projectTitle,
+        'category': category
+      });
+    }
+
+    // تتبع الاهتمام بالمشاريع
+    function trackProjectInterest(projectId, projectTitle) {
+      gtag('event', 'project_interest', {
+        'event_category': 'projects',
+        'project_id': projectId,
+        'project_title': projectTitle
+      });
+    }
+
+    // تتبع إنشاء المشاريع
+    function trackProjectCreation(projectId, projectTitle, category) {
+      gtag('event', 'project_creation', {
+        'event_category': 'projects',
+        'project_id': projectId,
+        'project_title': projectTitle,
+        'category': category
+      });
+    }
+  </script>
+  <% } %>
+
+  <!-- User Interaction Tracking -->
+  <script>
+    // تتبع تسجيل الدخول
+    function trackLogin(method = 'email') {
+      gtag('event', 'login', {
+        'method': method,
+        'event_category': 'user_interaction'
+      });
+    }
+
+    // تتبع التسجيل
+    function trackSignUp(method = 'email') {
+      gtag('event', 'sign_up', {
+        'method': method,
+        'event_category': 'user_interaction'
+      });
+    }
+
+    // تتبع المشاركة
+    function trackShare(contentType, contentId, method) {
+      gtag('event', 'share', {
+        'method': method,
+        'content_type': contentType,
+        'item_id': contentId,
+        'event_category': 'user_interaction'
+      });
+    }
+
+    // تتبع البحث
+    function trackSearch(searchTerm, category = 'general') {
+      gtag('event', 'search', {
+        'search_term': searchTerm,
+        'category': category,
+        'event_category': 'user_interaction'
+      });
+    }
+
+    // تتبع التعليقات
+    function trackComment(contentType, contentId) {
+      gtag('event', 'comment', {
+        'content_type': contentType,
+        'item_id': contentId,
+        'event_category': 'user_interaction'
+      });
+    }
+
+    // تتبع الإعجاب
+    function trackLike(contentType, contentId) {
+      gtag('event', 'like', {
+        'content_type': contentType,
+        'item_id': contentId,
+        'event_category': 'user_interaction'
+      });
+    }
+  </script>
+
+  <!-- Privacy and Consent Management -->
+  <% if (analyticsConfig.cookieConsent) { %>
+  <script>
+    // إدارة موافقة ملفات تعريف الارتباط
+    function updateConsent(analyticsGranted, adStorageGranted) {
+      gtag('consent', 'update', {
+        'analytics_storage': analyticsGranted ? 'granted' : 'denied',
+        'ad_storage': adStorageGranted ? 'granted' : 'denied'
+      });
+    }
+
+    // فحص الموافقة المحفوظة
+    const savedConsent = localStorage.getItem('analytics_consent');
+    if (savedConsent) {
+      const consent = JSON.parse(savedConsent);
+      updateConsent(consent.analytics, consent.ads);
+    }
+
+    // عرض نافذة الموافقة إذا لم يتم الاختيار بعد
+    if (!savedConsent) {
+      // يمكن إضافة نافذة موافقة هنا
+      console.log('يرجى إضافة نافذة موافقة ملفات تعريف الارتباط');
+    }
+  </script>
+  <% } %>
+
+  <!-- Debug Mode (للتطوير فقط) -->
+  <% if (typeof debugMode !== 'undefined' && debugMode) { %>
+  <script>
+    // تفعيل وضع التصحيح
+    gtag('config', '<%= analyticsConfig.measurementId %>', {
+      'debug_mode': true
+    });
+
+    // تسجيل جميع الأحداث في وحدة التحكم
+    const originalGtag = gtag;
+    gtag = function() {
+      console.log('GA4 Event:', arguments);
+      return originalGtag.apply(this, arguments);
+    };
+  </script>
+  <% } %>
+
+<% } else { %>
+  <!-- Google Analytics معطل -->
+  <script>
+    console.log('Google Analytics معطل في الإعدادات');
+    
+    // وظائف وهمية لتجنب الأخطاء
+    window.gtag = function() {
+      console.log('GA4 Event (disabled):', arguments);
+    };
+    
+    window.trackProductView = function() {};
+    window.trackAddToCart = function() {};
+    window.trackJobView = function() {};
+    window.trackProjectView = function() {};
+    window.trackLogin = function() {};
+    window.trackSignUp = function() {};
+    window.trackShare = function() {};
+    window.trackSearch = function() {};
+  </script>
+<% } %>
+

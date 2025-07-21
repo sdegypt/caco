@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description" content="الملف الشخصي لـ <%= user && user.name ? user.name : 'مستخدم' %> - عرض المعلومات الشخصية، معرض أعمال التصميم، والاقتباس الشخصي على DIY." />
+    <meta name="keywords" content="<%= user && user.name ? user.name : 'مستخدم' %>, ملف شخصي, تصميم, DIY, أعمال إبداعية" />
+    <meta name="author" content="<%= user && user.name ? user.name : 'مستخدم' %>" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <title>الملف الشخصي لـ <%= user && user.name ? user.name : 'مستخدم' %> | DIY</title>
+
+    <link rel="stylesheet" href="/css/profile.min.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
+    <link rel="stylesheet" href="/css/messages-ui.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <% const avatarUrl = user && user.avatar && user.avatar.startsWith('http') ? user.avatar : '/uploads/images/pngwing.com.png'; %>
+    <link rel="preload" href="<%= avatarUrl %>" as="image" />
+
+    <meta property="og:title" content="الملف الشخصي لـ <%= user && user.name ? user.name : 'مستخدم' %> | DIY" />
+    <meta property="og:description" content="استعرض المعلومات الشخصية ومعرض أعمال <%= user && user.name ? user.name : 'مستخدم' %> على DIY." />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://www.colorizer.com/profile/<%= user && user.id ? user.id : '' %>" />
+    <meta property="og:image" content="<%= avatarUrl %>" />
+    <meta property="og:image:alt" content="صورة الملف الشخصي لـ <%= user && user.name ? user.name : 'مستخدم' %>" />
+    <meta property="og:site_name" content="DIY" />
+    <meta property="og:locale" content="ar_AR" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="الملف الشخصي لـ <%= user && user.name ? user.name : 'مستخدم' %> | DIY" />
+    <meta name="twitter:description" content="استعرض المعلومات الشخصية ومعرض أعمال <%= user && user.name ? user.name : 'مستخدم' %> على DIY." />
+    <meta name="twitter:image" content="<%= avatarUrl %>" />
+
+    <link rel="dns-prefetch" href="//www.colorizer.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+
+    <style>
+        /* إعادة تعريف أنماط الإشعارات */
+        .feedback-message-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 400px;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+        
+        .alert-error {
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+            color: white;
+        }
+        
+        .alert-warning {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: #343a40;
+        }
+        
+        .alert-info {
+            background: linear-gradient(135deg, #17a2b8, #6f42c1);
+            color: white;
+        }
+        
+        .btn-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2em;
+            opacity: 0.7;
+            cursor: pointer;
+            float: left;
+            margin-left: 10px;
+        }
+        
+        .btn-close:hover {
+            opacity: 1;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* تحديث خلفية الهيدر بتدرجات برتقالية */
+        .profile-header {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+        
+        @media (min-width: 768px) {
+            .profile-header {
+                grid-template-columns: 160px 1fr auto;
+                grid-template-areas: 
+                    "avatar info actions"
+                    "avatar stats actions";
+            }
+            
+            .avatar-section {
+                grid-area: avatar;
+            }
+            
+            .user-info {
+                grid-area: info;
+            }
+            
+            .stats {
+                grid-area: stats;
+            }
+            
+            .action-buttons {
+                grid-area: actions;
+                align-self: center;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .profile-header {
+                grid-template-areas: 
+                    "avatar"
+                    "info"
+                    "stats"
+                    "actions";
+                text-align: center;
+            }
+            
+            .avatar-section {
+                justify-self: center;
+            }
+            
+            .action-buttons {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+        
+        .avatar-section {
+            position: relative;
+        }
+        
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-picture:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .user-info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-item i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: #ff7e5f;
+        }
+        
+        .stat-item span {
+            display: block;
+            font-weight: 600;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-top: 3px;
+        }
+        
+        .ranking-progress {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+        
+        .progress-text {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 200px;
+        }
+        
+        .action-button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .friend-button {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+        }
+        
+        .like-button {
+            background: linear-gradient(135deg, #f56565, #e53e3e);
+            color: white;
+        }
+        
+        .like-button.liked {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+        }
+        
+        .button-icon i {
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 480px) {
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                min-width: auto;
+            }
+        }
+        
+        .profile-details {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .info-value {
+            color: #2d3748;
+        }
+        
+        /* تحسين تصميم معرض الأعمال */
+        .design-gallery-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .gallery-toggle-btn {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-toggle-btn.collapsed i {
+            transform: rotate(180deg);
+        }
+
+        .gallery-content {
+            transition: all 0.5s ease;
+            overflow: hidden;
+        }
+
+        .gallery-content.hidden {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery-content.visible {
+            max-height: 2000px;
+            opacity: 1;
+        }
+        
+        .general-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            position: relative;
+        }
+        
+        .content {
+            height: 250px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .content:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .title-card {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            color: white;
+            padding: 15px;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .title-card .marg-bott {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .title-card .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .delete-btn:hover {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .add-design-btn {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .add-design-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .quote-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+        
+        .quote-container {
+            position: relative;
+        }
+        
+        #quote-editor {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            background: #f8f9fa;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: none;
+            transition: border 0.3s ease;
+        }
+        
+        .edit-quote-button, .save-quote-button {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .save-quote-button {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+        }
+        
+        .edit-quote-button:hover, .save-quote-button:hover {
+            transform: scale(1.1);
+        }
+        
+        /* تحسينات لتحميل الصور في المعرض */
+        .content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* تحسين تصميم زر تعديل الملف */
+        .edit-profile-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .edit-profile-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* تحسين متجاوب إضافي */
+        @media (max-width: 480px) {
+            .general-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                height: 200px;
+            }
+
+            .gallery-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .gallery-toggle-btn {
+                justify-content: center;
+            }
+        }
+
+        /* تصميم حديث للسلايدر */
+        .design-swiper {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            padding-bottom: 40px;
+            direction: rtl;
+        }
+        
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            height: auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+            display: block;
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item .delete-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        
+        .gallery-item .delete-btn:hover {
+            background: #dc3545;
+            color: #fff;
+            transform: scale(1.1);
+        }
+        
+        .gallery-item .title-card {
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: #fff;
+            padding: 15px;
+            border-radius: 0 0 15px 15px;
+            width: 100%;
+            text-align: center;
+            margin: 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .gallery-item .title-card .marg-bott {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .gallery-item .title-card .subtitle {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .swiper-button-next, .swiper-button-prev {
+            color: #ff7e5f;
+            background: rgba(255,255,255,0.8);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background: #ff7e5f;
+            color: white;
+        }
+        
+        .swiper-pagination-bullet {
+            background: #e2e8f0;
+            opacity: 1;
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: #ff7e5f;
+        }
+        
+        @media (max-width: 700px) {
+            .design-swiper {
+                max-width: 98vw;
+            }
+            
+            .gallery-item img {
+                height: 180px;
+            }
+            
+            .swiper-button-next, .swiper-button-prev {
+                display: none;
+            }
+        }
+        
+        /* تصميم Overlay لعرض الصور */
+        .design-image-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s;
+        }
+        
+        .design-image-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        
+        .close-design-overlay {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 10001;
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            padding: 0 16px;
+            line-height: 1;
+            transition: all 0.2s;
+        }
+        
+        .close-design-overlay:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+        
+        .overlay-design-img {
+            max-width: 90vw;
+            max-height: 80vh;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px #0008;
+            border: 6px solid #fff;
+            display: block;
+            margin: auto;
+            animation: fadeIn 0.4s;
+        }
+        
+        .overlay-design-title {
+            color: #fff;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 18px;
+            font-weight: 600;
+            text-shadow: 0 2px 8px #000a;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* تصميم نموذج إضافة عمل جديد */
+        .add-design-form {
+            display: none;
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .add-design-form.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        .add-design-form input[type="file"],
+        .add-design-form input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .add-design-form input[type="file"] {
+            padding: 10px;
+        }
+        
+        .add-design-form input:focus {
+            border-color: #ff7e5f;
+            outline: none;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .share-btn, .cancel-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .share-btn {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+        }
+        
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .share-btn:hover, .cancel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* تصميم رسالة عدم وجود أعمال */
+        .no-items-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+            font-size: 1.1rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* تعديلات على زر الإضافة */
+        .add-design-container {
+            position: relative;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .add-design-btn {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .add-design-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .add-design-btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .add-design-btn.active i {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body>
+<% function getCloudinaryImageUrl(image, fallback) {
+  if (!image) return fallback || '/uploads/images/pngwing.com.png';
+  if (image.startsWith('http')) return image;
+  if (image.startsWith('/uploads/') || image.startsWith('/gallery/') || image.startsWith('/images/')) return image;
+  return '/uploads/gallery/' + image;
+} %>
+    <% if (!user || !user.id) { %>
+        <p>خطأ: المستخدم غير موجود</p>
+    <% } else { %>
+        <%- include("partials/headerhome") %>
+        <%- include("partials/headeraction") %>
+
+        <main class="main">
+            <div id="feedback-message-profile" class="feedback-message-container"></div>
+
+            <div class="profile-header">
+                <div class="avatar-section">
+                    <% if (user.avatar && user.avatar !== '/uploads/images/pngwing.com.png') { %>
+                      <img src="<%= getCloudinaryImageUrl(user.avatar, '/uploads/images/pngwing.com.png') %>"
+                           alt="Profile Picture"
+                           class="profile-picture">
+                    <% } else { %>
+                      <div class="profile-picture-placeholder">
+                        <i class="fas fa-user-circle fa-5x" style="color: #aaa;"></i>
+                      </div>
+                    <% } %>
+                </div>
+                
+                <div class="user-info">
+                    <h1 id="username"><%= user.name || "مستخدم" %></h1>
+                    
+                    <div class="stats">
+                        <div class="stat-item likes-stat">
+                            <i class="fas fa-heart"></i>
+                            <span id="like-count"><%= user.likes || 0 %></span>
+                            <span class="stat-label">إعجاب</span>
+                        </div>
+                        <div class="stat-item ranking-stat">
+                            <i class="fas fa-trophy"></i>
+                            <span id="ranking-count"><%= user.ranking || 0 %></span>
+                            <span class="stat-label">مستوى</span>
+                        </div>
+                        <div class="stat-item posts-stat">
+                            <a href="/forum/my-posts" class="share-link">
+                                <i class="fas fa-share-alt"></i>
+                                <span id="share-count"><%= user.share || 0 %></span>
+                                <span class="stat-label">مشاركات</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="ranking-progress">
+                        <div class="progress-info">
+                            <span class="current-level">المستوى <%= user.ranking || 0 %></span>
+                            <span class="next-level">المستوى <%= (user.ranking || 0) + 1 %></span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="ranking-progress-fill"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="progress-points">جار الحساب...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <% if (typeof userId !== "undefined" && userId !== user.id) { %>
+                        <button type="button" id="friend-action-button" 
+                                class="action-button friend-button" 
+                                data-friend-id="<%= user.id %>" 
+                                data-initial-status="<%= relationshipStatus || 'no_friend' %>">
+                            <span class="button-icon"><i class="fas fa-spinner fa-spin"></i></span>
+                            <span class="button-text">جار التحميل...</span>
+                        </button>
+
+                        <button type="button" id="likeButton" class="action-button like-button <%= user.liked ? 'liked' : '' %>" data-user-id="<%= user.id %>">
+                            <span class="button-icon"><i class="fas <%= user.liked ? 'fa-heart-crack' : 'fa-heart' %>"></i></span>
+                            <span class="button-text"><%= user.liked ? 'إلغاء الإعجاب' : 'إعجاب' %></span>
+                        </button>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="profile-details">
+                <div class="details-section">
+                    <h2>المعلومات الشخصية</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">:العمر</span>
+                            <span class="info-value" id="age"><%= user.age || '-' %></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">:الجنس</span>
+                            <span class="info-value" id="gender"><%= user.gender || '-' %></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">:البلد</span>
+                            <span class="info-value" id="country"><%= user.country || '-' %></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">:اللغة</span>
+                            <span class="info-value" id="language"><%= user.language || '-' %></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">:المهنة</span>
+                            <span class="info-value" id="skills"><%= user.occupation || '-' %></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">البريد :</span>
+                            <span class="info-value" id="email"><%= user.email || '-' %></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">الهاتف :</span>
+                            <span class="info-value" id="phone"><%= user.phone || '-' %></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">الملف الشخصي :</span>
+                            <% if (user.portfolio) { %>
+                                <a href="<%= user.portfolio %>" class="info-value" target="_blank" rel="noopener noreferrer">زيارة</a>
+                            <% } else { %>
+                                <span class="info-value">-</span>
+                            <% } %>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">تاريخ الانضمام :</span>
+                            <span class="info-value"><%= user.join_date ? new Date(user.join_date).toISOString().split('T')[0] : '-' %></span>
+                        </div>
+                    </div>
+                </div>
+                <% if (typeof userId !== 'undefined' && userId === user.id) { %>
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        <a href="/updateProfile" id="edit-profile-button" class="edit-profile-button">
+                            <i class="fas fa-edit"></i> تعديل المعلومات
+                        </a>
+                        <button id="request-store-button" class="edit-profile-button" style="background: linear-gradient(45deg, #28a745, #20c997); border: none; cursor: pointer;">
+                            <i class="fas fa-store"></i> طلب إنشاء متجر
+                        </button>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="design-gallery-section">
+                <div class="gallery-header">
+                    <h2 class="section-title">معرض أعمال التصميم</h2>
+                    <button id="gallery-toggle-btn" class="gallery-toggle-btn">
+                        <i class="fas fa-chevron-down"></i>
+                        <span>إظهار المعرض</span>
+                    </button>
+                </div>
+                
+                <div id="gallery-content" class="gallery-content hidden">
+                    <div class="swiper design-swiper">
+                        <div class="swiper-wrapper">
+                            <% if (Array.isArray(gallery) && gallery.length > 0) { %>
+                                <% gallery.forEach(function(item) { %>
+                                    <div class="swiper-slide">
+                                        <div class="gallery-item">
+                                            <img src="<%= getCloudinaryImageUrl(item.image, '/uploads/images/pngwing.com.png') %>" 
+                                                 alt="<%= item.title || 'عمل تصميم' %>" 
+                                                 loading="lazy" 
+                                                 class="design-gallery-img"
+                                                 data-title="<%= item.title || '' %>" />
+                                            
+                                            <% if (typeof userId !== 'undefined' && userId === user.id) { %>
+                                                <form class="delete-form" data-design-id="<%= item.id %>">
+                                                    <button type="submit" class="delete-btn design-delete-btn" aria-label="حذف العمل">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            <% } %>
+                                            
+                                            <div class="title-card">
+                                                <span class="marg-bott"><%= item.title || 'عنوان افتراضي' %></span>
+                                                <% if (item.subtitle) { %>
+                                                    <span class="subtitle"><%= item.subtitle %></span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            <% } else { %>
+                                <div class="swiper-slide">
+                                    <div class="no-items-message">
+                                        <i class="fas fa-image fa-3x" style="color: #e2e8f0; margin-bottom: 15px;"></i>
+                                        <p>لا توجد أعمال تصميم بعد.</p>
+                                        <% if (typeof userId !== 'undefined' && userId === user.id) { %>
+                                            <p>يمكنك إضافة أعمالك باستخدام الزر أدناه</p>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- Add Navigation -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    
+                    <% if (typeof userId !== 'undefined' && userId === user.id) { %>
+                        <div class="add-design-container">
+                            <button id="add-design-btn" class="add-design-btn">
+                                <i class="fas fa-plus"></i> إضافة عمل تصميم
+                            </button>
+                            
+                            <form id="add-design-form" class="add-design-form" action="/profile/design/add" method="POST" enctype="multipart/form-data">
+                                <div style="margin-bottom: 15px;">
+                                    <label for="design-image" style="display: block; margin-bottom: 8px; font-weight: 600;">صورة العمل</label>
+                                    <input type="file" id="design-image" name="image" accept="image/*" required>
+                                </div>
+                                
+                                <div style="margin-bottom: 15px;">
+                                    <label for="design-title" style="display: block; margin-bottom: 8px; font-weight: 600;">عنوان العمل</label>
+                                    <input type="text" id="design-title" name="title" placeholder="أدخل عنوان العمل" required>
+                                </div>
+                                
+                                <div style="margin-bottom: 15px;">
+                                    <label for="design-subtitle" style="display: block; margin-bottom: 8px; font-weight: 600;">وصف مختصر (اختياري)</label>
+                                    <input type="text" id="design-subtitle" name="subtitle" placeholder="أدخل وصفاً مختصراً">
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="share-btn">
+                                        <i class="fas fa-check"></i> إضافة
+                                    </button>
+                                    <button type="button" id="cancel-design-btn" class="cancel-btn">
+                                        <i class="fas fa-times"></i> إلغاء
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Overlay لعرض الصور -->
+            <div id="design-image-overlay" class="design-image-overlay">
+                <span id="close-design-overlay" class="close-design-overlay">
+                    <i class="fas fa-times"></i>
+                </span>
+                <img id="overlay-design-img" src="" alt="معاينة العمل" class="overlay-design-img" />
+                <div id="overlay-design-title" class="overlay-design-title"></div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote-container">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <textarea id="quote-editor" readonly placeholder="أضف اقتباسًا هنا..."><%= user.quote || '' %></textarea>
+                    <% if (typeof userId !== 'undefined' && userId === user.id) { %>
+                        <button id="edit-quote-button" class="edit-quote-button" aria-label="تعديل الاقتباس">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button id="save-quote-button" class="save-quote-button" style="display: none" aria-label="حفظ الاقتباس">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    <% } %>
+                </div>
+            </div>
+
+            <% if (typeof stores !== 'undefined' && stores.length > 0) { %>
+                <div class="my-stores-section" style="margin: 30px 0;">
+                    <h2 style="font-size:1.3rem; margin-bottom: 15px;"><i class="fas fa-store"></i> متاجري</h2>
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                        <% stores.forEach(function(store) { if(store.status === 'approved') { %>
+                            <div class="store-card" style="background:#fff; border-radius:10px; box-shadow:0 2px 8px #eee; padding:20px; min-width:220px;">
+                                <h3 style="margin-bottom:10px;"><%= store.name %></h3>
+                                <p style="color:#666; font-size:0.95rem; margin-bottom:10px;"><%= store.description %></p>
+                                <a href="/stores/<%= store.id %>/dashboard" class="btn btn-primary" style="display:inline-block; margin-top:10px; background:#ff7e5f; color:#fff; padding:8px 18px; border-radius:6px; text-decoration:none; font-weight:600;">
+                                    <i class="fas fa-cogs"></i> إدارة المتجر
+                                </a>
+                            </div>
+                        <% } }); %>
+                    </div>
+                </div>
+            <% } %>
+        </main>
+
+        <%- include("partials/footer") %>
+    <% } %>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        function displayProfileFeedback(message, type = "success") {
+            showNotification(message, type);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Gallery Toggle Functionality
+            const galleryToggleBtn = document.getElementById('gallery-toggle-btn');
+            const galleryContent = document.getElementById('gallery-content');
+            const toggleIcon = galleryToggleBtn.querySelector('i');
+            const toggleText = galleryToggleBtn.querySelector('span');
+
+            let isGalleryVisible = false;
+
+            galleryToggleBtn.addEventListener('click', () => {
+                isGalleryVisible = !isGalleryVisible;
+                
+                if (isGalleryVisible) {
+                    galleryContent.classList.remove('hidden');
+                    galleryContent.classList.add('visible');
+                    toggleIcon.className = 'fas fa-chevron-up';
+                    toggleText.textContent = 'إخفاء المعرض';
+                    galleryToggleBtn.classList.remove('collapsed');
+                } else {
+                    galleryContent.classList.remove('visible');
+                    galleryContent.classList.add('hidden');
+                    toggleIcon.className = 'fas fa-chevron-down';
+                    toggleText.textContent = 'إظهار المعرض';
+                    galleryToggleBtn.classList.add('collapsed');
+                }
+            });
+
+            // Initialize Swiper
+            const swiper = new Swiper('.design-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 30
+                    }
+                }
+            });
+            window.swiper = swiper; // جعل السلايدر متاحاً عالمياً
+
+            // Image Preview Overlay Functionality
+            const overlay = document.getElementById('design-image-overlay');
+            const overlayImg = document.getElementById('overlay-design-img');
+            const overlayTitle = document.getElementById('overlay-design-title');
+            const closeOverlay = document.getElementById('close-design-overlay');
+
+            function showImagePreview(imgSrc, title) {
+                overlayImg.src = imgSrc;
+                overlayTitle.textContent = title || '';
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function hideImagePreview() {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            // Add click event to all gallery images
+            document.querySelectorAll('.design-gallery-img').forEach(img => {
+                img.addEventListener('click', () => {
+                    showImagePreview(img.src, img.dataset.title || img.alt);
+                });
+            });
+
+            // Close overlay events
+            closeOverlay.addEventListener('click', hideImagePreview);
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) hideImagePreview();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') hideImagePreview();
+            });
+
+            // Add Design Form Toggle
+            const addDesignBtn = document.getElementById('add-design-btn');
+            const addDesignForm = document.getElementById('add-design-form');
+            const cancelDesignBtn = document.getElementById('cancel-design-btn');
+
+            if (addDesignBtn && addDesignForm && cancelDesignBtn) {
+                addDesignBtn.addEventListener('click', () => {
+                    addDesignForm.classList.toggle('active');
+                    addDesignBtn.classList.toggle('active');
+                });
+
+                cancelDesignBtn.addEventListener('click', () => {
+                    addDesignForm.classList.remove('active');
+                    addDesignBtn.classList.remove('active');
+                    addDesignForm.reset();
+                });
+            }
+
+            // Delete Design Functionality
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const designId = this.dataset.designId;
+                    const btn = this.querySelector('button');
+                    
+                    if (!confirm('هل أنت متأكد أنك تريد حذف هذا العمل؟')) return;
+                    
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                    
+                    try {
+                        const response = await fetch(`/profile/design/delete/${designId}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            const slide = this.closest('.swiper-slide');
+                            if (slide) {
+                                slide.style.transition = 'all 0.3s ease';
+                                slide.style.opacity = '0';
+                                slide.style.transform = 'scale(0.8)';
+                                
+                                setTimeout(() => {
+                                    slide.remove();
+                                    swiper.update();
+                                    showNotification('تم حذف العمل بنجاح', 'success');
+                                }, 300);
+                            }
+                        } else {
+                            showNotification(result.message || 'حدث خطأ أثناء الحذف', 'error');
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                        }
+                    } catch (error) {
+                        showNotification('حدث خطأ في الشبكة', 'error');
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                    }
+                });
+            });
+
+            // Submit Add Design Form
+            if (document.getElementById('add-design-form')) {
+                document.getElementById('add-design-form').addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalBtnContent = submitBtn.innerHTML;
+                    
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ الإضافة...';
+                    submitBtn.disabled = true;
+                    
+                    try {
+                        const response = await fetch('/profile/design/add', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success && result.design) {
+                            const swiperWrapper = document.querySelector('.swiper-wrapper');
+                            
+                            // Remove "no items" message if it exists
+                            const noItemsSlide = document.querySelector('.no-items-message');
+                            if (noItemsSlide) {
+                                noItemsSlide.closest('.swiper-slide').remove();
+                            }
+                            
+                            // Create new slide
+                            const slide = document.createElement('div');
+                            slide.className = 'swiper-slide';
+                            slide.innerHTML = `
+                                <div class="gallery-item">
+                                    <img src="${getCloudinaryImageUrl(result.design.image)}" 
+                                         alt="${result.design.title || 'عمل تصميم'}" 
+                                         loading="lazy" 
+                                         class="design-gallery-img"
+                                         data-title="${result.design.title || ''}" />
+                                    
+                                    <form class="delete-form" data-design-id="${result.design.id}">
+                                        <button type="submit" class="delete-btn design-delete-btn" aria-label="حذف العمل">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                    
+                                    <div class="title-card">
+                                        <span class="marg-bott">${result.design.title || 'عنوان افتراضي'}</span>
+                                        ${result.design.subtitle ? `<span class="subtitle">${result.design.subtitle}</span>` : ''}
+                                    </div>
+                                </div>
+                            `;
+                            
+                            // Prepend new slide and update swiper
+                            swiperWrapper.prepend(slide);
+                            swiper.update();
+                            
+                            // Add click event to new image
+                            slide.querySelector('.design-gallery-img').addEventListener('click', () => {
+                                showImagePreview(
+                                    getCloudinaryImageUrl(result.design.image),
+                                    result.design.title || ''
+                                );
+                            });
+                            
+                            // Add delete event to new form
+                            slide.querySelector('.delete-form').addEventListener('submit', async function(e) {
+                                e.preventDefault();
+                                const designId = this.dataset.designId;
+                                const btn = this.querySelector('button');
+                                
+                                if (!confirm('هل أنت متأكد أنك تريد حذف هذا العمل؟')) return;
+                                
+                                btn.disabled = true;
+                                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                                
+                                try {
+                                    const response = await fetch(`/profile/design/delete/${designId}`, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                    });
+                                    
+                                    const result = await response.json();
+                                    
+                                    if (result.success) {
+                                        const slide = this.closest('.swiper-slide');
+                                        if (slide) {
+                                            slide.style.transition = 'all 0.3s ease';
+                                            slide.style.opacity = '0';
+                                            slide.style.transform = 'scale(0.8)';
+                                            
+                                            setTimeout(() => {
+                                                slide.remove();
+                                                swiper.update();
+                                                showNotification('تم حذف العمل بنجاح', 'success');
+                                            }, 300);
+                                        }
+                                    } else {
+                                        showNotification(result.message || 'حدث خطأ أثناء الحذف', 'error');
+                                        btn.disabled = false;
+                                        btn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                                    }
+                                } catch (error) {
+                                    showNotification('حدث خطأ في الشبكة', 'error');
+                                    btn.disabled = false;
+                                    btn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                                }
+                            });
+                            
+                            // Reset form and hide it
+                            this.reset();
+                            this.classList.remove('active');
+                            addDesignBtn.classList.remove('active');
+                            showNotification('تم إضافة العمل بنجاح', 'success');
+                        } else {
+                            showNotification(result.message || 'حدث خطأ أثناء الإضافة', 'error');
+                            submitBtn.innerHTML = originalBtnContent;
+                            submitBtn.disabled = false;
+                        }
+                    } catch (error) {
+                        showNotification('حدث خطأ في الشبكة', 'error');
+                        submitBtn.innerHTML = originalBtnContent;
+                        submitBtn.disabled = false;
+                    }
+                });
+            }
+
+            // Helper function to get image URL (client-side version)
+            function getCloudinaryImageUrl(image, fallback = '/uploads/images/pngwing.com.png') {
+                if (!image) return fallback;
+                if (image.startsWith('http')) return image;
+                if (image.startsWith('/uploads/') || image.startsWith('/gallery/') || image.startsWith('/images/')) return image;
+                return '/uploads/gallery/' + image;
+            }
+
+            // باقي الكود كما هو...
+            const currentUserId = "<%= typeof userId !== 'undefined' ? userId : null %>";
+            const profileUserId = "<%= user && user.id ? user.id : '' %>";
+            const friendActionButton = document.getElementById("friend-action-button");
+            const likeButton = document.getElementById("likeButton");
+
+            async function loadRankingDetails() {
+                const progressFill = document.getElementById('ranking-progress-fill');
+                const progressPoints = document.getElementById('progress-points');
+                const rankingCount = document.getElementById('ranking-count');
+                const rankingStat = document.querySelector('.ranking-stat');
+
+                if (!progressFill || !progressPoints || !rankingCount) {
+                    console.error('عناصر واجهة المستوى غير موجودة');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/profile/ranking-details?userId=${profileUserId}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    if (data.success && data.rankingData) {
+                        const { currentLevel, totalPoints, pointsToNextLevel, progressPercentage } = data.rankingData;
+
+                        // Update UI elements
+                        rankingCount.textContent = currentLevel || 0;
+                        console.log("progressPercentage:", progressPercentage, typeof progressPercentage);
+                        progressFill.style.width = `${progressPercentage}%`;
+                        progressPoints.textContent = `${pointsToNextLevel} نقطة للمستوى التالي`;
+
+                        if (rankingStat) {
+                            rankingStat.classList.add('ranking-tooltip');
+                            rankingStat.setAttribute('data-tooltip', `المجموع: ${totalPoints || 0} نقطة`);
+                        }
+                    } else {
+                        throw new Error(data.message || 'فشل تحميل بيانات المستوى');
+                    }
+                } catch (error) {
+                    console.error('خطأ في تحميل بيانات المستوى:', error);
+                    progressPoints.textContent = 'خطأ في تحميل البيانات';
+                    progressFill.style.width = '0%';
+                    showNotification('فشل تحميل بيانات المستوى', 'error');
+                }
+            }
+
+            // Initial load of ranking details
+            loadRankingDetails();
+
+            function showNotification(message, type = "success") {
+                const container = document.getElementById('feedback-message-profile');
+                if (!container) return;
+
+                container.innerHTML = '';
+                
+                const notification = document.createElement('div');
+                notification.className = `alert alert-${type}`;
+                notification.innerHTML = `
+                    <span class="notification-message">${message}</span>
+                    <button type="button" class="btn-close" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                container.appendChild(notification);
+                
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.style.animation = 'slideOut 0.3s ease-out';
+                        setTimeout(() => {
+                            if (notification.parentElement) {
+                                notification.remove();
+                            }
+                        }, 300);
+                    }
+                }, 5000);
+            }
+
+            function updateFriendButton(status) {
+                if (!friendActionButton) return;
+                
+                console.log('تحديث زر الصداقة إلى الحالة:', status);
+
+                const icon = friendActionButton.querySelector(".button-icon i");
+                const text = friendActionButton.querySelector(".button-text");
+                friendActionButton.classList.remove("status-no_friend", "status-pending_sent", "status-pending_received", "status-accepted");
+
+                switch (status) {
+                    case "no_friend":
+                        icon.className = "fas fa-user-plus";
+                        text.textContent = "إضافة صديق";
+                        friendActionButton.classList.add("status-no_friend");
+                        friendActionButton.dataset.action = "send_request";
+                        break;
+                    case "pending_sent":
+                        icon.className = "fas fa-user-clock";
+                        text.textContent = "إلغاء الطلب";
+                        friendActionButton.classList.add("status-pending_sent");
+                        friendActionButton.dataset.action = "cancel_request";
+                        break;
+                    case "pending_received":
+                        icon.className = "fas fa-user-check";
+                        text.textContent = "قبول الطلب";
+                        friendActionButton.classList.add("status-pending_received");
+                        friendActionButton.dataset.action = "accept_request";
+                        break;
+                    case "accepted":
+                        icon.className = "fas fa-user-minus";
+                        text.textContent = "إزالة صديق";
+                        friendActionButton.classList.add("status-accepted");
+                        friendActionButton.dataset.action = "remove_friend";
+                        break;
+                    default:
+                        console.log('حالة غير متوقعة:', status, 'استخدام الحالة الافتراضية');
+                        icon.className = "fas fa-user-plus";
+                        text.textContent = "إضافة صديق";
+                        friendActionButton.classList.add("status-no_friend");
+                        friendActionButton.dataset.action = "send_request";
+                        break;
+                }
+                
+                console.log('تم تحديث الزر بنجاح، الحالة الجديدة:', status);
+            }
+
+            async function handleFriendAction(action) {
+                try {
+                    friendActionButton.disabled = true;
+                    const icon = friendActionButton.querySelector(".button-icon i");
+                    const text = friendActionButton.querySelector(".button-text");
+                    const originalIcon = icon.className;
+                    const originalText = text.textContent;
+
+                    icon.className = "fas fa-spinner fa-spin";
+                    text.textContent = "جارٍ التنفيذ...";
+
+                    let endpoint, body;
+                    
+                    switch(action) {
+                        case "send_request":
+                            endpoint = "/friends/send-request";
+                            body = JSON.stringify({ friendId: parseInt(profileUserId) });
+                            break;
+                        case "cancel_request":
+                            endpoint = "/friends/cancel-request";
+                            body = JSON.stringify({ friendId: parseInt(profileUserId) });
+                            break;
+                        case "accept_request":
+                            try {
+                                const requestsResponse = await fetch("/friends/status/" + profileUserId);
+                                const statusData = await requestsResponse.json();
+                                if (statusData.status === 'request_received') {
+                                    const allRequestsResponse = await fetch("/friends");
+                                    const allRequestsData = await allRequestsResponse.text();
+                                    const requestMatch = allRequestsData.match(/data-request-id="(\d+)"/);
+                                    if (requestMatch) {
+                                        const requestId = requestMatch[1];
+                                        endpoint = "/friends/accept-request";
+                                        body = JSON.stringify({ requestId: parseInt(requestId) });
+                                    } else {
+                                        showNotification("طلب الصداقة غير موجود", "error");
+                                        return;
+                                    }
+                                } else {
+                                    showNotification("لا يوجد طلب صداقة لقبوله", "error");
+                                    return;
+                                }
+                            } catch (error) {
+                                showNotification("خطأ في البحث عن طلب الصداقة", "error");
+                                return;
+                            }
+                            break;
+                        case "remove_friend":
+                            endpoint = "/friends/remove-friend";
+                            body = JSON.stringify({ friendId: parseInt(profileUserId) });
+                            break;
+                        default:
+                            showNotification("إجراء غير صالح", "error");
+                            return;
+                    }
+
+                    const response = await fetch(endpoint, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: body
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        showNotification(result.message, "success");
+                        
+                        let newStatus;
+                        switch(action) {
+                            case "send_request":
+                                newStatus = "pending_sent";
+                                break;
+                            case "cancel_request":
+                            case "remove_friend":
+                                newStatus = "no_friend";
+                                break;
+                            case "accept_request":
+                                newStatus = "accepted";
+                                break;
+                            default:
+                                newStatus = "no_friend";
+                        }
+                        
+                        updateFriendButton(newStatus);
+                        
+                        if (result.likes !== undefined) {
+                            document.getElementById("like-count").textContent = result.likes;
+                        }
+                        if (result.ranking !== undefined) {
+                            document.getElementById("ranking-count").textContent = result.ranking;
+                            loadRankingDetails(); // Reload ranking details after friend action
+                        }
+                    } else {
+                        showNotification(result.message, "error");
+                        icon.className = originalIcon;
+                        text.textContent = originalText;
+                    }
+                } catch (error) {
+                    console.error("خطأ في معالجة الإجراء:", error);
+                    showNotification("حدث خطأ أثناء معالجة الطلب", "error");
+                } finally {
+                    friendActionButton.disabled = false;
+                }
+            }
+
+            if (friendActionButton) {
+                const initialStatus = "<%= relationshipStatus || 'no_friend' %>";
+                console.log('الحالة الأولية للزر:', initialStatus);
+                updateFriendButton(initialStatus);
+
+                friendActionButton.addEventListener("click", async () => {
+                    const action = friendActionButton.dataset.action;
+                    if (!action) return;
+
+                    if (action === "remove_friend") {
+                        if (!confirm("هل أنت متأكد من إزالة هذا الصديق؟")) return;
+                    } else if (action === "cancel_request") {
+                        if (!confirm("هل أنت متأكد من إلغاء طلب الصداقة؟")) return;
+
+                    }
+
+                    await handleFriendAction(action);
+                });
+            }
+
+            if (likeButton) {
+                likeButton.addEventListener("click", async function() {
+                    try {
+                        this.disabled = true;
+                        const icon = this.querySelector(".button-icon i");
+                        const text = this.querySelector(".button-text");
+                        const originalIcon = icon.className;
+                        const originalText = text.textContent;
+
+                        icon.className = "fas fa-spinner fa-spin";
+                        text.textContent = "جارٍ التنفيذ...";
+
+                        const response = await fetch("/profile/like", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ friendId: profileUserId })
+                        });
+
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            document.getElementById("like-count").textContent = result.likes;
+                            document.getElementById("ranking-count").textContent = result.ranking;
+                            
+                            this.classList.toggle("liked", result.liked);
+                            icon.className = `fas ${result.liked ? "fa-heart-crack" : "fa-heart"}`;
+                            text.textContent = result.liked ? "إلغاء الإعجاب" : "إعجاب";
+                            
+                            loadRankingDetails();
+                        } else {
+                            showNotification(result.message, "error");
+                            icon.className = originalIcon;
+                            text.textContent = originalText;
+                        }
+                    } catch (error) {
+                        showNotification("حدث خطأ أثناء معالجة الإعجاب", "error");
+                    } finally {
+                        this.disabled = false;
+                    }
+                });
+            }
+
+            const editQuoteButton = document.getElementById('edit-quote-button');
+            const saveQuoteButton = document.getElementById('save-quote-button');
+            const quoteEditor = document.getElementById('quote-editor');
+
+            if (editQuoteButton && saveQuoteButton && quoteEditor) {
+                editQuoteButton.addEventListener('click', function() {
+                    quoteEditor.readOnly = false;
+                    quoteEditor.focus();
+                    editQuoteButton.style.display = 'none';
+                    saveQuoteButton.style.display = 'inline-block';
+                    quoteEditor.style.border = '2px solid #ff7e5f';
+                });
+
+                saveQuoteButton.addEventListener('click', async function() {
+                    try {
+                        const newQuote = quoteEditor.value.trim();
+                        
+                        const response = await fetch('/profile/update-quote', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ quote: newQuote })
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            quoteEditor.readOnly = true;
+                            editQuoteButton.style.display = 'inline-block';
+                            saveQuoteButton.style.display = 'none';
+                            quoteEditor.style.border = 'none';
+                            showNotification('تم تحديث الاقتباس بنجاح', 'success');
+                        } else {
+                            showNotification(result.message || 'حدث خطأ أثناء تحديث الاقتباس', 'error');
+                        }
+                    } catch (error) {
+                        showNotification('حدث خطأ في الشبكة', 'error');
+                    }
+                });
+
+                quoteEditor.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        quoteEditor.readOnly = true;
+                        editQuoteButton.style.display = 'inline-block';
+                        saveQuoteButton.style.display = 'none';
+                        quoteEditor.style.border = 'none';
+                        quoteEditor.value = "<%= user.quote || '' %>";
+                    }
+                });
+            }
+
+            const requestStoreButton = document.getElementById('request-store-button');
+            if (requestStoreButton) {
+                requestStoreButton.addEventListener('click', function() {
+                    const modal = document.createElement('div');
+                    modal.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0,0,0,0.8);
+                        z-index: 10000;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 20px;
+                    `;
+                    
+                    modal.innerHTML = `
+                        <div style="
+                            background: white;
+                            border-radius: 15px;
+                            padding: 30px;
+                            max-width: 500px;
+                            width: 100%;
+                            position: relative;
+                        ">
+                            <button onclick="this.closest('div').parentElement.remove(); document.body.style.overflow = 'auto';" style="
+                                position: absolute;
+                                top: 15px;
+                                right: 20px;
+                                background: none;
+                                border: none;
+                                font-size: 1.5rem;
+                                cursor: pointer;
+                                color: #666;
+                            ">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            
+                            <h2 style="margin-bottom: 20px; color: #333; text-align: center;">
+                                <i class="fas fa-store"></i>
+                                طلب إنشاء متجر
+                            </h2>
+                            
+                            <form id="store-request-form">
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+                                        اسم المتجر
+                                    </label>
+                                    <input type="text" name="storeName" required style="
+                                        width: 100%;
+                                        padding: 12px;
+                                        border: 2px solid #e9ecef;
+                                        border-radius: 8px;
+                                        font-size: 1rem;
+                                    " placeholder="أدخل اسم متجرك">
+                                </div>
+                                
+                                <div style="margin-bottom: 25px;">
+                                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+                                        وصف المتجر
+                                    </label>
+                                    <textarea name="storeDescription" required rows="4" style="
+                                        width: 100%;
+                                        padding: 12px;
+                                        border: 2px solid #e9ecef;
+                                        border-radius: 8px;
+                                        font-size: 1rem;
+                                        resize: vertical;
+                                    " placeholder="اكتب وصفاً مختصراً عن متجرك ونوع المنتجات التي ستبيعها"></textarea>
+                                </div>
+                                
+                                <div style="display: flex; gap: 15px;">
+                                    <button type="submit" style="
+                                        flex: 1;
+                                        padding: 12px;
+                                        background: linear-gradient(45deg, #ff7e5f, #feb47b);
+                                        color: white;
+                                        border: none;
+                                        border-radius: 8px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        transition: all 0.3s ease;
+                                    ">
+                                        <i class="fas fa-paper-plane"></i>
+                                        إرسال الطلب
+                                    </button>
+                                    <button type="button" onclick="this.closest('div').parentElement.remove(); document.body.style.overflow = 'auto';" style="
+                                        flex: 1;
+                                        padding: 12px;
+                                        background: #6c757d;
+                                        color: white;
+                                        border: none;
+                                        border-radius: 8px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                    ">
+                                        إلغاء
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(modal);
+                    document.body.style.overflow = 'hidden';
+                    
+                    document.getElementById('store-request-form').addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        
+                        const formData = new FormData(this);
+                        const submitButton = this.querySelector('button[type="submit"]');
+                        const originalText = submitButton.innerHTML;
+                        
+                        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ الإرسال...';
+                        submitButton.disabled = true;
+                        
+                        try {
+                            const response = await fetch('/stores/request', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    storeName: formData.get('storeName'),
+                                    storeDescription: formData.get('storeDescription')
+                                })
+                            });
+                            
+                            const result = await response.json();
+                            
+                            if (result.success) {
+                                modal.remove();
+                                document.body.style.overflow = 'auto';
+                                showNotification('تم إرسال طلب إنشاء المتجر بنجاح! سيتم مراجعته من قبل الإدارة.', 'success');
+                                
+                                requestStoreButton.disabled = true;
+                                requestStoreButton.innerHTML = '<i class="fas fa-clock"></i> تم إرسال الطلب';
+                                requestStoreButton.style.background = '#6c757d';
+                            } else {
+                                showNotification(result.message || 'حدث خطأ أثناء إرسال الطلب', 'error');
+                                submitButton.innerHTML = originalText;
+                                submitButton.disabled = false;
+                            }
+                        } catch (error) {
+                            showNotification('حدث خطأ في الشبكة', 'error');
+                            submitButton.innerHTML = originalText;
+                            submitButton.disabled = false;
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

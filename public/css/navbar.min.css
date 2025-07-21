@@ -1,0 +1,99 @@
+/* تعليقات للتوضيح والتحسينات بناءً على تقرير Lighthouse */
+:root {
+    --primary-color: #6c5ce7;
+    --secondary-color: #8e7bff;
+    --accent-color: #ff7675;
+    --background-color: #f7f9fc;
+    --card-bg: #ffffff; /* خلفية بيضاء كما طلبت */
+    --text-color: #2d3748;
+    --muted-text: #718096;
+    --border-radius: 14px;
+    --transition: 0.3s ease;
+    --shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    --border-color: #e2e8f0;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Cairo", sans-serif;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+  
+  .navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--card-bg); /* خلفية بيضاء */
+    padding: 10px 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid var(--border-color);
+    height: 60px;
+    position: sticky; /* تحسين الأداء: sticky بدلاً من fixed */
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .navbar .icon {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .navbar .icon i {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    transition: color var(--transition);
+  }
+  
+  .navbar .icon i:hover {
+    color: var(--accent-color);
+  }
+  
+  /* تحسين الوصولية: تركيز مرئي */
+  .navbar a:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+  
+  .navbar .logo img {
+    width: 60px; /* تحديد الحجم في CSS لتجنب التحولات */
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    /* border: 2px solid var(--primary-color); Removed border */
+    transition: transform var(--transition);
+  }
+  
+  .navbar .logo img:hover {
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 10px 15px;
+      height: 50px;
+    }
+  
+    .navbar .icon i {
+      font-size: 1.5rem;
+    }
+  
+    .navbar .logo img {
+      width: 40px;
+      height: 40px;
+    }
+  }

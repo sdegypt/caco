@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إعدادات الأدوار والصلاحيات - اعملها براك</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/css/admin-roles-permissions.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <!-- القائمة العلوية -->
+    <nav class="top-nav">
+      <a href="/forum" class="back-button"><i class="fas fa-arrow-right"></i> العودة إلى المنصة</a>
+      <span class="logo-text">اعملها براك</span>
+  </nav>
+
+  <div class="dashboard-container">
+    <header class="dashboard-header">
+      <h1>إعدادات الأدوار والصلاحيات</h1>
+      <p>إدارة الأدوار، الألقاب، والصلاحيات للأدمن</p>
+    </header>
+
+    <section class="settings-section">
+      <% if (errorMessage) { %>
+        <div class="error-message"><%= errorMessage %></div>
+      <% } %>
+      <% if (successMessage) { %>
+        <div class="success-message"><%= successMessage %></div>
+      <% } %>
+
+      <!-- إضافة دور جديد -->
+      <div class="form-group">
+        <h2>إضافة دور جديد</h2>
+        <form action="/admin/roles-permissions/add-role" method="POST">
+          <label for="roleName">اسم الدور</label>
+          <input type="text" id="roleName" name="name" class="form-input" required>
+          <label for="roleTitle">اللقب</label>
+          <input type="text" id="roleTitle" name="title" class="form-input" required>
+          <label for="roleDescription">الوصف</label>
+          <textarea id="roleDescription" name="description" class="form-input"></textarea>
+          <button type="submit" class="submit-btn">إضافة الدور</button>
+        </form>
+      </div>
+
+      <!-- إضافة صلاحية جديدة -->
+      <div class="form-group">
+        <h2>إضافة صلاحية جديدة</h2>
+        <form action="/admin/roles-permissions/add-permission" method="POST">
+          <label for="roleId">الدور</label>
+          <select id="roleId" name="roleId" class="form-input" required>
+            <% roles.forEach(role => { %>
+              <option value="<%= role.id %>"><%= role.title %> (<%= role.name %>)</option>
+            <% }); %>
+          </select>
+          <label for="permissionName">اسم الصلاحية</label>
+          <input type="text" id="permissionName" name="permission" class="form-input" required>
+          <label>
+            <input type="checkbox" name="can_edit_users"> يمكنه تعديل المستخدمين
+          </label>
+          <button type="submit" class="submit-btn">إضافة الصلاحية</button>
+        </form>
+      </div>
+
+      <!-- قائمة الأدمن -->
+      <div class="exceptions-section">
+        <h2>قائمة الأدمن</h2>
+        <table class="exceptions-table">
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>البريد الإلكتروني</th>
+              <th>الدور</th>
+              <th>الصلاحيات</th>
+              <th>إجراء</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% admins.forEach(admin => { %>
+              <tr>
+                <td><%= admin.name %></td>
+                <td><%= admin.email %></td>
+                <td><%= admin.role_title || admin.role %></td>
+                <td><%= admin.permissions.map(p => p.name).join(", ") || "لا توجد صلاحيات" %></td>
+                <td>
+                  <button class="edit-btn" onclick="editAdmin('<%= admin.id %>', '<%= admin.role_id %>')">تعديل</button>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- نموذج تعديل الأدمن -->
+      <div id="editAdminModal" style="display: none;">
+        <form action="/admin/roles-permissions" method="POST" class="settings-form">
+          <input type="hidden" id="adminId" name="adminId">
+          <h2>تعديل دور الأدمن</h2>
+          <div class="form-group">
+            <label for="roleSelect">الدور:</label>
+            <select id="roleSelect" name="roleId" class="form-input" required>
+              <% roles.forEach(role => { %>
+                <option value="<%= role.id %>"><%= role.title %> (<%= role.name %>)</option>
+              <% }); %>
+            </select>
+          </div>
+          <button type="submit" class="submit-btn">حفظ التغييرات</button>
+          <button type="button" class="remove-exception-btn" onclick="closeModal()">إلغاء</button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function editAdmin(adminId, roleId) {
+      document.getElementById("adminId").value = adminId;
+      document.getElementById("roleSelect").value = roleId || "";
+      document.getElementById("editAdminModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("editAdminModal").style.display = "none";
+    }
+  </script>
+  
+    <!-- الفوتر -->
+    <footer class="dashboard-footer">
+      <p>© 2025 اعملها براك - جميع الحقوق محفوظة</p>
+  </footer>
+
+  <!-- CSS للقائمة والفوتر -->
+  <style>
+      /* تنسيق القائمة العلوية */
+      .top-nav {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 30px;
+          background-color: #ffffff;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+          position: relative;
+          top: 0;
+          right: 0;
+          left: 0;
+          z-index: 1000;
+      }
+
+      .back-button {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 16px;
+          background: linear-gradient(135deg, #6c5ce7, #8e7bff);
+          color: #fff;
+          text-decoration: none;
+          border-radius: 25px;
+          font-size: 0.875rem;
+          font-weight: 600;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .back-button:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+      }
+
+      .logo-text {
+          font-family: "Tajawal", sans-serif;
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #6c5ce7;
+      }
+
+      /* تنسيق الفوتر */
+      .dashboard-footer {
+          text-align: center;
+          padding: 20px 0;
+          background-color: #ffffff;
+          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+          position: relative;
+          bottom: 0;
+          width: 100%;
+      }
+
+      .dashboard-footer p {
+          margin: 0;
+          font-size: 0.875rem;
+          color: #2d3748;
+      }
+  </style>
+</body>
+</html>

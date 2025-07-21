@@ -1,0 +1,440 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #f0f2f5 0%, #e8e8f8 100%);
+    color: #333;
+    line-height: 1.6;
+    padding: 0px;
+}
+
+.dashboard-container {
+    width: 100%;
+    margin: 0 auto;
+    direction: rtl;
+}
+
+.dashboard-header {
+    
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #6B48FF, #A78BFA);
+    color: #FFFFFF;
+    border-radius: 0px 0px 20px 20px;
+    box-shadow: 0 10px 20px rgba(107, 72, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.dashboard-header:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: -60%;
+    width: 220%;
+    height: 220%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+    animation: rotate 20s linear infinite;
+}
+
+.dashboard-header h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-header p {
+    font-size: 1.3rem;
+    position: relative;
+    z-index: 1;
+    opacity: 0.9;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.settings-section {
+    padding: 20px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 2%;
+}
+
+.settings-section:hover {
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group h2 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.8rem;
+    color: #6B48FF;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-group h2::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: #A78BFA;
+    border-radius: 2px;
+}
+
+.form-input,
+.multi-select {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 2px solid #DDD6FE;
+    background: #F9F9F9;
+    font-size: 1rem;
+    font-family: 'Cairo', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical;
+}
+
+.form-input:focus,
+.multi-select:focus {
+    border-color: #6B48FF;
+    box-shadow: 0 0 8px rgba(107, 72, 255, 0.2);
+    outline: none;
+}
+
+.multi-select {
+    height: 180px;
+}
+
+.exceptions-section {
+    margin-top: 40px;
+}
+
+.exceptions-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #FFFFFF;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.exceptions-table th,
+.exceptions-table td {
+    padding: 15px 20px;
+    text-align: right;
+    border-bottom: 1px solid #EDE9FE;
+}
+
+.exceptions-table th {
+    background: #6B48FF;
+    color: #FFFFFF;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.exceptions-table tr:nth-child(even) {
+    background: #F9F9F9;
+}
+
+.exceptions-table tr:hover {
+    background: #F0F2F5;
+    transition: background 0.2s ease;
+}
+
+.success-message,
+.error-message {
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.success-message {
+    background: #D4F4E2;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
+}
+
+.error-message {
+    background: #FEE2E2;
+    color: #C62828;
+    border: 1px solid #EF9A9A;
+}
+
+.submit-btn,
+.edit-btn,
+.remove-exception-btn {
+    background: linear-gradient(135deg, #6B48FF, #A78BFA);
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.1rem;
+   margin: 30px;
+
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-btn {
+    background: linear-gradient(135deg, #FFB300, #FFD54F);
+    padding: 8px 15px;
+    font-size: 0.9rem;
+}
+
+.remove-exception-btn {
+    background: linear-gradient(135deg, #FF5C5C, #FF8A80);
+}
+
+.submit-btn:hover,
+.edit-btn:hover,
+.remove-exception-btn:hover {
+    background: linear-gradient(135deg, #A78BFA, #6B48FF);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(107, 72, 255, 0.4);
+}
+
+.edit-btn:hover {
+    background: linear-gradient(135deg, #FFD54F, #FFB300);
+}
+
+.remove-exception-btn:hover {
+    background: linear-gradient(135deg, #FF8A80, #FF5C5C);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input[type="checkbox"]:checked + .slider {
+    background-color: #6B48FF;
+}
+
+input[type="checkbox"]:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* التصميم المتجاوب */
+@media (max-width: 1200px) {
+    .dashboard-container {
+        max-width: 1000px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .dashboard-header p {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-header {
+        padding: 40px 20px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .dashboard-header p {
+        font-size: 1.1rem;
+    }
+
+    .settings-section {
+        padding: 15px;
+    }
+
+    .form-group h2 {
+        font-size: 1.6rem;
+    }
+
+    .exceptions-table th,
+    .exceptions-table td {
+        padding: 12px 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        padding: 30px 15px;
+        border-radius: 15px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .dashboard-header p {
+        font-size: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group h2 {
+        font-size: 1.4rem;
+    }
+
+    .form-input,
+    .multi-select {
+        padding: 12px 15px;
+    }
+
+    .multi-select {
+        height: 140px;
+    }
+
+    .exceptions-table {
+        font-size: 0.9rem;
+    }
+
+    .exceptions-table th,
+    .exceptions-table td {
+        padding: 10px 12px;
+    }
+
+    .submit-btn,
+    .edit-btn,
+    .remove-exception-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .dashboard-header {
+        padding: 20px 10px;
+        border-radius: 10px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .dashboard-header p {
+        font-size: 0.9rem;
+    }
+
+    .settings-section {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .form-group h2 {
+        font-size: 1.2rem;
+    }
+
+    .form-input,
+    .multi-select {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .multi-select {
+        height: 120px;
+    }
+
+    .exceptions-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .exceptions-table th,
+    .exceptions-table td {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+
+    .submit-btn,
+    .edit-btn,
+    .remove-exception-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .toggle-switch {
+        width: 50px;
+        height: 28px;
+    }
+
+    .slider:before {
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 4px;
+    }
+
+    input[type="checkbox"]:checked + .slider:before {
+        transform: translateX(22px);
+    }
+}

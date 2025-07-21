@@ -1,0 +1,35 @@
+User-agent: *
+Allow: /
+
+# منع الوصول للملفات الحساسة
+Disallow: /admin/
+Disallow: /config/
+Disallow: /database/
+Disallow: /middleware/
+Disallow: /models/
+Disallow: /controllers/
+Disallow: /routes/
+Disallow: /router/
+Disallow: /utils/
+Disallow: /uploads/private/
+Disallow: /auth/
+Disallow: /api/private/
+
+# السماح بالوصول للملفات العامة
+Allow: /uploads/public/
+Allow: /public/
+Allow: /static/
+
+# إعدادات خاصة لمحركات البحث
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# معدل الزحف
+Crawl-delay: 1
+
+# خريطة الموقع
+Sitemap: https://www.amlhabrak.online/sitemap.xml
+

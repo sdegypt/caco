@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قائمة المشاريع</title>
+  <!-- استيراد خط "Cairo" -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- استيراد Font Awesome للأيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+     :root {
+      --primary-color: #6c5ce7;
+      --secondary-color: #a29bfe;
+      --accent-color: #ff7675;
+      --background-color: #f8f8f8;
+      --card-bg: #fff;
+      --text-color: #2d3436;
+      --border-radius: 16px;
+      --transition: 0.4s ease;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Cairo", sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.8;
+    }
+
+    .container {
+      width: 90%;
+      margin: 0 auto;
+      text-align: right;
+      direction: rtl;
+    }
+
+    
+
+     h1 {
+      font-size: 2.2rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+      
+    }
+
+ 
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .project-icon-container {
+      font-size: 30px;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      transition: transform var(--transition);
+    }
+
+    .project-card:hover .project-icon-container {
+      transform: scale(1.2); /* زيادة حجم الأيقونات عند التحويل */
+    }
+
+    .project-details {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .project-details h3 {
+      font-size: 1.6rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-details p {
+      font-size: 1.1rem;
+      color: var(--muted-text);
+      line-height: 1.6;
+    }
+
+    .project-details p strong {
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .join-btn {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #fff;
+      border: none;
+      padding: 0.9rem 1.8rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .join-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--transition);
+      z-index: 1000;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .hidden-form {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2.5rem;
+      width: 90%;
+      max-width: 550px;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+
+    .hidden-form.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .hidden-form h2 {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: var(--muted-text);
+      cursor: pointer;
+      transition: color var(--transition);
+    }
+
+    .close-modal:hover {
+      color: var(--accent-color);
+    }
+
+    .hidden-form form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .hidden-form input,
+    .hidden-form textarea {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      font-size: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      background-color: #f9fafb;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .hidden-form input:focus,
+    .hidden-form textarea:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 8px rgba(108, 92, 231, 0.2);
+      outline: none;
+    }
+
+    .hidden-form textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    .hidden-form button[type="submit"] {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #fff;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .hidden-form button[type="submit"]:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 5rem;
+      padding: 1rem 0;
+      color: var(--muted-text);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .project-card {
+        padding: 1.5rem;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .project-details h3 {
+        font-size: 1.4rem;
+      }
+
+      .join-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+
+      .hidden-form {
+        width: 95%;
+        padding: 1.5rem;
+      }
+
+      .hidden-form h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2350758257463070"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <%- include('partials/headerhome') %>
+  <%- include('partials/headeraction') %>
+ 
+  <div class="container">
+    <h1>استكشف المشاريع المتاحة</h1>
+    <div class="project-grid">
+      <% if (projects && projects.length > 0) { %>
+        <% projects.forEach(function(project) { %>
+          <div class="project-card">
+            <div class="project-icon-container">
+              <i style="font-size: 80px;" class="fas fa-briefcase"></i>
+            </div>
+            <div class="project-details">
+              <h3><%= project.title %></h3>
+              <p><strong>الوصف:</strong> <%= project.description %></p>
+              <button class="join-btn" onclick="openModal('<%= project.id %>')">
+                <i class="fas fa-user-plus"></i> الانضمام
+              </button>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p style="text-align: center; font-size: 1.2rem; color: var(--muted-text); padding: 2rem;">
+          لا توجد مشاريع متاحة حاليًا.
+        </p>
+      <% } %>
+    </div>
+  </div>
+
+  <div id="modal-backdrop" class="modal-backdrop"></div>
+
+  <% if (projects && projects.length > 0) { %>
+    <% projects.forEach(function(project) { %>
+      <div id="modal-<%= project.id %>" class="hidden-form">
+        <button class="close-modal" onclick="closeModal('<%= project.id %>')"><i class="fas fa-times"></i></button>
+        <h2>تقديم طلب الانضمام</h2>
+        <form onsubmit="submitApplication(event, '<%= project.id %>')">
+          <input type="hidden" name="project_id" value="<%= project.id %>" />
+          <input type="text" name="applicant_name" placeholder="اسمك الكامل" required />
+          <input type="email" name="applicant_email" placeholder="بريدك الإلكتروني" required />
+          <textarea name="motivation" placeholder="لماذا تريد الانضمام إلى هذا المشروع؟" required></textarea>
+          <button type="submit"><i class="fas fa-paper-plane"></i> إرسال الطلب</button>
+        </form>
+      </div>
+    <% }); %>
+  <% } %>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const modalBackdrop = document.getElementById("modal-backdrop");
+      const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1] || '';
+
+      window.openModal = function (projectId) {
+        const modal = document.getElementById(`modal-${projectId}`);
+        if (modal) {
+          modal.classList.add("active");
+          modalBackdrop.classList.add("active");
+        }
+      };
+
+      window.closeModal = function (projectId) {
+        const modal = document.getElementById(`modal-${projectId}`);
+        if (modal) {
+          modal.classList.remove("active");
+          modalBackdrop.classList.remove("active");
+        }
+      };
+
+      modalBackdrop.addEventListener("click", function () {
+        document.querySelectorAll(".hidden-form.active").forEach((modal) => {
+          modal.classList.remove("active");
+        });
+        modalBackdrop.classList.remove("active");
+      });
+
+      window.submitApplication = function (event, projectId) {
+        event.preventDefault();
+        const form = event.target;
+
+        const formData = new FormData(form);
+        const jsonData = {};
+        formData.forEach((value, key) => {
+          jsonData[key] = value;
+        });
+
+        console.log("بيانات النموذج المرسلة:", jsonData);
+
+        fetch("/projects/apply-project", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify(jsonData),
+          credentials: 'include'
+        })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.success) {
+            alert("تم إرسال الطلب بنجاح!");
+            closeModal(projectId);
+            form.reset();
+          } else {
+            alert("حدث خطأ أثناء إرسال الطلب: " + (data.message || "غير محدد"));
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("حدث خطأ غير متوقع أثناء إرسال الطلب: " + error.message);
+        });
+      };
+    });
+  </script>
+
+<footer style="margin-top: 80vh !important;">
+  <%- include("partials/footer") %>
+</footer>
+</body>
+</html>

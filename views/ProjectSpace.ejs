@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة المشاريع | DIY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6B48FF;
+            --primary-light: #8A6AFF;
+            --secondary: #FF6B00;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --success: #28A745;
+            --error: #DC3545;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            flex: 1;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border: 1px solid var(--light-gray);
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .project-icon {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .project-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .project-description {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .project-btn {
+            width: 100%;
+            max-width: 200px;
+            padding: 0.75rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(107, 72, 255, 0.2);
+        }
+
+        .project-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(107, 72, 255, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .projects-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .projects-container {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .project-card {
+                padding: 1.5rem;
+            }
+            
+            .project-icon {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .project-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .projects-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                padding: 1rem;
+            }
+            
+            .project-card {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .project-icon {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .project-title {
+                font-size: 1.2rem;
+            }
+            
+            .project-description {
+                font-size: 0.9rem;
+            }
+            
+            .project-btn {
+                padding: 0.65rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X88DTB0JB8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "G-X88DTB0JB8");
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2350758257463070"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+ <header style="width: 100%;">
+    <%- include('partials/headerhome') %>
+    <%- include('partials/headeraction') %>
+  </header>
+
+    
+
+  <div class="projects-container">
+    <!-- بطاقة عرض المشاريع -->
+    <div class="project-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/619/619032.png" alt="عرض المشاريع" class="project-icon">
+      <h2 class="project-title">عرض المشاريع</h2>
+      <p class="project-description">استكشف أحدث المشاريع المتاحة وابحث عن المشروع الذي يناسب مهاراتك.</p>
+      <a href="/projects/" class="project-btn">اذهب إلى المشاريع</a>
+    </div>
+
+    <!-- بطاقة إضافة مشروع -->
+    <div class="project-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="إضافة مشروع" class="project-icon">
+      <h2 class="project-title">إضافة مشروع</h2>
+      <p class="project-description">قم بنشر مشروع جديد لجذب أفضل المواهب والكفاءات للعمل عليه.</p>
+      <a href="/projects/create" class="project-btn">إضافة مشروع</a>
+    </div>
+
+    <!-- بطاقة طلبات المشاركة -->
+    <div class="project-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/159/159832.png" alt="طلبات المشاركة" class="project-icon">
+      <h2 class="project-title">طلبات المشاركة</h2>
+      <p class="project-description">قم بمراجعة الطلبات المقدمة من المتخصصين الراغبين في المشاركة.</p>
+      <a href="/projects/project_requests" class="project-btn">عرض الطلبات</a>
+    </div>
+
+    <!-- بطاقة المحادثات الجارية -->
+    <div class="project-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/2462/2462719.png" alt="المحادثات الجارية" class="project-icon">
+      <h2 class="project-title">المحادثات الجارية</h2>
+      <p class="project-description">تابع المحادثات المتعلقة بالمشاريع التي أضفتها أو تقدمت للانضمام إليها.</p>
+      <a href="/projects/ongoing_chats" class="project-btn">عرض المحادثات</a>
+    </div>
+  </div>
+
+  <footer style="width: 100%; margin-top: auto;">
+    <%- include('partials/footer') %>
+  </footer>
+</body>
+</html>

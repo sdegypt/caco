@@ -1,0 +1,53 @@
+/* ===== ملف CSS الرئيسي الموحد ===== */
+/* يقوم هذا الملف باستيراد جميع ملفات CSS المحسنة بترتيب مناسب لتحسين الأداء */
+
+/* استيراد نظام المتغيرات الموحد */
+@import url('/css/variables.css');
+
+/* استيراد الأنماط الأساسية */
+@import url('/css/main.css');
+
+/* استيراد أنماط لوحة التحكم */
+@import url('/css/dashboard.css');
+
+/* استيراد تحسينات الاستقرار البصري */
+@import url('/css/visual-stability.css');
+
+/* استيراد أنماط واجهة المستخدم الموحدة */
+@import url('/css/unified-ui.css');
+
+/* استيراد تحسينات الأداء وتحميل الصور */
+@import url('/css/performance.css');
+
+/* استيراد التحسينات الإضافية لتجربة المستخدم */
+@import url('/css/enhanced-ux.css');
+
+/* ===== تحسينات إضافية ===== */
+/* تحسين تحميل الخطوط */
+@font-face {
+  font-family: 'Cairo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/cairo/v28/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hGA-W1Q.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-08E2, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
+}
+
+/* تحسين الأداء العام */
+html {
+  scroll-behavior: smooth;
+}
+
+/* تحسين التوافق مع الأجهزة المختلفة */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* تحسين إمكانية الوصول */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

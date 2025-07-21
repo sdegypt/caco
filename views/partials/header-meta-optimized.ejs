@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="DYJRfaCRv2A7svif6_JoSm2FKoJXmsi5JvRkcrHzt1E" />
+  
+  <!-- تضمين علامات الميتا الديناميكية -->
+  <%- include('dynamic-meta') %>
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/logo.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/logo.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/logo.png" />
+  <link rel="shortcut icon" href="/favicon/logo.png" />
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#FF6B00" />
+  <meta name="msapplication-TileColor" content="#FF6B00" />
+  <meta name="msapplication-TileImage" content="/favicon/logo.png" />
+  
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="DIY" />
+  <meta property="og:locale" content="ar_SA" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://amlhabrak.online/favicon/logo.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="شعار أمل حبرك" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@amlhabrak" />
+  <meta name="twitter:image" content="https://amlhabrak.online/favicon/logo.png" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://amlhabrak.online<%= typeof currentPath !== 'undefined' ? currentPath : '' %>" />
+  
+  <!-- Robots Meta -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  
+  <!-- Performance Optimizations -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="//res.cloudinary.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  
+  <!-- Critical CSS inline -->
+  <style>
+    body { 
+      font-family: 'Cairo', Arial, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      font-display: swap;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      loading: lazy;
+      decoding: async;
+    }
+    @font-face {
+      font-family: 'Cairo';
+      font-display: swap;
+      src: local('Cairo');
+    }
+  </style>
+  
+  <!-- Load fonts asynchronously -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" /></noscript>
+  
+  <!-- Load FontAwesome asynchronously -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" /></noscript>
+  
+  <!-- Load SweetAlert2 asynchronously -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
+  
+  <!-- Main CSS files -->
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/performance-optimizations.css" />
+  
+  <!-- Performance and error handling scripts -->
+  <script src="/js/error-handler.js" defer></script>
+  <script src="/js/performance-optimizer.js" defer></script>
+  <script src="/js/aria-support.js" defer></script>
+  
+  <!-- Google Analytics optimized -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X88DTB0JB8', {
+      page_title: document.title,
+      page_location: window.location.href
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X88DTB0JB8"></script>
+  
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2350758257463070" crossorigin="anonymous"></script>
+  
+  <!-- Structured Data - Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "DIY",
+    "url": "https://amlhabrak.online",
+    "logo": "https://amlhabrak.online/favicon/logo.png",
+    "description": "منصة شاملة للمشاريع والوظائف والتواصل المهني للمبدعين والحرفيين العرب"
+  }
+  </script>
+</head>
+

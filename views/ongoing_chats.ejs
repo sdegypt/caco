@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>المحادثات الجارية</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #6c5ce7;
+        --secondary-color: #a29bfe;
+        --accent-color: #ff7675;
+        --background-color: #f8f8f8;
+        --card-bg: #fff;
+        --text-color: #2d3436;
+        --border-radius: 16px;
+        --transition: 0.4s ease;
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Cairo", sans-serif;
+      }
+
+      body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.8;
+        padding: 0rem;
+      }
+
+      h1 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .chat-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .chat-card {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 1.5rem;
+        transition: transform var(--transition), box-shadow var(--transition);
+      }
+
+      .chat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+      }
+
+      .chat-card h3 {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .chat-card p {
+        font-size: 1rem;
+        color: var(--text-color);
+        margin-bottom: 1rem;
+      }
+
+      .chat-card a {
+        display: inline-block;
+        background-color: var(--primary-color);
+        color: #fff;
+        text-decoration: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        transition: background-color var(--transition);
+      }
+
+      .chat-card a:hover {
+        background-color: var(--accent-color);
+      }
+
+      @media (max-width: 768px) {
+        .chat-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+</head>
+<body>
+    <%- include('partials/headerhome') %> <%- include('partials/headeraction') %>
+
+    <div class="container">
+        <h1>المحادثات الجارية</h1>
+        <div class="chat-list">
+            <% if (chats && chats.length > 0) { %>
+                <% chats.forEach(chat => { %>
+                    <div class="chat-card">
+                        <h3>مشروع: <%= chat.project_title %></h3>
+                        <p>المحادثة مع: <%= chat.other_user_name %></p>
+                        <a href="/messages/<%= chat.conversation_id %>">الذهاب إلى المحادثة</a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>لا توجد محادثات جارية حاليًا.</p>
+            <% } %>
+        </div>
+    </div>
+
+</body>
+<footer style="margin-top: 100vh ">
+  <%- include("partials/footer") %>
+</footer>
+</html>

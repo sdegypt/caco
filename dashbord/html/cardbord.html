@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم</title>
+    <link rel="stylesheet" href="/public /fontawesome-free-6.6.0-web /css/all.min.css">
+    <link rel="stylesheet" href="/dashbord /css/cardbord.css">
+</head>
+<body>
+    <div class="menu">
+        <ul>
+            <li class="profile">
+                <div class="img-box">
+                    <img src="/img/1721168184349logo.png" alt="portfolio">
+                </div>
+                <h2>سدك عبده</h2>
+            </li>
+            <li>
+                <a class="active" href="/index.html">
+                    <i class="fa fa-credit-card"></i>
+                    <p>الإدارة</p>
+                </a>
+            </li>
+            <li>
+                <a href="/veiws/Designs.html">
+                    <i class="fa fa-credit-card"></i>
+                    <p>تصاميم</p>
+                </a>
+            </li>
+            <li>
+                <a href="/veiws/Article.html">
+                    <i class="fa fa-credit-card"></i>
+                    <p>المقالات</p>
+                </a>
+            </li>
+            <li>
+                <a href="/veiws/Educational.html">
+                    <i class="fa fa-credit-card"></i>
+                    <p>تعليمي</p>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="fa fa-credit-card"></i>
+                    <p>الكتب</p>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="fa fa-credit-card"></i>
+                    <p>المنتديات</p>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="fa fa-credit-card"></i>
+                    <p>احصائيات</p>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="fa fa-credit-card"></i>
+                    <p>إشعارات</p>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="fa fa-credit-card"></i>
+                    <p>الإعدادات</p>
+                </a>
+            </li>
+            <li class="log-out">
+                <a href="">
+                    <i class="fa fa-credit-card"></i>
+                    <p>تسجيل الخروج</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="title-info">
+            <p>أضف كارد</p>
+            <i class="fas fa-credit-card"></i>
+        </div>
+        <div class="data-info">
+            <form action="/dashboard/add" method="post" enctype="multipart/form-data">
+                <input type="text" name="url" placeholder="قم بوضع رابط URL للصفحة الكارد" required>
+                <input type="text" name="keywords" placeholder="كلمات مفتاحية">
+                <button type="button" onclick="document.getElementById('imageUpload').click()">
+                    <i class="fas fa-upload"></i> قم برفع صورة الكارد
+                </button>
+                <input type="file" name="cardImage" id="imageUpload" style="display: none;">
+                <input type="text" name="title" placeholder="أضف العنوان للكارد" required>
+                <textarea name="description" placeholder="أكتب وصف للكارد" cols="24" rows="5"></textarea>
+                <button type="submit"><i class="fas fa-plus"></i> أضف</button>
+            </form>
+        </div>
+        <div class="title-info">
+            <p>الكاردات الموجودة</p>
+            <i class="fas fa-credit-card"></i>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>العنوان</th>
+                    <th>الوصف</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% cards.forEach(card => { %>
+                <tr>
+                    <td><%= card.title %></td>
+                    <td><%= card.description %></td>
+                    <td>
+                        <a href="/cards/<%= card.url %>/<%= card.id %>"><i class="fas fa-eye"></i> عرض</a>
+                        <form action="/dashboard/delete/<%= card.id %>" method="post" style="display:inline;">
+                            <button type="submit"><i class="fas fa-trash"></i> حذف</button>
+                        </form>
+                        <a href="/dashboard/update/<%= card.id %>"><i class="fas fa-edit"></i> تعديل</a>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

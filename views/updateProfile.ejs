@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تحديث الملف الشخصي | DIY</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <style>
+    :root {
+      --primary-color: #6c5ce7;
+      --primary-light: #8e7bff;
+      --secondary-color: #ff7e5f;
+      --accent-color: #feb47b;
+      --light-color: #f7f9fc;
+      --dark-color: #2d3748;
+      --gray-color: #6c757d;
+      --success-color: #2ecc71;
+      --danger-color: #e74c3c;
+      --border-radius: 16px;
+      --box-shadow: 0 6px 24px rgba(108,92,231,0.08);
+      --transition: 0.3s cubic-bezier(.4,0,.2,1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #f7f9fc 0%, #e9ecef 100%);
+      color: var(--dark-color);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+      color: #fff;
+      padding: 44px 30px 32px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 8px #0001;
+    }
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.93;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-container {
+      padding: 40px 30px 30px 30px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+      margin-bottom: 32px;
+    }
+    .form-group { margin-bottom: 18px; position: relative; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      font-size: 1.08rem;
+      letter-spacing: 0.2px;
+    }
+    .form-group label i { margin-left: 8px; color: var(--secondary-color); width: 20px; }
+    .form-control {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      background: #f7f9fc;
+      color: var(--dark-color);
+      transition: var(--transition);
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background: #fff;
+      box-shadow: 0 0 0 3px #6c5ce71a;
+    }
+    .form-control::placeholder { color: var(--gray-color); opacity: 0.7; }
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: left 15px center;
+      background-size: 16px;
+      padding-right: 15px;
+    }
+    .file-input-wrapper { position: relative; display: block; }
+    .file-input { display: none; }
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 18px;
+      border: 2px dashed var(--primary-color);
+      border-radius: var(--border-radius);
+      background: #f7f9fc;
+      color: var(--primary-color);
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+      min-height: 60px;
+      text-align: center;
+    }
+    .file-input-label:hover {
+      background: #f3f0ff;
+      border-color: var(--secondary-color);
+      color: var(--secondary-color);
+    }
+    .file-input-label i { font-size: 1.3rem; }
+    .current-avatar { margin-top: 18px; text-align: center; }
+    .current-avatar img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-color);
+      box-shadow: 0 4px 16px #6c5ce71a;
+      transition: transform 0.3s;
+    }
+    .current-avatar img:hover { transform: scale(1.06); }
+    .current-avatar p { margin-top: 10px; color: var(--gray-color); font-size: 0.93rem; }
+    .btn-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 36px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 15px 32px;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      min-width: 160px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #fff;
+      box-shadow: 0 4px 16px #6c5ce71a;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px #6c5ce71a;
+    }
+    .btn-secondary {
+      background: var(--gray-color);
+      color: #fff;
+      box-shadow: 0 4px 16px #6c757d1a;
+    }
+    .btn-secondary:hover {
+      background: #444;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px #6c757d1a;
+    }
+    .loading-spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 3px solid #fff3;
+      border-radius: 50%;
+      border-top: 3px solid #fff;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .progress-bar {
+      width: 100%;
+      height: 7px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 18px;
+      display: none;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      width: 0%;
+      transition: width 0.4s;
+      border-radius: 4px;
+    }
+    /* Validation styles */
+    .is-valid { border-color: var(--success-color) !important; }
+    .is-invalid { border-color: var(--danger-color) !important; }
+    .valid-feedback, .invalid-feedback { display: none; font-size: 0.85rem; margin-top: 8px; }
+    .is-valid ~ .valid-feedback { display: block; color: var(--success-color); }
+    .is-invalid ~ .invalid-feedback { display: block; color: var(--danger-color); }
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .container { max-width: 99vw; }
+      .form-container { padding: 24px 10px 18px 10px; }
+      .form-grid { gap: 16px; }
+    }
+    @media (max-width: 700px) {
+      .header { padding: 24px 8px 18px 8px; }
+      .header h1 { font-size: 1.5rem; }
+      .form-container { padding: 12px 2vw 10px 2vw; }
+      .form-grid { grid-template-columns: 1fr; gap: 10px; }
+      .btn-group { flex-direction: column; align-items: center; gap: 10px; }
+      .btn { width: 100%; max-width: 100%; }
+      .current-avatar img { width: 90px; height: 90px; }
+    }
+    /* RTL specific styles */
+    [dir="rtl"] .form-control { text-align: right; }
+    [dir="rtl"] select.form-control { background-position: left 15px center; padding-left: 15px; }
+  </style>
+</head>
+
+<%- include('partials/headerhome') %>
+<%- include('partials/headeraction') %>
+<br>
+<body>
+<% function getCloudinaryImageUrl(image, fallback) { return image && image.startsWith('http') ? image : (fallback || '/uploads/images/pngwing.com.png'); } %>
+  <div class="container" style="margin-top: 100px;">
+    <div class="header">
+      <h1 style="text-align:center; color: orange; font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.5px; text-shadow: 0 2px 8px #0001;">
+        <i class="fas fa-user-edit"></i> تحديث الملف الشخصي
+      </h1>
+      <p>قم بتحديث معلوماتك الشخصية وصورة الملف الشخصي لتحسين تجربتك على المنصة</p>
+    </div>
+
+    <div class="form-container">
+      <form id="updateProfileForm" action="/updateProfile" method="POST" enctype="multipart/form-data">
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">
+              <i class="fas fa-user"></i>
+              الاسم الكامل
+            </label>
+            <input 
+              type="text" 
+              name="name" 
+              id="name" 
+              class="form-control"
+              value="<%= user.name %>" 
+              placeholder="أدخل اسمك الكامل"
+              required
+            />
+            <div class="valid-feedback">الاسم صالح</div>
+            <div class="invalid-feedback">الرجاء إدخال اسم صحيح</div>
+          </div>
+
+          <div class="form-group">
+            <label for="age">
+              <i class="fas fa-calendar-alt"></i>
+              العمر
+            </label>
+            <input 
+              type="number" 
+              name="age" 
+              id="age" 
+              class="form-control"
+              value="<%= user.age || '' %>"
+              placeholder="أدخل عمرك"
+              min="13"
+              max="120"
+            />
+            <div class="valid-feedback">العمر صالح</div>
+            <div class="invalid-feedback">الرجاء إدخال عمر بين 13 و 120</div>
+          </div>
+
+          <div class="form-group">
+            <label for="gender">
+              <i class="fas fa-venus-mars"></i>
+              الجنس
+            </label>
+            <select name="gender" id="gender" class="form-control">
+              <option value="">اختر الجنس</option>
+              <option value="male" <% if (user.gender === 'male') { %>selected<% } %>>ذكر</option>
+              <option value="female" <% if (user.gender === 'female') { %>selected<% } %>>أنثى</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="country">
+              <i class="fas fa-globe"></i>
+              البلد
+            </label>
+            <input 
+              type="text" 
+              name="country" 
+              id="country" 
+              class="form-control"
+              value="<%= user.country || '' %>"
+              placeholder="أدخل بلدك"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="language">
+              <i class="fas fa-language"></i>
+              اللغة المفضلة
+            </label>
+            <input 
+              type="text" 
+              name="language" 
+              id="language" 
+              class="form-control"
+              value="<%= user.language || '' %>"
+              placeholder="أدخل لغتك المفضلة"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="occupation">
+              <i class="fas fa-briefcase"></i>
+              المهنة
+            </label>
+            <input 
+              type="text" 
+              name="occupation" 
+              id="occupation" 
+              class="form-control"
+              value="<%= user.occupation || '' %>"
+              placeholder="أدخل مهنتك"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">
+              <i class="fas fa-phone"></i>
+              رقم الهاتف
+            </label>
+            <input 
+              type="tel" 
+              name="phone" 
+              id="phone" 
+              class="form-control"
+              value="<%= user.phone || '' %>"
+              placeholder="أدخل رقم هاتفك"
+              pattern="[0-9]{10,15}"
+            />
+            <div class="valid-feedback">رقم الهاتف صالح</div>
+            <div class="invalid-feedback">الرجاء إدخال رقم هاتف صحيح</div>
+          </div>
+
+    
+        </div>
+
+        <div class="form-group full-width">
+          <label for="avatar">
+            <i class="fas fa-camera"></i>
+            صورة الملف الشخصي
+          </label>
+          
+          <div class="file-input-wrapper">
+            <input 
+              type="file" 
+              name="avatar" 
+              id="avatar" 
+              class="file-input"
+              accept="image/*"
+              onchange="previewAvatar(this)"
+            />
+            <label for="avatar" class="file-input-label">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <span id="fileLabelText">اختر صورة جديدة أو اسحبها هنا</span>
+            </label>
+          </div>
+
+          <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <% if (user.avatar) { %>
+            <div class="current-avatar">
+              <img src="<%= getCloudinaryImageUrl(user.avatar, '/uploads/images/pngwing.com.png') %>" alt="الصورة الحالية" id="currentAvatar" />
+              <p>الصورة الحالية</p>
+            </div>
+          <% } else { %>
+            <div class="current-avatar">
+              <span class="fa fa-user-circle fa-4x" style="color: #aaa;"></span>
+              <p>الصورة الحالية</p>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <i class="fas fa-save"></i>
+            <span class="btn-text">حفظ التغييرات</span>
+            <div class="loading-spinner"></div>
+          </button>
+          
+          <a href="/profile" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            العودة للملف الشخصي
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Preview uploaded avatar
+    function previewAvatar(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const fileLabelText = document.getElementById('fileLabelText');
+        
+        // Update label text with file name
+        fileLabelText.textContent = file.name;
+        
+        // Validate file type
+        if (!file.type.match('image.*')) {
+          Swal.fire({
+            icon: 'error',
+            title: 'خطأ في نوع الملف',
+            text: 'الرجاء اختيار ملف صورة فقط (JPEG, PNG, etc.)',
+            confirmButtonText: 'موافق',
+            confirmButtonColor: '#4361ee'
+          });
+          input.value = '';
+          fileLabelText.textContent = 'اختر صورة جديدة أو اسحبها هنا';
+          return;
+        }
+        
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          Swal.fire({
+            icon: 'error',
+            title: 'حجم الملف كبير جداً',
+            text: 'الحد الأقصى لحجم الصورة هو 5MB',
+            confirmButtonText: 'موافق',
+            confirmButtonColor: '#4361ee'
+          });
+          input.value = '';
+          fileLabelText.textContent = 'اختر صورة جديدة أو اسحبها هنا';
+          return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          const currentAvatar = document.getElementById('currentAvatar');
+          if (currentAvatar) {
+            currentAvatar.src = e.target.result;
+          } else {
+            // Create new preview if no current avatar exists
+            const avatarContainer = document.querySelector('.current-avatar') || document.createElement('div');
+            avatarContainer.className = 'current-avatar';
+            avatarContainer.innerHTML = `
+              <img src="${e.target.result}" alt="معاينة الصورة الجديدة" id="currentAvatar" />
+              <p>معاينة الصورة الجديدة</p>
+            `;
+            input.closest('.form-group').appendChild(avatarContainer);
+          }
+        };
+        
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Form validation
+    function validateForm() {
+      let isValid = true;
+      
+      // Validate name
+      const nameInput = document.getElementById('name');
+      if (nameInput.value.trim().length < 2) {
+        nameInput.classList.add('is-invalid');
+        nameInput.classList.remove('is-valid');
+        isValid = false;
+      } else {
+        nameInput.classList.add('is-valid');
+        nameInput.classList.remove('is-invalid');
+      }
+      
+      // Validate age if provided
+      const ageInput = document.getElementById('age');
+      if (ageInput.value && (ageInput.value < 13 || ageInput.value > 120)) {
+        ageInput.classList.add('is-invalid');
+        ageInput.classList.remove('is-valid');
+        isValid = false;
+      } else if (ageInput.value) {
+        ageInput.classList.add('is-valid');
+        ageInput.classList.remove('is-invalid');
+      }
+      
+      // Validate phone if provided
+      const phoneInput = document.getElementById('phone');
+      if (phoneInput.value && !phoneInput.checkValidity()) {
+        phoneInput.classList.add('is-invalid');
+        phoneInput.classList.remove('is-valid');
+        isValid = false;
+      } else if (phoneInput.value) {
+        phoneInput.classList.add('is-valid');
+        phoneInput.classList.remove('is-invalid');
+      }
+      
+      return isValid;
+    }
+
+    // Form submission with progress and loading state
+    document.getElementById('updateProfileForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Validate form before submission
+      if (!validateForm()) {
+        Swal.fire({
+          icon: 'error',
+          title: 'بيانات غير صالحة',
+          text: 'الرجاء مراجعة الحقول المميزة باللون الأحمر وتصحيحها',
+          confirmButtonText: 'موافق',
+          confirmButtonColor: '#4361ee'
+        });
+        return;
+      }
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = submitBtn.querySelector('.btn-text');
+      const spinner = submitBtn.querySelector('.loading-spinner');
+      const progressBar = document.getElementById('progressBar');
+      const progressFill = document.getElementById('progressFill');
+      
+      // Show loading state
+      submitBtn.disabled = true;
+      btnText.style.display = 'none';
+      spinner.style.display = 'inline-block';
+      progressBar.style.display = 'block';
+      
+      // Simulate progress
+      let progress = 0;
+      const progressInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 90) progress = 90;
+        progressFill.style.width = progress + '%';
+      }, 200);
+      
+      // Create FormData and submit
+      const formData = new FormData(this);
+      
+      fetch('/updateProfile', {
+        method: 'POST',
+        body: formData
+      })
+      .then(async response => {
+        let data;
+        try {
+          data = await response.json();
+        } catch (err) {
+          throw new Error('حدث خطأ في الخادم أو تم تسجيل خروجك. أعد تحميل الصفحة وسجل الدخول مجدداً.');
+        }
+        return data;
+      })
+      .then(data => {
+        clearInterval(progressInterval);
+        progressFill.style.width = '100%';
+        
+        setTimeout(() => {
+          if (data.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'تم التحديث بنجاح!',
+              text: 'تم تحديث ملفك الشخصي بنجاح',
+              confirmButtonText: 'موافق',
+              confirmButtonColor: '#4361ee',
+              timer: 3000,
+              timerProgressBar: true,
+              willClose: () => {
+                window.location.href = '/profile';
+              }
+            });
+          } else {
+            throw new Error(data.message || 'حدث خطأ أثناء التحديث');
+          }
+        }, 500);
+      })
+      .catch(error => {
+        clearInterval(progressInterval);
+        console.error('Error:', error);
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'خطأ!',
+          text: error.message || 'حدث خطأ أثناء تحديث الملف الشخصي',
+          confirmButtonText: 'موافق',
+          confirmButtonColor: '#4361ee'
+        });
+        
+        // Reset button state
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline';
+        spinner.style.display = 'none';
+        progressBar.style.display = 'none';
+        progressFill.style.width = '0%';
+      });
+    });
+
+    // Real-time validation
+    document.getElementById('name').addEventListener('input', function() {
+      if (this.value.trim().length >= 2) {
+        this.classList.add('is-valid');
+        this.classList.remove('is-invalid');
+      } else {
+        this.classList.remove('is-valid');
+      }
+    });
+    
+    document.getElementById('age').addEventListener('input', function() {
+      if (this.value && this.value >= 13 && this.value <= 120) {
+        this.classList.add('is-valid');
+        this.classList.remove('is-invalid');
+      } else if (this.value) {
+        this.classList.add('is-invalid');
+        this.classList.remove('is-valid');
+      } else {
+        this.classList.remove('is-valid');
+        this.classList.remove('is-invalid');
+      }
+    });
+    
+    document.getElementById('phone').addEventListener('input', function() {
+      if (this.value && this.checkValidity()) {
+        this.classList.add('is-valid');
+        this.classList.remove('is-invalid');
+      } else if (this.value) {
+        this.classList.add('is-invalid');
+        this.classList.remove('is-valid');
+      } else {
+        this.classList.remove('is-valid');
+        this.classList.remove('is-invalid');
+      }
+    });
+
+    // Bio character counter and validation
+    const bioTextarea = document.getElementById('bio');
+    const bioCounter = document.getElementById('bioCounter');
+    
+    function updateBioCounter() {
+      const length = bioTextarea.value.length;
+      bioCounter.textContent = `${length}/500 حرف`;
+      
+      if (length > 500) {
+        bioTextarea.classList.add('is-invalid');
+        bioTextarea.classList.remove('is-valid');
+        bioCounter.style.color = 'var(--danger-color)';
+      } else if (length > 0) {
+        bioTextarea.classList.add('is-valid');
+        bioTextarea.classList.remove('is-invalid');
+        bioCounter.style.color = 'var(--gray-color)';
+      } else {
+        bioTextarea.classList.remove('is-valid');
+        bioTextarea.classList.remove('is-invalid');
+        bioCounter.style.color = 'var(--gray-color)';
+      }
+    }
+    
+    bioTextarea.addEventListener('input', updateBioCounter);
+    
+    // Initialize bio counter on page load
+    updateBioCounter();
+
+    // Drag and drop functionality
+    const fileLabel = document.querySelector('.file-input-label');
+    const fileInput = document.getElementById('avatar');
+    
+    fileLabel.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      this.style.background = 'rgba(67, 97, 238, 0.2)';
+      this.style.borderColor = 'var(--secondary-color)';
+      this.style.color = 'var(--secondary-color)';
+    });
+
+    fileLabel.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      this.style.background = 'rgba(67, 97, 238, 0.05)';
+      this.style.borderColor = 'var(--primary-color)';
+      this.style.color = 'var(--primary-color)';
+    });
+
+    fileLabel.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.style.background = 'rgba(67, 97, 238, 0.05)';
+      this.style.borderColor = 'var(--primary-color)';
+      this.style.color = 'var(--primary-color)';
+      
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        previewAvatar(fileInput);
+      }
+    });
+
+    // Show file name when selected
+    fileInput.addEventListener('change', function() {
+      if (this.files.length) {
+        document.getElementById('fileLabelText').textContent = this.files[0].name;
+      }
+    });
+  </script>
+</body>
+
+<footer style="margin-top: 40px;">
+  <%- include('partials/footer') %>
+</footer>
+
+</html>

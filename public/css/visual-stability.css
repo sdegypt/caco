@@ -1,0 +1,194 @@
+/* ===== تحسين CLS والاستقرار البصري ===== */
+@import url('/css/variables.css');
+
+/* ===== تحديد أبعاد الصور ===== */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== الصور في الشعار ===== */
+.logo-container img {
+  width: auto;
+  height: 50px;
+  aspect-ratio: auto;
+}
+
+/* ===== صور الملف الشخصي ===== */
+.img-box, .avatar, .profile-image {
+  width: var(--avatar-size-md);
+  height: var(--avatar-size-md);
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: var(--border-radius-full);
+  background-color: var(--color-bg-light);
+}
+
+.img-box.small, .avatar.small, .profile-image.small {
+  width: var(--avatar-size-sm);
+  height: var(--avatar-size-sm);
+}
+
+.img-box.large, .avatar.large, .profile-image.large {
+  width: var(--avatar-size-lg);
+  height: var(--avatar-size-lg);
+}
+
+/* ===== صور المنشورات والمشاريع ===== */
+.post-image, .project-image, .job-image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-bg-light);
+}
+
+/* ===== الأيقونات ===== */
+.icon {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon.large {
+  width: 32px;
+  height: 32px;
+}
+
+.icon.small {
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== الحاويات ذات الارتفاع المتغير ===== */
+.card, .box, .container-fluid {
+  min-height: 100px;
+  contain: layout paint;
+}
+
+/* ===== تحسين تحميل الخطوط ===== */
+/* تطبيق font-display: swap لتحسين CLS أثناء تحميل الخطوط */
+@font-face {
+  font-family: 'Cairo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/cairo/v28/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hGA-W1Q.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-08E2, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
+}
+
+@font-face {
+  font-family: 'Cairo';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/cairo/v28/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hGA-W1Q.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-08E2, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
+}
+
+@font-face {
+  font-family: 'Cairo';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/cairo/v28/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hGA-W1Q.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-08E2, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
+}
+
+/* ===== تحسين عرض المحتوى أثناء التحميل ===== */
+.content-placeholder {
+  background-color: var(--color-bg-light);
+  border-radius: var(--border-radius-md);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* ===== تحسين استقرار التخطيط ===== */
+.layout-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-base);
+  width: 100%;
+}
+
+/* ===== تحديد مساحات للعناصر المتغيرة ===== */
+.dynamic-content {
+  min-height: 200px;
+  width: 100%;
+  position: relative;
+}
+
+/* ===== تحسين استقرار الهيدر والفوتر ===== */
+header, footer {
+  height: auto;
+  min-height: var(--header-height);
+  width: 100%;
+  position: relative;
+  z-index: 100;
+}
+
+/* ===== تحسين استقرار القوائم ===== */
+.menu, .sidebar, .navigation {
+  width: var(--sidebar-width);
+  transition: width var(--transition-normal);
+}
+
+/* ===== تحسين استقرار الأزرار ===== */
+.btn {
+  min-width: 100px;
+  text-align: center;
+}
+
+/* ===== تحسين استقرار النماذج ===== */
+input, textarea, select {
+  width: 100%;
+  min-height: 40px;
+}
+
+/* ===== تحسين استقرار الجداول ===== */
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* ===== تحسين استقرار العناصر المرنة ===== */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-base);
+}
+
+.flex-item {
+  flex: 1 1 300px;
+  min-height: 100px;
+}
+
+/* ===== التصميم المتجاوب مع الحفاظ على الاستقرار البصري ===== */
+@media (max-width: 768px) {
+  .layout-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
+  .flex-item {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .layout-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

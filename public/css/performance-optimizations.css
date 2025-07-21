@@ -1,0 +1,213 @@
+/* Performance Optimizations CSS */
+/* تحسينات الأداء والسرعة */
+
+/* تحسين تحميل الخطوط */
+@font-face {
+  font-family: 'Cairo';
+  font-display: swap;
+  src: local('Cairo');
+}
+
+/* تحسين عرض الصور */
+img {
+  max-width: 100%;
+  height: auto;
+  loading: lazy;
+  decoding: async;
+}
+
+/* تحسين الصور عالية الدقة */
+img[src*="cloudinary"] {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* تحسين الأيقونات */
+.fa, .fas, .far, .fal, .fab {
+  font-display: swap;
+}
+
+/* تحسين الانتقالات */
+* {
+  will-change: auto;
+}
+
+.mobile-nav-icon,
+.mobile-dropdown-menu a,
+.mobile-dropdown-menu button {
+  will-change: transform, background-color;
+}
+
+/* تحسين التمرير */
+.mobile-dropdown-menu {
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+
+/* تحسين الرسوم المتحركة */
+@keyframes mobileMenuFadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(-12px) translateZ(0); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) translateZ(0); 
+  }
+}
+
+/* تحسين العناصر المخفية */
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* تحسين التخطيط */
+.header-container {
+  contain: layout style;
+}
+
+.mobile-nav {
+  contain: layout style;
+}
+
+/* تحسين الصور المؤجلة */
+img[data-src] {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* تحسين النصوص */
+.text-content {
+  text-rendering: optimizeSpeed;
+}
+
+.text-content.high-quality {
+  text-rendering: optimizeLegibility;
+}
+
+/* تحسين الظلال */
+.mobile-dropdown-menu {
+  box-shadow: 0 8px 32px rgba(255, 107, 0, 0.18), 0 1.5px 8px rgba(0,0,0,0.08);
+  filter: drop-shadow(0 4px 8px rgba(255, 107, 0, 0.1));
+}
+
+/* تحسين الخلفيات المتدرجة */
+.mobile-nav-icon i {
+  background: linear-gradient(45deg, #FF6B00);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-attachment: fixed;
+}
+
+/* تحسين الاستجابة */
+@media (max-width: 768px) {
+  .mobile-nav {
+    contain: strict;
+  }
+  
+  .mobile-dropdown-menu {
+    contain: layout style paint;
+  }
+}
+
+/* تحسين الطباعة */
+@media print {
+  .mobile-nav,
+  .mobile-dropdown-menu {
+    display: none !important;
+  }
+  
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* تحسين الوضع المظلم */
+@media (prefers-color-scheme: dark) {
+  .mobile-dropdown-menu {
+    background: #2a2a2a;
+    border-color: #444;
+  }
+  
+  .mobile-dropdown-menu a,
+  .mobile-dropdown-menu button {
+    color: #fff !important;
+  }
+}
+
+/* تحسين الحركة المخفضة */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* تحسين التباين العالي */
+@media (prefers-contrast: high) {
+  .mobile-nav-icon i {
+    -webkit-text-fill-color: #FF6B00;
+    background: none;
+  }
+  
+  .mobile-dropdown-menu {
+    border: 2px solid #FF6B00;
+  }
+}
+
+/* تحسين الشفافية المخفضة */
+@media (prefers-reduced-transparency: reduce) {
+  .mobile-dropdown-menu {
+    background: #fff;
+    backdrop-filter: none;
+  }
+}
+
+/* تحسين استهلاك البطارية */
+@media (prefers-reduced-data: reduce) {
+  img[src*="cloudinary"] {
+    content-visibility: auto;
+    contain-intrinsic-size: 300px 200px;
+  }
+}
+
+/* تحسين المحتوى المرئي */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* تحسين التمرير */
+.scroll-container {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+/* تحسين التركيز */
+.mobile-nav-icon:focus-visible,
+.mobile-dropdown-menu a:focus-visible,
+.mobile-dropdown-menu button:focus-visible {
+  outline: 2px solid #FF6B00;
+  outline-offset: 2px;
+}
+
+/* تحسين الأداء للعناصر الكبيرة */
+.large-content {
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 1000px;
+}
+
